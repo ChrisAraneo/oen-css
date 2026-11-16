@@ -1,0 +1,8 @@
+import type { NamespacedStylesheet } from '../../../namespace/types/namespaced-stylesheet.ts';
+import type { BuildInputs } from '../../types/build-inputs.ts';
+
+export interface BuildBanner {
+  readonly inputs: BuildInputs;
+  readonly namespaced: NamespacedStylesheet;
+  readonly stylesheet: string;
+}

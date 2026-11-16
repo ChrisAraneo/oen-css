@@ -1,0 +1,125 @@
+/*
+ * Story-only layout helpers.
+ *
+ * These exist to arrange examples on the page (rows of buttons, variant
+ * captions, colour swatches). They never restyle an Oen component: every
+ * component in the gallery is rendered with nothing but Oen classes, so what you
+ * see is what `dist/oen.css` gives you.
+ */
+
+.sb-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.sb-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.sb-row.is-stretched {
+  align-items: stretch;
+}
+
+.sb-label {
+  color: var(--oen-text-weak);
+  font-family: var(--oen-family-code);
+  font-size: var(--oen-size-7);
+  letter-spacing: 0.04em;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+
+.sb-note {
+  color: var(--oen-text-weak);
+  font-size: var(--oen-size-7);
+  margin-top: 0.5rem;
+}
+
+.sb-swatch {
+  border: 1px solid var(--oen-border-weak);
+  border-radius: var(--oen-radius);
+  min-height: 3.5rem;
+  padding: 0.75rem;
+}
+
+.sb-swatch code {
+  background: none;
+  color: inherit;
+  font-size: var(--oen-size-7);
+  padding: 0;
+}
+
+.sb-grid {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+}
+
+/* Makes the edges of layout-only examples (containers, levels, sections) visible. */
+.sb-outline {
+  outline: 1px dashed var(--oen-border);
+  outline-offset: 2px;
+}
+
+.sb-placeholder {
+  align-items: center;
+  background-color: var(--oen-scheme-main-ter);
+  border-radius: var(--oen-radius);
+  color: var(--oen-text-weak);
+  display: flex;
+  font-family: var(--oen-family-code);
+  font-size: var(--oen-size-7);
+  justify-content: center;
+  min-height: 3rem;
+  padding: 0.5rem;
+}
+
+/* Constrains examples that would otherwise stretch across the canvas. */
+.sb-narrow {
+  max-width: 24rem;
+}
+
+.sb-narrower {
+  max-width: 16rem;
+}
+
+/*
+ * A `.modal` is `position: fixed`, which would cover the whole docs page. The
+ * stage traps it inside the story canvas instead; in a real page you do not need
+ * this wrapper.
+ */
+.sb-modal-stage {
+  min-height: 30rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.sb-modal-stage .modal {
+  position: absolute;
+}
+
+/*
+ * Same idea as `.sb-modal-stage`, for the fixed navbar: inside the gallery the
+ * bar is pinned to the example, not to the viewport.
+ */
+.sb-fixed-stage {
+  min-height: 16rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.sb-fixed-stage .navbar.is-fixed-top,
+.sb-fixed-stage .navbar.is-fixed-bottom {
+  position: absolute;
+}
+
+/* Colour sample cell in the custom-properties table. */
+.sb-sample {
+  display: block;
+  min-height: 1.5rem;
+  width: 4rem;
+}

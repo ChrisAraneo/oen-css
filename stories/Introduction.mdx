@@ -1,0 +1,78 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Introduction" />
+
+# Oen CSS
+
+A CSS framework built from [Bulma](https://bulma.io) 1.0.4, with one deliberate difference: every custom
+property it declares is `--oen-*` instead of `--bulma-*`.
+
+Class names are untouched. `.button`, `.navbar`, `.columns`, `.is-primary` and `.has-text-centered` behave
+exactly as they do in Bulma, so markup is portable in both directions. What changes is the namespace the
+theme lives in: the ~1 400 custom properties that carry the colours, fonts, radii and spacing. Because those
+no longer collide, a Bulma-themed region and an Oen-themed one can live on the same page and be re-themed
+independently. (The class rules are still the same selectors, so two stylesheets loaded together cascade in
+load order. What is isolated is the theme, not the selectors.)
+
+## Install
+
+```sh
+npm install @chris.araneo/oen-css
+```
+
+```html
+<link
+  rel="stylesheet"
+  href="node_modules/@chris.araneo/oen-css/dist/oen.min.css"
+/>
+```
+
+Or, from a bundler:
+
+```js
+import '@chris.araneo/oen-css';
+```
+
+The package is CSS only. There is nothing to compile, no JavaScript runtime, and no peer dependency.
+
+## Theming
+
+The theme is a set of custom properties declared on `:root`, then re-declared under `[data-theme="dark"]`
+and `.theme-dark`. Overriding one on any ancestor re-themes everything inside it:
+
+```html
+<div
+  style="--oen-primary-h: 288deg; --oen-primary-s: 72%; --oen-primary-l: 56%"
+>
+  <button class="button is-primary">Purple</button>
+</div>
+```
+
+Dark mode needs no JavaScript: `prefers-color-scheme` is honoured out of the box, and the `data-theme`
+attribute overrides it when you want an explicit choice. Use the theme switcher in the toolbar above to see
+every story in both schemes.
+
+See **Theme → Overview** for the palette, the live values of the key properties, and scoped overrides.
+
+## How this gallery is organised
+
+The sections mirror Bulma's own documentation, so anything you know from there is where you expect it:
+
+- **Elements**: the single-purpose building blocks: buttons, tags, titles, tables, notifications, images.
+- **Form**: inputs, selects, checkboxes, radios, file pickers, and the `field` / `control` layout system.
+- **Components**: the composed pieces: card, navbar, modal, dropdown, menu, message, panel, tabs, pagination, breadcrumb.
+- **Layout**: container, level, media object, hero, section, footer.
+- **Grid**: the flexbox column system and both CSS-grid systems (smart and fixed).
+- **Helpers**: colour, spacing, typography, visibility, flexbox and the remaining utilities.
+- **Features**: skeleton loaders.
+
+Every story is a plain HTML string styled only by the built `dist/oen.css`. A handful of stories attach a
+few lines of vanilla JavaScript where a component needs interaction (the dropdown, the modal, the navbar
+burger, the tabs). That is exactly the JavaScript a CSS-only framework leaves to you. Font Awesome is
+loaded in the gallery so the icon examples have something to draw; it is not a dependency of the library.
+
+## Licensing
+
+Oen CSS is MIT licensed. It is a derivative work of Bulma, which is also MIT licensed; Bulma's copyright and
+permission notice travel with every build, in `dist/LICENSE-bulma` and `dist/THIRD-PARTY-NOTICES.md`, and the
+attribution banner at the top of each stylesheet points at them.

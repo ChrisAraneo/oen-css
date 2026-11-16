@@ -1,0 +1,10 @@
+# Build artifacts
+dist/
+storybook-static/
+node_modules/
+
+# Generated from the installed Bulma release by `npm run build`
+THIRD-PARTY-NOTICES.md
+
+# The original spec, kept as written
+IDEA.md

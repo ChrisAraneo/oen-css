@@ -1,0 +1,16 @@
+# Build artifacts
+dist/
+storybook-static/
+
+# Dependencies
+node_modules/
+
+# Logs and caches
+*.log
+*.tgz
+.cache/
+.vite/
+
+# Editor and OS noise
+.DS_Store
+Thumbs.db

@@ -1,0 +1,51 @@
+@charset "utf-8";
+
+// ---------------------------------------------------------------------------
+// oen-css: the Oen theme
+// ---------------------------------------------------------------------------
+//
+// Oen is built on top of Bulma's Sass sources (MIT, https://bulma.io). The build
+// compiles this file and emits plain CSS into `dist/`, so consumers of the
+// published package never need Sass.
+//
+// What makes the output "Oen" rather than Bulma:
+//
+//   * every custom property Bulma would emit as `--bulma-*` is emitted as
+//     `--oen-*` (see `$cssvars-prefix` below), and
+//   * every remaining `bulma`-namespaced identifier in the compiled output is
+//     renamed by `scripts/build.ts` (e.g. the `bulma-fixed-grid` container name
+//     becomes `oen-fixed-grid`).
+//
+// Class names are deliberately left untouched: `.button`, `.navbar`,
+// `.is-primary` and friends keep working exactly as they do in Bulma, so the two
+// are drop-in interchangeable.
+//
+// The visual design currently matches Bulma's defaults on purpose. Oen starts as
+// a faithful, re-namespaced copy. To make it diverge, add overrides to the
+// configuration below, for example:
+//
+//   $scheme-h: 221,
+//   $primary: hsl(171, 100%, 41%),
+//   $link: hsl(233, 100%, 63%),
+//   $family-sans-serif: "Inter", sans-serif,
+//   $radius: 0.375rem,
+//   $speed: 86ms,
+//
+// The full list of knobs is in
+// `node_modules/bulma/sass/utilities/initial-variables.scss`. Note that
+// `npm run verify` asserts the output is byte-for-byte Bulma once the renames are
+// undone, so the first real override has to relax that check deliberately.
+// ---------------------------------------------------------------------------
+
+@use "pkg:bulma/sass" with (
+  // The one override that defines the library: `--bulma-primary` becomes
+  // `--oen-primary`, and so on for all ~1400 custom properties.
+  $cssvars-prefix: "oen-",
+
+  // The remaining prefixes keep Bulma's values, so `.is-*` / `.has-*` helpers and
+  // the unprefixed component classes stay source-compatible.
+  $class-prefix: "",
+  $helpers-prefix: "is-",
+  $helpers-has-prefix: "has-",
+  $variables-host: ":root"
+);

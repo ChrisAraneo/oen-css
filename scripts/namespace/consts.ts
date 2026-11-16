@@ -1,0 +1,36 @@
+import { filter } from 'lodash-es';
+import type { NamespaceMapping } from './types/namespace-mapping.ts';
+
+export const NAMESPACE_MAPPINGS: readonly NamespaceMapping[] = Object.freeze([
+  {
+    description:
+      'custom property prefix, set by $cssvars-prefix in src/oen.scss',
+    appliedBy: 'SASS',
+    bulmaPattern: /--bulma-/g,
+    oenReplacement: '--oen-',
+    oenPattern: /--oen-/g,
+    bulmaReplacement: '--bulma-',
+  },
+  {
+    description:
+      'fixed grid container name, hard-coded in bulma/sass/grid/grid.scss',
+    appliedBy: 'BUILD',
+    bulmaPattern: /\bbulma-fixed-grid\b/g,
+    oenReplacement: 'oen-fixed-grid',
+    oenPattern: /\boen-fixed-grid\b/g,
+    bulmaReplacement: 'bulma-fixed-grid',
+  },
+  {
+    description: 'section marker comments, such as /* Bulma Elements */',
+    appliedBy: 'BUILD',
+    bulmaPattern: /\/\* Bulma ([A-Za-z][\w ]*) \*\//g,
+    oenReplacement: '/* Oen $1 */',
+    oenPattern: /\/\* Oen ([A-Za-z][\w ]*) \*\//g,
+    bulmaReplacement: '/* Bulma $1 */',
+  },
+]);
+
+export const MAPPINGS_SASS_CANNOT_APPLY: readonly NamespaceMapping[] =
+  Object.freeze(
+    filter(NAMESPACE_MAPPINGS, (mapping) => mapping.appliedBy === 'BUILD'),
+  );
