@@ -6,7 +6,7 @@
   <a href="https://github.com/ChrisAraneo/oen-css/actions/workflows/ci.yml"><img alt="GitHub CI Status" src="https://img.shields.io/github/actions/workflow/status/ChrisAraneo/oen-css/ci.yml?label=CI&logo=GitHub"></a>
   <br>
   <br>
-  <em>Oen CSS is a CSS framework built from [Bulma](https://bulma.io) 1.0.4.</em>
+  <em>Oen CSS is a CSS framework built from Bulma 1.0.4.</em>
   <br>
   <br>
 </p>
