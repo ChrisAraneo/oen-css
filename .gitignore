@@ -1,6 +1,6 @@
-# Build artifacts
-dist/
-storybook-static/
+# Build artifacts (root only: scripts/dist/ is source)
+/dist/
+/storybook-static/
 
 # Dependencies
 node_modules/
