@@ -8,8 +8,8 @@ export default {
         component:
           'Oen is Bulma re-namespaced and re-themed: every custom property the stylesheet declares is ' +
           '`--oen-*` rather than `--bulma-*`, which lets it sit next to Bulma (or any other framework) ' +
-          'without either one overwriting the other. The six colours below and the sans-serif stack are ' +
-          'Oen, every other value is Bulma 1.0.4. ' +
+          'without either one overwriting the other. The six colours below, the sans-serif stack and the ' +
+          'type scale are Oen, every other value is Bulma 1.0.4. ' +
           'Everything on this page is driven by those properties; there is no JavaScript in the library, ' +
           'and no build step for consumers.',
       },
@@ -29,6 +29,8 @@ const KEY_PROPERTIES = [
   ['--oen-primary', 'Primary colour'],
   ['--oen-family-primary', 'Body font stack'],
   ['--oen-family-code', 'Code font stack'],
+  ['--oen-size-normal', 'Default text size'],
+  ['--oen-control-size', 'Control text size'],
   ['--oen-radius', 'Default corner radius'],
   ['--oen-radius-large', 'Large corner radius'],
   ['--oen-block-spacing', 'Vertical rhythm'],
@@ -52,6 +54,65 @@ export const Palette = {
 </div>`,
       ),
     ),
+};
+
+const TYPE_SCALE = [
+  ['--oen-size-1', 1, 'Display heading'],
+  ['--oen-size-2', 2, 'Level 1 heading'],
+  ['--oen-size-3', 3, 'Level 2 heading, and .title'],
+  ['--oen-size-4', 4, 'Level 3 heading, and .is-large controls'],
+  ['--oen-size-5', 5, 'Level 4 heading, .subtitle, .is-medium controls'],
+  ['--oen-size-6', 6, 'Body text and every default control'],
+  ['--oen-size-7', 7, 'Meta text, small print, .is-small controls'],
+];
+
+export const TypeScale = {
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'The general size is 14px: `--oen-size-6` feeds Bulma’s `--oen-size-normal`, which ' +
+          '`--oen-control-size` reads, so buttons, inputs, selects and file controls are 14px, and ' +
+          '`--oen-body-font-size` sets the same size on `body`. The seven steps run 12px to 28px. ' +
+          'The root stays at 16px, so `rem`-based spacing and radii are untouched. The pixel ' +
+          'column is measured from the rendered sample, not read from the source.',
+      },
+    },
+  },
+  render: () => {
+    const element = toElement(`<div class="table-container">
+  <table class="table is-fullwidth is-striped">
+    <thead><tr><th>Property</th><th>Helper</th><th>Value</th><th>Rendered</th><th>Role</th></tr></thead>
+    <tbody>
+      ${TYPE_SCALE.map(
+        ([property, step, role]) =>
+          `<tr>
+        <td><code>${property}</code></td>
+        <td><code>.is-size-${step}</code></td>
+        <td><code data-value="${property}">…</code></td>
+        <td><span class="is-size-${step}" data-sample="${property}">Aa</span></td>
+        <td>${role}</td>
+      </tr>`,
+      ).join('\n      ')}
+    </tbody>
+  </table>
+</div>`);
+
+    // Same contract as the table above: the declared value comes from the
+    // document, and the pixel size is measured off the rendered sample, so a
+    // change to the scale shows up here without anyone editing this story.
+    requestAnimationFrame(() => {
+      const styles = getComputedStyle(document.documentElement);
+      for (const [property] of TYPE_SCALE) {
+        const sample = element.querySelector(`[data-sample="${property}"]`);
+        const pixels = getComputedStyle(sample).fontSize;
+        element.querySelector(`[data-value="${property}"]`).textContent =
+          `${styles.getPropertyValue(property).trim()} (${pixels})`;
+      }
+    });
+
+    return element;
+  },
 };
 
 export const CustomProperties = {

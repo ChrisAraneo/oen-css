@@ -11,6 +11,7 @@ import { checkOenLicense } from './internal/check-oen-license.ts';
 import { checkStylesheetHeaders } from './internal/check-stylesheet-headers.ts';
 import { checkThemeColors } from './internal/check-theme-colors.ts';
 import { checkThemeFonts } from './internal/check-theme-fonts.ts';
+import { checkThemeType } from './internal/check-theme-type.ts';
 import type { CheckResult } from './types/check-result.ts';
 import type { VerifyInputs } from './types/verify-inputs.ts';
 
@@ -23,6 +24,7 @@ export const checkEveryArtifact = (
   checkCustomProperties(inputs),
   checkThemeColors(inputs),
   checkThemeFonts(inputs),
+  checkThemeType(inputs),
   checkComponentClasses(inputs),
   checkFixedGridContainer(inputs),
   checkMinifiedStylesheet(inputs),

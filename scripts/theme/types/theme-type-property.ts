@@ -1,0 +1,15 @@
+export type ThemeTypeProperty =
+  | 'size-1'
+  | 'size-2'
+  | 'size-3'
+  | 'size-4'
+  | 'size-5'
+  | 'size-6'
+  | 'size-7'
+  | 'size-small'
+  | 'size-normal'
+  | 'size-medium'
+  | 'size-large'
+  | 'body-font-size'
+  | 'body-line-height'
+  | 'small-font-size';

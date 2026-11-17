@@ -1,8 +1,13 @@
 import { concat, map } from 'lodash-es';
 import { BULMA_CUSTOM_PROPERTY_PREFIX } from '../../namespace/consts.ts';
-import { OEN_FONT_PROPERTIES, OEN_THEME_COLORS } from '../../theme/consts.ts';
+import {
+  OEN_FONT_PROPERTIES,
+  OEN_THEME_COLORS,
+  OEN_TYPE_DECLARATIONS,
+} from '../../theme/consts.ts';
 
 const FONT_FAMILY_PROPERTY = 'font-family';
+const FONT_SIZE_PROPERTY = 'font-size';
 
 export const REQUIRED_BANNER_FRAGMENTS: readonly string[] = Object.freeze([
   'oen-css v',
@@ -44,7 +49,12 @@ export const THEMED_DECLARATION_PREFIXES: readonly string[] = Object.freeze(
       OEN_FONT_PROPERTIES,
       (property) => `${BULMA_CUSTOM_PROPERTY_PREFIX}${property}`,
     ),
+    map(
+      OEN_TYPE_DECLARATIONS,
+      ({ property }) => `${BULMA_CUSTOM_PROPERTY_PREFIX}${property}`,
+    ),
     FONT_FAMILY_PROPERTY,
+    FONT_SIZE_PROPERTY,
   ),
 );
 
