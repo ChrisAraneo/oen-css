@@ -46,7 +46,7 @@ const prose = `
   <table>
     <thead><tr><th>Property</th><th>Value</th></tr></thead>
     <tbody>
-      <tr><td><code>--oen-primary</code></td><td>hsl(171, 100%, 41%)</td></tr>
+      <tr><td><code>--oen-primary</code></td><td>hsl(149, 43%, 49%)</td></tr>
       <tr><td><code>--oen-radius</code></td><td>0.375rem</td></tr>
     </tbody>
   </table>

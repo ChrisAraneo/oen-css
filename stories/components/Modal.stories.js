@@ -16,12 +16,12 @@ export default {
 
 const card = `<div class="modal-card">
   <header class="modal-card-head">
-    <p class="modal-card-title">Publish release 0.1.0?</p>
+    <p class="modal-card-title">Publish release 0.2.0?</p>
     <button class="delete" aria-label="close"></button>
   </header>
   <section class="modal-card-body">
     <div class="content">
-      <p>This publishes <code>@chris.araneo/oen-css@0.1.0</code> to the public registry.</p>
+      <p>This publishes <code>@chris.araneo/oen-css@0.2.0</code> to the public registry.</p>
       <p>The tarball contains <code>dist/oen.css</code>, <code>dist/oen.min.css</code>, both licenses and the third-party notice.</p>
     </div>
   </section>

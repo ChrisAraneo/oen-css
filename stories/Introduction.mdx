@@ -4,8 +4,9 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 # Oen CSS
 
-A CSS framework built from [Bulma](https://bulma.io) 1.0.4, with one deliberate difference: every custom
-property it declares is `--oen-*` instead of `--bulma-*`.
+A CSS framework built from [Bulma](https://bulma.io) 1.0.4, with three deliberate differences: every custom
+property it declares is `--oen-*` instead of `--bulma-*`, and the six theme colours and the sans-serif stack
+are its own.
 
 Class names are untouched. `.button`, `.navbar`, `.columns`, `.is-primary` and `.has-text-centered` behave
 exactly as they do in Bulma, so markup is portable in both directions. What changes is the namespace the
@@ -13,6 +14,15 @@ theme lives in: the ~1 400 custom properties that carry the colours, fonts, radi
 no longer collide, a Bulma-themed region and an Oen-themed one can live on the same page and be re-themed
 independently. (The class rules are still the same selectors, so two stylesheets loaded together cascade in
 load order. What is isolated is the theme, not the selectors.)
+
+The palette is `#47b27b` primary, `#b24795` link, `#479db2` info, `#47b247` success, `#b26747` warning and
+`#b24747` danger. Bulma derives everything else from those six — the `-light`, `-dark`, `-invert` and
+`-on-scheme` variants, the lightness ladders, and the dark-scheme values. See **Theme → Overview** for every
+swatch.
+
+The default stack is `"Trebuchet MS", Seravek, "Gill Sans Nova", "Segoe UI", Ubuntu, Calibri, "Noto Sans",
+"DejaVu Sans", sans-serif`, carried by `--oen-family-primary` and `--oen-family-secondary`. The monospace
+stack (`--oen-family-code`), the radii, the spacing and the greys stay Bulma's defaults.
 
 ## Install
 

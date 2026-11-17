@@ -1,3 +1,9 @@
+import { concat, map } from 'lodash-es';
+import { BULMA_CUSTOM_PROPERTY_PREFIX } from '../../namespace/consts.ts';
+import { OEN_FONT_PROPERTIES, OEN_THEME_COLORS } from '../../theme/consts.ts';
+
+const FONT_FAMILY_PROPERTY = 'font-family';
+
 export const REQUIRED_BANNER_FRAGMENTS: readonly string[] = Object.freeze([
   'oen-css v',
   'MIT License',
@@ -27,6 +33,20 @@ export const REQUIRED_CUSTOM_PROPERTIES: readonly string[] = Object.freeze([
   '--oen-radius',
   '--oen-family-primary',
 ]);
+
+export const THEMED_DECLARATION_PREFIXES: readonly string[] = Object.freeze(
+  concat(
+    map(
+      OEN_THEME_COLORS,
+      ({ name }) => `${BULMA_CUSTOM_PROPERTY_PREFIX}${name}`,
+    ),
+    map(
+      OEN_FONT_PROPERTIES,
+      (property) => `${BULMA_CUSTOM_PROPERTY_PREFIX}${property}`,
+    ),
+    FONT_FAMILY_PROPERTY,
+  ),
+);
 
 export const MINIMUM_EXPECTED_CUSTOM_PROPERTIES = 500;
 

@@ -11,30 +11,41 @@
 // What makes the output "Oen" rather than Bulma:
 //
 //   * every custom property Bulma would emit as `--bulma-*` is emitted as
-//     `--oen-*` (see `$cssvars-prefix` below), and
+//     `--oen-*` (see `$cssvars-prefix` below),
 //   * every remaining `bulma`-namespaced identifier in the compiled output is
 //     renamed by `scripts/build.ts` (e.g. the `bulma-fixed-grid` container name
-//     becomes `oen-fixed-grid`).
+//     becomes `oen-fixed-grid`),
+//   * the six theme colours below are Oen's own palette, and
+//   * the sans-serif stack below is Oen's own.
 //
 // Class names are deliberately left untouched: `.button`, `.navbar`,
 // `.is-primary` and friends keep working exactly as they do in Bulma, so the two
 // are drop-in interchangeable.
 //
-// The visual design currently matches Bulma's defaults on purpose. Oen starts as
-// a faithful, re-namespaced copy. To make it diverge, add overrides to the
-// configuration below, for example:
+// Everything Bulma derives from a theme colour — the `-light`, `-dark`,
+// `-invert`, `-on-scheme` and `-00-l`…`-100-l` variants, and both schemes — is
+// derived from these six values, so the palette is the only place they are set.
+// The stack reaches the document the same way: `$family-sans-serif` feeds
+// `--oen-family-primary` and `--oen-family-secondary`, and `--oen-body-family`
+// reads the first of those. `$family-monospace` is left alone, so
+// `--oen-family-code` is still Bulma's.
 //
-//   $scheme-h: 221,
-//   $primary: hsl(171, 100%, 41%),
-//   $link: hsl(233, 100%, 63%),
-//   $family-sans-serif: "Inter", sans-serif,
-//   $radius: 0.375rem,
-//   $speed: 86ms,
+// The palette and the stack are declared again in `scripts/theme/consts.ts`, and
+// `npm run verify` fails unless the compiled stylesheet carries exactly those
+// values, and unless every other byte is still Bulma once the renames are
+// undone.
 //
 // The full list of knobs is in
-// `node_modules/bulma/sass/utilities/initial-variables.scss`. Note that
-// `npm run verify` asserts the output is byte-for-byte Bulma once the renames are
-// undone, so the first real override has to relax that check deliberately.
+// `node_modules/bulma/sass/utilities/initial-variables.scss`. Overriding one
+// that is neither a theme colour nor the sans-serif stack, for example:
+//
+//   $scheme-h: 221,
+//   $family-monospace: "Fira Code", monospace,
+//   $radius: 0.5rem,
+//   $speed: 86ms,
+//
+// changes bytes the equivalence check does not expect to move, so that check has
+// to be relaxed deliberately when the first such override lands.
 // ---------------------------------------------------------------------------
 
 @use "pkg:bulma/sass" with (
@@ -47,5 +58,27 @@
   $class-prefix: "",
   $helpers-prefix: "is-",
   $helpers-has-prefix: "has-",
-  $variables-host: ":root"
+  $variables-host: ":root",
+
+  // The Oen sans-serif stack and palette, both mirrored in
+  // `scripts/theme/consts.ts`. The parentheses are what keep the comma-separated
+  // stack one configuration value.
+  $family-sans-serif: (
+    "Trebuchet MS",
+    Seravek,
+    "Gill Sans Nova",
+    "Segoe UI",
+    Ubuntu,
+    Calibri,
+    "Noto Sans",
+    "DejaVu Sans",
+    sans-serif,
+  ),
+
+  $primary: #47b27b,
+  $link: #b24795,
+  $info: #479db2,
+  $success: #47b247,
+  $warning: #b26747,
+  $danger: #b24747
 );

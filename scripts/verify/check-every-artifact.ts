@@ -9,6 +9,8 @@ import { checkMinifiedStylesheet } from './internal/check-minified-stylesheet.ts
 import { checkNamespaceLeakage } from './internal/check-namespace-leakage.ts';
 import { checkOenLicense } from './internal/check-oen-license.ts';
 import { checkStylesheetHeaders } from './internal/check-stylesheet-headers.ts';
+import { checkThemeColors } from './internal/check-theme-colors.ts';
+import { checkThemeFonts } from './internal/check-theme-fonts.ts';
 import type { CheckResult } from './types/check-result.ts';
 import type { VerifyInputs } from './types/verify-inputs.ts';
 
@@ -19,6 +21,8 @@ export const checkEveryArtifact = (
   checkStylesheetHeaders(inputs),
   checkNamespaceLeakage(inputs),
   checkCustomProperties(inputs),
+  checkThemeColors(inputs),
+  checkThemeFonts(inputs),
   checkComponentClasses(inputs),
   checkFixedGridContainer(inputs),
   checkMinifiedStylesheet(inputs),

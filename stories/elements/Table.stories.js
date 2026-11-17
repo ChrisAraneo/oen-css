@@ -39,7 +39,7 @@ export default {
 };
 
 const ROWS = [
-  ['1', 'Oen CSS', '0.1.0', 'MIT', '713 kB'],
+  ['1', 'Oen CSS', '0.2.0', 'MIT', '713 kB'],
   ['2', 'Bulma', '1.0.4', 'MIT', '764 kB'],
   ['3', 'Storybook', '10.6.7', 'MIT', '-'],
   ['4', 'Sass', '1.108.2', 'MIT', '-'],

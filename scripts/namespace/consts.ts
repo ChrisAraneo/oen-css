@@ -1,15 +1,18 @@
 import { filter } from 'lodash-es';
 import type { NamespaceMapping } from './types/namespace-mapping.ts';
 
+export const BULMA_CUSTOM_PROPERTY_PREFIX = '--bulma-';
+export const OEN_CUSTOM_PROPERTY_PREFIX = '--oen-';
+
 export const NAMESPACE_MAPPINGS: readonly NamespaceMapping[] = Object.freeze([
   {
     description:
       'custom property prefix, set by $cssvars-prefix in src/oen.scss',
     appliedBy: 'SASS',
     bulmaPattern: /--bulma-/g,
-    oenReplacement: '--oen-',
+    oenReplacement: OEN_CUSTOM_PROPERTY_PREFIX,
     oenPattern: /--oen-/g,
-    bulmaReplacement: '--bulma-',
+    bulmaReplacement: BULMA_CUSTOM_PROPERTY_PREFIX,
   },
   {
     description:

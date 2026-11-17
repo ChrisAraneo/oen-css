@@ -6,10 +6,12 @@ export default {
     docs: {
       description: {
         component:
-          'Oen is Bulma re-namespaced: every custom property the stylesheet declares is `--oen-*` rather than ' +
-          '`--bulma-*`, which lets it sit next to Bulma (or any other framework) without either one ' +
-          'overwriting the other. Everything on this page is driven by those properties; there is no ' +
-          'JavaScript in the library, and no build step for consumers.',
+          'Oen is Bulma re-namespaced and re-themed: every custom property the stylesheet declares is ' +
+          '`--oen-*` rather than `--bulma-*`, which lets it sit next to Bulma (or any other framework) ' +
+          'without either one overwriting the other. The six colours below and the sans-serif stack are ' +
+          'Oen, every other value is Bulma 1.0.4. ' +
+          'Everything on this page is driven by those properties; there is no JavaScript in the library, ' +
+          'and no build step for consumers.',
       },
     },
   },
