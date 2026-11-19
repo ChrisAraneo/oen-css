@@ -1,12 +1,12 @@
 /**
  * Small helpers shared by the stories.
  *
- * Everything here produces plain HTML strings: the gallery deliberately uses no
- * framework, so each story is a snippet you can copy straight into a page that
- * links `oen.css`.
+ * Everything here returns plain HTML strings: the gallery deliberately uses no
+ * framework, so each story is a snippet you can copy into a page that links
+ * `oen.css`.
  */
 
-/** The six semantic colours Oen inherits from Bulma. */
+/** The six semantic colors Oen inherits from Bulma. */
 export const COLORS = [
   'primary',
   'link',
@@ -16,7 +16,7 @@ export const COLORS = [
   'danger',
 ];
 
-/** Monochrome shades available to buttons, tags and notifications. */
+/** Monochrome shades available to buttons, tags, and notifications. */
 export const SHADES = ['white', 'light', 'dark', 'black'];
 
 /** Size modifiers shared by most components. */
@@ -25,30 +25,30 @@ export const SIZES = ['small', 'normal', 'medium', 'large'];
 /** Joins class names, dropping anything falsy. */
 export const classes = (...parts) => parts.filter(Boolean).join(' ');
 
-/** Vertical rhythm between the blocks of a story. */
+/** Stacks the blocks of a story vertically. */
 export const stack = (...blocks) =>
   `<div class="sb-stack">${blocks.filter(Boolean).join('')}</div>`;
 
-/** A horizontal, wrapping row of examples. */
+/** Arranges the examples in a row that wraps. */
 export const row = (...items) =>
   `<div class="sb-row">${items.filter(Boolean).join('')}</div>`;
 
-/** A row of examples under a small uppercase caption. */
+/** Arranges the examples in a row under a small uppercase caption. */
 export const labelled = (label, ...items) =>
   `<div><p class="sb-label">${label}</p>${row(...items)}</div>`;
 
-/** A caption printed under an example. */
+/** Returns a caption printed under an example. */
 export const note = (text) => `<p class="sb-note">${text}</p>`;
 
-/** A neutral box standing in for real content in layout examples. */
+/** Returns a neutral box used in place of real content in layout examples. */
 export const placeholder = (text, extraClass = '') =>
   `<div class="${classes('sb-placeholder', extraClass)}">${text}</div>`;
 
-/** A Font Awesome icon wrapped in Oen's `.icon` element. */
+/** Returns a Font Awesome icon wrapped in Oen's `.icon` element. */
 export const icon = (name, { size, color } = {}) =>
   `<span class="${classes('icon', size && `is-${size}`, color && `has-text-${color}`)}"><i class="fa-solid fa-${name}"></i></span>`;
 
-/** An inline SVG placeholder image, so image stories need no network access. */
+/** Returns an inline SVG image, so image stories need no network access. */
 export const svgImage = (
   width,
   height = width,
@@ -58,7 +58,7 @@ export const svgImage = (
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
 };
 
-/** A `select` control for Storybook's args table. */
+/** Returns a `select` control for Storybook's args table. */
 export const selectArg = (
   options,
   description,
@@ -69,20 +69,20 @@ export const selectArg = (
   description,
 });
 
-/** A `boolean` control for Storybook's args table. */
+/** Returns a `boolean` control for Storybook's args table. */
 export const boolArg = (description) => ({ control: 'boolean', description });
 
-/** `is-*` modifier, or an empty string when the value is falsy/"normal". */
+/** Returns the `is-*` modifier, or an empty string when the value is falsy or `normal`. */
 export const modifier = (value, prefix = 'is') =>
   !value || value === 'normal' ? '' : `${prefix}-${value}`;
 
 /**
  * Parses an HTML string into a DOM node.
  *
- * Most stories return a string, which Storybook injects as-is. The handful of
- * components that need interaction (dropdown, modal, navbar burger, tabs) return
- * a node instead so they can attach a few lines of vanilla JavaScript: exactly
- * the JavaScript a consumer of a CSS-only framework has to write.
+ * Most stories return a string, which Storybook injects unchanged. The few
+ * components that need interaction (dropdown, modal, navbar burger, tabs)
+ * return a node instead, so they can attach the plain JavaScript a user of a
+ * CSS-only framework has to write.
  */
 export const toElement = (html) => {
   const wrapper = document.createElement('div');

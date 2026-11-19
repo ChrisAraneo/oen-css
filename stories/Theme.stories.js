@@ -99,8 +99,8 @@ export const TypeScale = {
 </div>`);
 
     // Same contract as the table above: the declared value comes from the
-    // document, and the pixel size is measured off the rendered sample, so a
-    // change to the scale shows up here without anyone editing this story.
+    // document, and the pixel size is measured from the rendered sample, so a
+    // change to the scale appears here without anyone editing this story.
     requestAnimationFrame(() => {
       const styles = getComputedStyle(document.documentElement);
       for (const [property] of TYPE_SCALE) {
@@ -143,8 +143,8 @@ export const CustomProperties = {
   </table>
 </div>`);
 
-    // Reading the values back is what makes this table honest: it shows what the
-    // browser resolved, not what the source says.
+    // Reading the values back shows what the browser resolved, not what the
+    // source says.
     requestAnimationFrame(() => {
       const styles = getComputedStyle(document.documentElement);
       for (const [property] of KEY_PROPERTIES) {

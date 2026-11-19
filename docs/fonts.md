@@ -26,9 +26,9 @@ The parentheses matter. Without them the commas would make the stack nine
 arguments to `@use … with` instead of one Sass list, and the compile would
 fail.
 
-## Where it lands
+## Which properties it reaches
 
-Bulma routes `$family-sans-serif` to two custom properties, and a third reads
+Bulma passes `$family-sans-serif` to two custom properties, and a third reads
 the first of them:
 
 | Property                 | Set from               |
@@ -38,9 +38,9 @@ the first of them:
 | `--oen-body-family`      | `--oen-family-primary` |
 
 `$family-monospace` is deliberately left at Bulma's value, so
-`--oen-family-code` — used by `code`, `pre` and `.is-family-code` — is still
-Bulma's monospace stack. If you want to change that too, it is a new Bulma
-knob: see [stylesheet.md](./stylesheet.md#adding-a-bulma-knob).
+`--oen-family-code` — used by `code`, `pre`, and `.is-family-code` — is still
+Bulma's monospace stack. To change that too, set a new Bulma option: see
+[STYLESHEET.md](./STYLESHEET.md#adding-a-bulma-option).
 
 ## How it is verified
 

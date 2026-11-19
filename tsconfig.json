@@ -26,6 +26,7 @@
     "src/**/*.ts",
     "scripts/**/*.ts",
     ".storybook/**/*.ts",
-    ".storybook/**/*.d.ts"
+    ".storybook/**/*.d.ts",
+    "vitest.config.ts"
   ]
 }

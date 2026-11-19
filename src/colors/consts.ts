@@ -1,10 +1,10 @@
 import type { ThemeColor } from './types/theme-color.ts';
 
 export const OEN_THEME_COLORS: readonly ThemeColor[] = Object.freeze([
-  { name: 'primary', hex: '#47b27b' },
-  { name: 'link', hex: '#b24795' },
-  { name: 'info', hex: '#479db2' },
-  { name: 'success', hex: '#47b247' },
-  { name: 'warning', hex: '#b26747' },
-  { name: 'danger', hex: '#b24747' },
+  { name: 'primary', hex: '#2DE5A7' },
+  { name: 'link', hex: '#E55DB4' },
+  { name: 'info', hex: '#2DC1E2' },
+  { name: 'success', hex: '#2DE52D' },
+  { name: 'warning', hex: '#E5612D' },
+  { name: 'danger', hex: '#E25A5A' },
 ]);

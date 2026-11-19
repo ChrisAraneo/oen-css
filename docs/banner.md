@@ -19,21 +19,21 @@ header:
 
 Nothing in it is typed by hand.
 [`format-oen-banner.ts`](../src/banner/format-oen-banner.ts) takes four facts
-— our version, Bulma's version, Bulma's copyright line and our homepage — all
+— our version, Bulma's version, Bulma's copyright line, and our homepage —
+all
 read from `package.json`, `node_modules/bulma/package.json` and Bulma's
 `LICENSE` during the build. The copyright line is found by
 [`find-copyright-line.ts`](../src/licenses/find-copyright-line.ts); if it is
-missing the build fails rather than shipping a banner that attributes nothing.
+missing, the build fails rather than writing a banner with no attribution.
 
-The homepage is trimmed for the banner first: npm's `homepage` field ends in
-`#readme`, which is a fragment for humans, not an address for a stylesheet
-comment, so
+The homepage is trimmed for the banner first. npm's `homepage` field ends in
+`#readme`, a fragment that does not belong in a stylesheet comment, so
 [`to-banner-homepage.ts`](../scripts/build/internal/to-banner-homepage.ts)
 strips it.
 
 ## `/*!` and minification
 
-The comment opens with `/*!`, not `/*`. That marks it as a licence comment,
+The comment opens with `/*!`, not `/*`. That marks it as a license comment,
 and clean-css is configured with `specialComments: 'all'`, so it survives
 minification — `dist/oen.min.css` carries the same header as the expanded
 file.
@@ -47,10 +47,10 @@ removes that line and re-emits `@charset "UTF-8";` above the banner, so the
 order is always charset, then banner, then CSS — rather than depending on
 where Sass happened to put it.
 
-## Reading the header back off
+## Reading the stylesheet without the header
 
-Three helpers exist because the header is noise to everything that inspects
-the stylesheet afterwards:
+Three helpers exist because everything that inspects the stylesheet afterwards
+has to skip the header:
 
 | Helper                          | Does                                           | Used by                    |
 | ------------------------------- | ---------------------------------------------- | -------------------------- |
@@ -59,20 +59,20 @@ the stylesheet afterwards:
 | `filterEmbeddedLicenseComments` | finds every other `/*! … */` in the body       | the notices, and `verify`  |
 
 The blanking variant exists so reported line numbers still match the real
-file. The body variant exists because the banner contains the version, which
-changes on every release and would otherwise show up as a difference from
-Bulma on every byte-level comparison.
+file. The body variant exists because the banner contains the version. The
+version changes on every release, and every byte-level comparison with Bulma
+would otherwise report it as a difference.
 
 ## Notices Bulma embedded
 
 Bulma vendors [minireset.css](https://github.com/jgthms/minireset.css) into
-its own sources together with its licence comment, so that notice arrives
-inside the compiled CSS. `filterEmbeddedLicenseComments` reads those comments
-out of the built stylesheet,
+its own sources together with its license comment, so that comment is present
+in the compiled CSS. `filterEmbeddedLicenseComments` reads those comments out
+of the built stylesheet,
 [`to-license-comment.ts`](../src/banner/internal/to-license-comment.ts) splits
 each on `|` into a name and details, and the result is deduplicated by text.
 
 Those parsed comments are what
 [`format-third-party-notices.ts`](../src/licenses/format-third-party-notices.ts)
 documents, and what `verify` checks still survive minification. See
-[licenses.md](./licenses.md).
+[LICENSES.md](./LICENSES.md).

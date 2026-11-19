@@ -55,6 +55,9 @@
     "prepublishOnly": "npm run check",
     "storybook": "node scripts/storybook.ts",
     "storybook:build": "node scripts/storybook.ts --build",
+    "test": "node scripts/check.ts --test",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest",
     "typecheck": "node scripts/check.ts --types",
     "verify": "node scripts/verify.ts"
   },
@@ -67,6 +70,7 @@
     "@types/lodash-es": "^4.17.12",
     "@types/node": "^26.6.6",
     "@types/ramda": "^0.30.2",
+    "@vitest/coverage-v8": "^5.1.1",
     "bulma": "1.0.4",
     "clean-css": "^5.3.3",
     "lodash-es": "^4.18.1",
@@ -77,7 +81,8 @@
     "storybook": "^10.6.7",
     "ts-pattern": "^5.6.2",
     "typescript": "^7.0.2",
-    "vite": "^7.2.4"
+    "vite": "^7.2.4",
+    "vitest": "^5.1.1"
   },
   "engines": {
     "node": ">=20.19.0"

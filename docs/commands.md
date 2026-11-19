@@ -1,22 +1,22 @@
 # Commands
 
 Every npm script is one TypeScript entry point, and every entry point is one
-module under `scripts/`. There is no shell glue: the chaining lives in the
-`check` and `storybook` modules, where it can be read and typechecked.
+module under `scripts/`. No shell script is involved: the chaining is done in
+the `check` and `storybook` modules, where it can be read and typechecked.
 
-| Script                    | Runs                                | Does                                                      |
-| ------------------------- | ----------------------------------- | --------------------------------------------------------- |
-| `npm run build`           | `node scripts/build.ts`             | compiles, renames, banners, minifies, writes `dist/`      |
-| `npm run build:watch`     | `node scripts/build.ts --watch`     | the same, then rebuilds on every change under `src/`      |
-| `npm run check`           | `node scripts/check.ts`             | format, typecheck, build, verify, stories — in that order |
-| `npm run check:stories`   | `node scripts/check.ts --stories`   | only the stories check                                    |
-| `npm run typecheck`       | `node scripts/check.ts --types`     | only `tsc --noEmit`                                       |
-| `npm run clean`           | `node scripts/clean.ts`             | removes `dist/` and `storybook-static/`                   |
-| `npm run format`          | `node scripts/format.ts`            | Prettier, writing                                         |
-| `npm run format:check`    | `node scripts/format.ts --check`    | Prettier, checking                                        |
-| `npm run storybook`       | `node scripts/storybook.ts`         | builds and verifies, then serves the gallery on 6006      |
-| `npm run storybook:build` | `node scripts/storybook.ts --build` | builds and verifies, then writes `storybook-static/`      |
-| `npm run verify`          | `node scripts/verify.ts`            | the 14 assertions about `dist/`                           |
+| Script                    | Runs                                | Does                                                             |
+| ------------------------- | ----------------------------------- | ---------------------------------------------------------------- |
+| `npm run build`           | `node scripts/build.ts`             | compiles, renames, prepends the banner, minifies, writes `dist/` |
+| `npm run build:watch`     | `node scripts/build.ts --watch`     | the same, then rebuilds on every change under `src/`             |
+| `npm run check`           | `node scripts/check.ts`             | format, typecheck, build, verify, stories — in that order        |
+| `npm run check:stories`   | `node scripts/check.ts --stories`   | only the stories check                                           |
+| `npm run typecheck`       | `node scripts/check.ts --types`     | only `tsc --noEmit`                                              |
+| `npm run clean`           | `node scripts/clean.ts`             | removes `dist/` and `storybook-static/`                          |
+| `npm run format`          | `node scripts/format.ts`            | Prettier, writing                                                |
+| `npm run format:check`    | `node scripts/format.ts --check`    | Prettier, checking                                               |
+| `npm run storybook`       | `node scripts/storybook.ts`         | builds and verifies, then serves the gallery on port 6006        |
+| `npm run storybook:build` | `node scripts/storybook.ts --build` | builds and verifies, then writes `storybook-static/`             |
+| `npm run verify`          | `node scripts/verify.ts`            | the 14 assertions about `dist/`                                  |
 
 `prepack` runs `build` then `verify`, so a published tarball cannot contain an
 unverified stylesheet. `prepublishOnly` runs the whole `check`.
@@ -48,13 +48,13 @@ Four of the five steps are the other command modules, called in process. Only
 `typecheck` has no module of its own, so its runner lives in
 `scripts/check/internal/`.
 
-## Driving the external CLIs
+## Running the external CLIs
 
-Prettier, `tsc` and Storybook are spawned as child processes by
+Prettier, `tsc`, and Storybook are spawned as child processes by
 [`run-process.ts`](../scripts/common/run-process.ts), which runs
-`node <cli> <args…>` with the working directory pinned to the repository root
+`node <cli> <args…>` with the working directory set to the repository root
 and stdio inherited. The CLI paths are resolved from `node_modules` in each
-module's `consts.ts`, so no `.bin` shim or shell is involved and the behaviour
+module's `consts.ts`, so no `.bin` shim or shell is involved and the behavior
 is the same on every platform.
 
 Exit codes propagate: each module returns a boolean, the `-command` wrapper
@@ -75,7 +75,7 @@ If either step fails, Storybook is not started.
 `check` runs `npm run check`, and `storybook` runs `npm run storybook:build`
 and uploads `storybook-static/` as an artifact for seven days.
 
-## Known local wrinkle: CRLF
+## Known local issue: CRLF
 
 On Windows with `core.autocrlf=true`, the working tree has CRLF line endings
 while Prettier expects LF, so `npm run format:check` reports every file as
@@ -86,5 +86,5 @@ formatting locally, ignoring line endings:
 node node_modules/prettier/bin/prettier.cjs --check --end-of-line auto .
 ```
 
-Adding `"endOfLine": "auto"` to `.prettierrc.json` would silence it
+Adding `"endOfLine": "auto"` to `.prettierrc.json` would stop those reports
 permanently; that is a project decision, not a bug in the command.

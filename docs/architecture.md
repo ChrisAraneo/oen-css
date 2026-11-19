@@ -5,7 +5,7 @@
 ```
 src/            what the library is          (TypeScript, no Sass file)
   banner/       the attribution header prepended to both stylesheets
-  colors/       the six theme colours
+  colors/       the six theme colors
   common/       countMatches, the one helper both trees need
   fonts/        the sans-serif stack
   licenses/     THIRD-PARTY-NOTICES.md and the embedded notices
@@ -41,7 +41,7 @@ Inside each tree the convention is the same:
 
 ## The build pipeline
 
-`node scripts/build.ts` runs five stages. The whole run is a little over 300ms.
+`node scripts/build.ts` runs five stages. The whole run takes about 300ms.
 
 ### 1. Read the inputs
 
@@ -59,45 +59,45 @@ four files and compiles one stylesheet in parallel:
 The stylesheet comes from
 [`read-compiled-oen-stylesheet.ts`](../scripts/common/sass/read-compiled-oen-stylesheet.ts),
 which asks `src/stylesheet/` for the Bulma configuration and compiles it in
-memory. See [stylesheet.md](./stylesheet.md).
+memory. See [STYLESHEET.md](./STYLESHEET.md).
 
-Two issues are detected here rather than later: an unreadable input file, and
-a Bulma version mismatch between `oen.bulmaVersion` in `package.json` and the
-installed `node_modules/bulma`. A missing `Copyright (c)` line in Bulma's
-licence is also an issue, because the banner quotes it.
+The build detects two issues here rather than later: an unreadable input file,
+and a Bulma version mismatch between `oen.bulmaVersion` in `package.json` and
+the installed `node_modules/bulma`. A missing `Copyright (c)` line in Bulma's
+license is also an issue, because the banner quotes it.
 
 ### 2. Rename what Sass could not
 
-`patchOenNamespace` applies the mappings Sass cannot reach — the fixed-grid
-container name and Bulma's section marker comments — and records how many
-replacements each one made, which is what the build report prints. See
-[namespace.md](./namespace.md).
+`patchOenNamespace` applies the mappings Sass cannot reach: the fixed-grid
+container name and Bulma's section marker comments. It records how many
+replacements each mapping made, and the build report prints those counts. See
+[NAMESPACE.md](./NAMESPACE.md).
 
 ### 3. Prepend the header
 
 `patchStylesheetHeader` strips the `@charset` line Sass emitted, then writes
 `@charset "UTF-8";` followed by the attribution banner. See
-[banner.md](./banner.md).
+[BANNER.md](./BANNER.md).
 
 ### 4. Minify
 
 clean-css at level 1 with `specialComments: 'all'`, so every `/*! … */`
-licence comment survives — both ours and the ones Bulma vendored into its own
+license comment survives — both ours and the ones Bulma vendored into its own
 sources.
 
 ### 5. Check, then write
 
-Before anything reaches disk the build looks for leftover `bulma` identifiers
-in both stylesheets, and reads the embedded licence comments back out of the
-expanded one to generate the notices. Then
+Before anything reaches disk, the build searches both stylesheets for leftover
+`bulma` identifiers. It also reads the embedded license comments out of the
+expanded stylesheet to generate the notices. Then
 [`write-every-build-artifact.ts`](../scripts/build/internal/write-every-build-artifact.ts)
 writes six files:
 
 ```
 dist/oen.css                 the expanded stylesheet
 dist/oen.min.css             the minified stylesheet
-dist/LICENSE                 our licence
-dist/LICENSE-bulma           Bulma's licence, verbatim
+dist/LICENSE                 our license
+dist/LICENSE-bulma           Bulma's license, verbatim
 dist/THIRD-PARTY-NOTICES.md  generated from the built CSS
 THIRD-PARTY-NOTICES.md       the same content, at the repository root
 ```
@@ -109,7 +109,8 @@ memory first and the writes happen last.
 ## Watch mode
 
 `npm run build:watch` watches `src/` and runs each rebuild as a **fresh child
-process**. That is deliberate. The theme is now imported TypeScript, and
-Node's module cache would otherwise keep serving the values the watcher
-imported when it started, so edits would silently not apply. The cost is one
-process start per rebuild; the alternative was a watcher that lies.
+process**. That is deliberate. The theme is imported TypeScript, and Node's
+module cache would otherwise keep returning the values the watcher imported
+when it started, so edits would not apply and nothing would report it. The
+cost is one process start per rebuild; the alternative is a rebuild that
+reports success while the output still holds the old values.

@@ -32,7 +32,7 @@ import '@chris.araneo/oen-css'; // or '@chris.araneo/oen-css/oen.min.css'
 
 ## Storybook
 
-Every element, component, form control, layout and helper has a Storybook page, written as plain HTML styled
+Every element, component, form control, layout, and helper has a Storybook page, written as plain HTML styled
 only by the built stylesheet:
 
 ```sh
@@ -42,7 +42,7 @@ npm run storybook
 
 ## Documentation
 
-How Oen is built, themed and verified is documented in [docs/](./docs/README.md).
+How Oen is built, themed, and verified is documented in [docs/](./docs/README.md).
 
 ## License
 
@@ -53,6 +53,6 @@ copyright and permission notice is reproduced in [THIRD-PARTY-NOTICES.md](./THIR
 ships inside the package as `dist/LICENSE-bulma`.
 
 Bulma's base styles also vendor [minireset.css](https://github.com/jgthms/minireset.css) (MIT, same author)
-along with its own notice. That notice travels inside both stylesheets; the build reads it back out of the
-compiled artifact to document it in `THIRD-PARTY-NOTICES.md`, and `npm run verify` fails if minification
-ever strips it.
+together with its own notice. That notice is embedded in both stylesheets. The build reads it back out of
+the compiled stylesheet and documents it in `THIRD-PARTY-NOTICES.md`, and `npm run verify` fails if
+minification strips it.
