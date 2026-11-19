@@ -7,7 +7,7 @@ import { filterLeftoverBulmaIdentifiers } from '../../../src/namespace/filter-le
 import { formatLeftoverIssue } from '../../../src/namespace/format-leftover-issue.ts';
 import type { TextFile } from '../../common/types/text-file.ts';
 
-export const formatNamespaceLeakageIssue = ({
+export const formatLeftoverBulmaIssue = ({
   path,
   text,
 }: TextFile): string | undefined =>

@@ -25,9 +25,10 @@ read from `package.json`, `node_modules/bulma/package.json` and Bulma's
 [`find-copyright-line.ts`](../src/licenses/find-copyright-line.ts); if it is
 missing the build fails rather than shipping a banner that attributes nothing.
 
-The homepage is canonicalised first: npm's `homepage` field ends in `#readme`,
-which is a fragment for humans, not an address for a stylesheet comment, so
-[`to-canonical-homepage.ts`](../scripts/build/internal/to-canonical-homepage.ts)
+The homepage is trimmed for the banner first: npm's `homepage` field ends in
+`#readme`, which is a fragment for humans, not an address for a stylesheet
+comment, so
+[`to-banner-homepage.ts`](../scripts/build/internal/to-banner-homepage.ts)
 strips it.
 
 ## `/*!` and minification

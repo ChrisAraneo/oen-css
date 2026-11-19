@@ -5,7 +5,7 @@ import { parsePackageManifest } from '../../common/parse-package-manifest.ts';
 import type { BuildInputs } from '../types/build-inputs.ts';
 import { formatBulmaVersionMismatch } from './format-bulma-version-mismatch.ts';
 import { formatMissingCopyrightIssue } from './format-missing-copyright-issue.ts';
-import { toCanonicalHomepage } from './to-canonical-homepage.ts';
+import { toBannerHomepage } from './to-banner-homepage.ts';
 import type { BuildFiles } from './types/build-files.ts';
 
 const NO_COPYRIGHT_LINE = '';
@@ -29,7 +29,7 @@ export const toBuildInputs = (
     ({ oen, bulma, copyrightLine }) => ({
       startedAt,
       version: oen.version,
-      homepage: toCanonicalHomepage(oen.homepage),
+      homepage: toBannerHomepage(oen.homepage),
       bulmaVersion: bulma.version,
       bulmaCopyright: copyrightLine ?? NO_COPYRIGHT_LINE,
       bulmaLicense: bulmaLicense.text,

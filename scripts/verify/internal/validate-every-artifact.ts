@@ -8,7 +8,7 @@ import { validateDistArtifacts } from './validate-dist-artifacts.ts';
 import { validateEmbeddedNotices } from './validate-embedded-notices.ts';
 import { validateFixedGridContainer } from './validate-fixed-grid-container.ts';
 import { validateMinifiedStylesheet } from './validate-minified-stylesheet.ts';
-import { validateNamespaceLeakage } from './validate-namespace-leakage.ts';
+import { validateNoLeftoverBulma } from './validate-no-leftover-bulma.ts';
 import { validateOenLicense } from './validate-oen-license.ts';
 import { validateStylesheetHeaders } from './validate-stylesheet-headers.ts';
 import { validateThemeColors } from './validate-theme-colors.ts';
@@ -20,7 +20,7 @@ export const validateEveryArtifact = (
 ): readonly CheckResult[] => [
   validateDistArtifacts(inputs),
   validateStylesheetHeaders(inputs),
-  validateNamespaceLeakage(inputs),
+  validateNoLeftoverBulma(inputs),
   validateCustomProperties(inputs),
   validateThemeColors(inputs),
   validateThemeFonts(inputs),
