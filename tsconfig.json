@@ -22,5 +22,10 @@
     "noUnusedParameters": true,
     "skipLibCheck": true
   },
-  "include": ["scripts/**/*.ts", ".storybook/**/*.ts", ".storybook/**/*.d.ts"]
+  "include": [
+    "src/**/*.ts",
+    "scripts/**/*.ts",
+    ".storybook/**/*.ts",
+    ".storybook/**/*.d.ts"
+  ]
 }

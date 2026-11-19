@@ -1,10 +1,10 @@
 import { compact } from 'lodash-es';
 import { pipe } from 'remeda';
+import { findCopyrightLine } from '../../../src/licenses/find-copyright-line.ts';
 import { parsePackageManifest } from '../../common/parse-package-manifest.ts';
-import { findCopyrightLine } from '../../licenses/find-copyright-line.ts';
 import type { BuildInputs } from '../types/build-inputs.ts';
 import { formatBulmaVersionMismatch } from './format-bulma-version-mismatch.ts';
-import { formatMissingCopyrightProblem } from './format-missing-copyright-problem.ts';
+import { formatMissingCopyrightIssue } from './format-missing-copyright-issue.ts';
 import { toCanonicalHomepage } from './to-canonical-homepage.ts';
 import type { BuildFiles } from './types/build-files.ts';
 
@@ -35,14 +35,14 @@ export const toBuildInputs = (
       bulmaLicense: bulmaLicense.text,
       oenLicense: oenLicense.text,
       stylesheet: stylesheet.css,
-      problems: compact([
-        oenManifest.problem,
-        bulmaManifest.problem,
-        bulmaLicense.problem,
-        oenLicense.problem,
-        stylesheet.problem,
+      issues: compact([
+        oenManifest.issue,
+        bulmaManifest.issue,
+        bulmaLicense.issue,
+        oenLicense.issue,
+        stylesheet.issue,
         formatBulmaVersionMismatch(oen.bulmaVersion, bulma.version),
-        formatMissingCopyrightProblem(copyrightLine),
+        formatMissingCopyrightIssue(copyrightLine),
       ]),
     }),
   );

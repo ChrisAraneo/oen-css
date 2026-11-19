@@ -1,13 +1,16 @@
-import { readTextFile } from '../../common/read-text-file.ts';
+import { resolve } from 'node:path';
 import {
   BULMA_LICENSE_FILE,
   BULMA_MANIFEST,
   OEN_LICENSE_FILE,
-  OEN_MANIFEST,
-} from '../../consts.ts';
-import { readCompiledOenStylesheet } from '../../sass/read-compiled-oen-stylesheet.ts';
+  REPOSITORY_ROOT,
+} from '../../common/consts.ts';
+import { readTextFile } from '../../common/read-text-file.ts';
+import { readCompiledOenStylesheet } from '../../common/sass/read-compiled-oen-stylesheet.ts';
 import type { BuildInputs } from '../types/build-inputs.ts';
 import { toBuildInputs } from './to-build-inputs.ts';
+
+const OEN_MANIFEST: string = resolve(REPOSITORY_ROOT, 'package.json');
 
 export const readBuildInputs = (now: () => number): Promise<BuildInputs> =>
   Promise.all([

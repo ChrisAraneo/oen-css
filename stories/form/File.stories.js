@@ -30,7 +30,7 @@ const field = (
       <span class="file-icon"><i class="fa-solid fa-upload"></i></span>
       <span class="file-label">${label}</span>
     </span>
-    ${name ? '<span class="file-name">oen-css-0.2.0.tgz</span>' : ''}
+    ${name ? '<span class="file-name">oen-css-0.2.1.tgz</span>' : ''}
   </label>
 </div>`;
 

@@ -6,6 +6,6 @@ import { writeEveryBuildArtifact } from './write-every-build-artifact.ts';
 export const writeBuildArtifacts = (
   artifacts: BuildArtifacts,
 ): Promise<BuildArtifacts> =>
-  match(isEmpty(artifacts.problems))
+  match(isEmpty(artifacts.issues))
     .with(true, () => writeEveryBuildArtifact(artifacts))
     .otherwise(() => Promise.resolve(artifacts));

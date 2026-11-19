@@ -1,6 +1,5 @@
-import { checkEveryArtifact } from './check-every-artifact.ts';
-import { readVerifyInputs } from './internal/read-verify-inputs.ts';
-import { writeVerifyReport } from './internal/write-verify-report.ts';
+import { patchExitCodeOnFailure } from '../common/patch-exit-code-on-failure.ts';
+import { runVerify } from './run-verify.ts';
 
 export const runVerifyCommand = (): Promise<void> =>
-  readVerifyInputs().then(checkEveryArtifact).then(writeVerifyReport);
+  runVerify().then(patchExitCodeOnFailure);

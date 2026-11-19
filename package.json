@@ -1,6 +1,6 @@
 {
   "name": "@chris.araneo/oen-css",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Oen CSS is a CSS framework built from Bulma 1.0.4",
   "keywords": [
     "css",
@@ -44,19 +44,18 @@
     "README.md"
   ],
   "scripts": {
-    "build": "npm run build:css && npm run verify",
-    "build:css": "node scripts/build.ts",
-    "build:css:watch": "node scripts/build.ts --watch",
-    "build:storybook": "npm run build && storybook build --output-dir storybook-static",
-    "check": "npm run format:check && npm run typecheck && npm run build && npm run check:stories",
-    "check:stories": "node scripts/check-stories.ts",
+    "build": "node scripts/build.ts",
+    "build:watch": "node scripts/build.ts --watch",
+    "check": "node scripts/check.ts",
+    "check:stories": "node scripts/check.ts --stories",
     "clean": "node scripts/clean.ts",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
-    "prepack": "npm run build",
+    "format": "node scripts/format.ts",
+    "format:check": "node scripts/format.ts --check",
+    "prepack": "npm run build && npm run verify",
     "prepublishOnly": "npm run check",
-    "storybook": "npm run build && storybook dev -p 6006",
-    "typecheck": "tsc --noEmit",
+    "storybook": "node scripts/storybook.ts",
+    "storybook:build": "node scripts/storybook.ts --build",
+    "typecheck": "node scripts/check.ts --types",
     "verify": "node scripts/verify.ts"
   },
   "devDependencies": {

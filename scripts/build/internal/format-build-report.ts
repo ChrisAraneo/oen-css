@@ -5,7 +5,7 @@ import {
   OEN_MINIFIED_STYLESHEET,
   OEN_STYLESHEET,
   THIRD_PARTY_NOTICES,
-} from '../../dist/consts.ts';
+} from '../../common/dist/consts.ts';
 import type { BuildArtifacts } from '../types/build-artifacts.ts';
 import { formatAppliedMapping } from './format-applied-mapping.ts';
 import { formatStylesheetSize } from './format-stylesheet-size.ts';

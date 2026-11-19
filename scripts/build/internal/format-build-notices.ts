@@ -1,5 +1,5 @@
 import { compact } from 'lodash-es';
-import { formatThirdPartyNotices } from '../../licenses/format-third-party-notices.ts';
+import { formatThirdPartyNotices } from '../../../src/licenses/format-third-party-notices.ts';
 import type { BuildArtifacts } from '../types/build-artifacts.ts';
 import type { BuildNotices } from './types/build-notices.ts';
 
@@ -8,7 +8,7 @@ export const formatBuildNotices = ({
   namespaced,
   stylesheet,
   minified,
-  stylesheetProblems,
+  stylesheetIssues,
   embeddedLicenseComments,
 }: BuildNotices): BuildArtifacts => ({
   version: inputs.version,
@@ -26,9 +26,5 @@ export const formatBuildNotices = ({
   appliedMappings: namespaced.applied,
   embeddedLicenseComments,
   warnings: minified.warnings,
-  problems: [
-    ...inputs.problems,
-    ...stylesheetProblems,
-    ...compact([minified.problem]),
-  ],
+  issues: [...inputs.issues, ...stylesheetIssues, ...compact([minified.issue])],
 });

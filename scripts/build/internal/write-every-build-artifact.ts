@@ -1,15 +1,21 @@
 import { writeFile } from 'node:fs/promises';
-import { THIRD_PARTY_NOTICES_FILE } from '../../consts.ts';
+import { resolve } from 'node:path';
+import { REPOSITORY_ROOT } from '../../common/consts.ts';
 import {
   BULMA_LICENSE,
   OEN_LICENSE,
   OEN_MINIFIED_STYLESHEET,
   OEN_STYLESHEET,
   THIRD_PARTY_NOTICES,
-} from '../../dist/consts.ts';
-import { createDistDirectory } from '../../dist/create-dist-directory.ts';
-import { writeDistFile } from '../../dist/write-dist-file.ts';
+} from '../../common/dist/consts.ts';
+import { createDistDirectory } from '../../common/dist/create-dist-directory.ts';
+import { writeDistFile } from '../../common/dist/write-dist-file.ts';
 import type { BuildArtifacts } from '../types/build-artifacts.ts';
+
+const THIRD_PARTY_NOTICES_FILE: string = resolve(
+  REPOSITORY_ROOT,
+  'THIRD-PARTY-NOTICES.md',
+);
 
 export const writeEveryBuildArtifact = (
   artifacts: BuildArtifacts,

@@ -1,4 +1,4 @@
-import { OEN_MINIFIED_STYLESHEET } from '../../dist/consts.ts';
+import { OEN_MINIFIED_STYLESHEET } from '../../common/dist/consts.ts';
 import { minifyStylesheet } from './minify-stylesheet.ts';
 import type { BuildBanner } from './types/build-banner.ts';
 import type { BuildMinification } from './types/build-minification.ts';

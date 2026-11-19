@@ -1,11 +1,11 @@
 import { includes } from 'lodash-es';
 import { match } from 'ts-pattern';
-import type { LicenseComment } from '../../banner/types/license-comment.ts';
+import type { LicenseComment } from '../../../src/banner/types/license-comment.ts';
 import {
   OEN_MINIFIED_STYLESHEET,
   OEN_STYLESHEET,
   THIRD_PARTY_NOTICES,
-} from '../../dist/consts.ts';
+} from '../../common/dist/consts.ts';
 
 export const formatMissingEmbeddedNotice = (
   { text, name }: LicenseComment,

@@ -1,4 +1,4 @@
-import { findEmbeddedLicenseComments } from '../../banner/find-embedded-license-comments.ts';
+import { filterEmbeddedLicenseComments } from '../../../src/banner/filter-embedded-license-comments.ts';
 import type { BuildCheck } from './types/build-check.ts';
 import type { BuildNotices } from './types/build-notices.ts';
 
@@ -7,12 +7,12 @@ export const findBuildEmbeddedNotices = ({
   namespaced,
   stylesheet,
   minified,
-  stylesheetProblems,
+  stylesheetIssues,
 }: BuildCheck): BuildNotices => ({
   inputs,
   namespaced,
   stylesheet,
   minified,
-  stylesheetProblems,
-  embeddedLicenseComments: findEmbeddedLicenseComments(stylesheet),
+  stylesheetIssues,
+  embeddedLicenseComments: filterEmbeddedLicenseComments(stylesheet),
 });

@@ -7,5 +7,5 @@ export interface BuildInputs {
   readonly bulmaLicense: string;
   readonly oenLicense: string;
   readonly stylesheet: string;
-  readonly problems: readonly string[];
+  readonly issues: readonly string[];
 }

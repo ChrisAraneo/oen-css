@@ -1,5 +1,5 @@
 import type CleanCSS from 'clean-css';
-import { formatMinifyProblem } from './format-minify-problem.ts';
+import { formatMinifyIssue } from './format-minify-issue.ts';
 import type { MinifiedStylesheet } from './types/minified-stylesheet.ts';
 
 export const toMinifiedStylesheet = (
@@ -8,5 +8,5 @@ export const toMinifiedStylesheet = (
 ): MinifiedStylesheet => ({
   css: output.styles,
   warnings: output.warnings,
-  problem: formatMinifyProblem(output.errors, fileName),
+  issue: formatMinifyIssue(output.errors, fileName),
 });

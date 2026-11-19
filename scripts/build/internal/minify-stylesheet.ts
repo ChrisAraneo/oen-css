@@ -6,6 +6,8 @@ import type { MinifiedStylesheet } from './types/minified-stylesheet.ts';
 
 const KEEP_EVERY_LICENSE_COMMENT = 'all';
 
+const SAFE_OPTIMIZATION_LEVEL = 1;
+
 const NO_WARNINGS: readonly string[] = Object.freeze([]);
 
 export const minifyStylesheet: (
@@ -15,13 +17,17 @@ export const minifyStylesheet: (
   (css: string, fileName: string) =>
     toMinifiedStylesheet(
       new CleanCSS({
-        level: { 1: { specialComments: KEEP_EVERY_LICENSE_COMMENT } },
+        level: {
+          [SAFE_OPTIMIZATION_LEVEL]: {
+            specialComments: KEEP_EVERY_LICENSE_COMMENT,
+          },
+        },
       }).minify(css),
       fileName,
     ),
   (error: unknown) => ({
     css: '',
     warnings: NO_WARNINGS,
-    problem: formatErrorMessage(error),
+    issue: formatErrorMessage(error),
   }),
 );

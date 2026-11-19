@@ -54,7 +54,7 @@ jobs:
         run: npm ci
 
       - name: Build the static gallery
-        run: npm run build:storybook
+        run: npm run storybook:build
 
       - uses: actions/upload-artifact@v4
         with:

@@ -1,17 +1,16 @@
-import { noop } from 'lodash-es';
+import { includes } from 'lodash-es';
 import { match } from 'ts-pattern';
-import { patchExitCode } from '../common/patch-exit-code.ts';
-import { FAILURE_EXIT_CODE } from '../consts.ts';
-import { runBuild } from './internal/run-build.ts';
+import { patchExitCodeOnFailure } from '../common/patch-exit-code-on-failure.ts';
+import { WATCH_FLAG } from './consts.ts';
 import { startRebuildWatch } from './internal/start-rebuild-watch.ts';
+import { runBuild } from './run-build.ts';
 
 export const runBuildCommand = (
-  watching: boolean,
+  commandArguments: readonly string[],
   now: () => number,
 ): Promise<void> =>
   runBuild(now).then((succeeded) =>
-    match({ watching, succeeded })
-      .with({ watching: true }, () => startRebuildWatch(now))
-      .with({ succeeded: false }, () => patchExitCode(FAILURE_EXIT_CODE))
-      .otherwise(noop),
+    match(includes(commandArguments, WATCH_FLAG))
+      .with(true, () => startRebuildWatch())
+      .otherwise(() => patchExitCodeOnFailure(succeeded)),
   );

@@ -39,7 +39,7 @@ export const WithImage = {
         <figure class="image is-48x48"><img src="${svgImage(48, 48, '')}" alt="Avatar" /></figure>
       </div>
       <div class="media-content">
-        <p class="title is-4">Release 0.2.0</p>
+        <p class="title is-4">Release 0.2.1</p>
         <p class="subtitle is-6">@oen-css</p>
       </div>
     </div>

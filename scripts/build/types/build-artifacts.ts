@@ -1,5 +1,5 @@
-import type { LicenseComment } from '../../banner/types/license-comment.ts';
-import type { AppliedMapping } from '../../namespace/types/applied-mapping.ts';
+import type { LicenseComment } from '../../../src/banner/types/license-comment.ts';
+import type { AppliedMapping } from '../../../src/namespace/types/applied-mapping.ts';
 
 export interface BuildArtifacts {
   readonly version: string;
@@ -13,5 +13,5 @@ export interface BuildArtifacts {
   readonly appliedMappings: readonly AppliedMapping[];
   readonly embeddedLicenseComments: readonly LicenseComment[];
   readonly warnings: readonly string[];
-  readonly problems: readonly string[];
+  readonly issues: readonly string[];
 }

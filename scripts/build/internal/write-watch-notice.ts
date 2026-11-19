@@ -1,7 +1,5 @@
+import { BLANK_LINE, SRC_DIRECTORY } from '../../common/consts.ts';
 import { writeLines } from '../../common/write-lines.ts';
-import { SRC_DIRECTORY } from '../../consts.ts';
-
-const BLANK_LINE = '';
 
 export const writeWatchNotice = (): void =>
   writeLines([
