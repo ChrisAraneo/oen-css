@@ -1,6 +1,6 @@
 import { pipe } from 'remeda';
 import { match } from 'ts-pattern';
-import { OEN_STYLESHEET } from '../../../common/dist/consts.ts';
+import { OEN_STYLESHEET } from '../../../common/package/consts.ts';
 import type { Gallery } from '../types/gallery.ts';
 import type { UnknownClassName } from '../types/unknown-class-name.ts';
 import { hasClassDeclaration } from './has-class-declaration.ts';
@@ -21,7 +21,7 @@ export const tryToUnknownClassName = (
       }))
       .otherwise(() => ({
         css: stylesheet.text,
-        reason: `not in dist/${OEN_STYLESHEET}`,
+        reason: `not in ${OEN_STYLESHEET}`,
       })),
     ({ css, reason }) =>
       match(hasClassDeclaration(css, className))

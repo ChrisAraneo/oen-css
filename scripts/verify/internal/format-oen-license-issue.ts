@@ -1,14 +1,8 @@
-import { isEqual } from 'lodash-es';
 import { match } from 'ts-pattern';
-import { OEN_LICENSE } from '../../common/dist/consts.ts';
+import { OEN_LICENSE } from '../../common/package/consts.ts';
+import { isMitNotice } from './is-mit-notice.ts';
 
-export const formatOenLicenseIssue = (
-  shipped: string,
-  repository: string,
-): string | undefined =>
-  match(isEqual(shipped, repository))
-    .with(
-      false,
-      () => `dist/${OEN_LICENSE} differs from the repository LICENSE`,
-    )
+export const formatOenLicenseIssue = (shipped: string): string | undefined =>
+  match(isMitNotice(shipped))
+    .with(false, () => `${OEN_LICENSE} does not look like the MIT notice`)
     .otherwise(() => undefined);

@@ -1,7 +1,7 @@
 import { compact, head, isEmpty, map } from 'lodash-es';
 import { match } from 'ts-pattern';
 import type { LicenseComment } from '../../../src/banner/types/license-comment.ts';
-import { OEN_STYLESHEET } from '../../common/dist/consts.ts';
+import { OEN_STYLESHEET } from '../../common/package/consts.ts';
 import { formatMissingEmbeddedNotice } from './format-missing-embedded-notice.ts';
 
 export const formatEmbeddedNoticesIssue = (

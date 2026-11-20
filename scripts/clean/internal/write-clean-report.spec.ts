@@ -1,21 +1,24 @@
+import { resolve } from 'node:path';
 import { describe, expect, it, vi } from 'vitest';
-import { DIST_DIRECTORY } from '../../common/consts.ts';
+import { REPOSITORY_ROOT } from '../../common/consts.ts';
 import { writeLines } from '../../common/write-lines.ts';
 import { writeCleanReport } from './write-clean-report.ts';
 
 vi.mock('../../common/write-lines.ts', () => ({ writeLines: vi.fn() }));
 
-describe('writeCleanReport', () => {
-  it('should pass `Removed: dist` to `writeLines` when one directory was removed', () => {
-    writeCleanReport([DIST_DIRECTORY]);
+const STYLESHEET = resolve(REPOSITORY_ROOT, 'oen.css');
 
-    expect(writeLines).toHaveBeenCalledWith(['Removed: dist']);
+describe('writeCleanReport', () => {
+  it('should pass `Removed: oen.css` to `writeLines` when one path was removed', () => {
+    writeCleanReport([STYLESHEET]);
+
+    expect(writeLines).toHaveBeenCalledWith(['Removed: oen.css']);
   });
 
-  it('should pass both directories on one line to `writeLines` when two were removed', () => {
-    writeCleanReport([DIST_DIRECTORY, DIST_DIRECTORY]);
+  it('should pass both paths on one line to `writeLines` when two were removed', () => {
+    writeCleanReport([STYLESHEET, STYLESHEET]);
 
-    expect(writeLines).toHaveBeenCalledWith(['Removed: dist, dist']);
+    expect(writeLines).toHaveBeenCalledWith(['Removed: oen.css, oen.css']);
   });
 
   it('should pass `Removed: ` to `writeLines` when nothing was removed', () => {
@@ -25,7 +28,7 @@ describe('writeCleanReport', () => {
   });
 
   it('should call `writeLines` once when the report is written', () => {
-    writeCleanReport([DIST_DIRECTORY]);
+    writeCleanReport([STYLESHEET]);
 
     expect(writeLines).toHaveBeenCalledTimes(1);
   });

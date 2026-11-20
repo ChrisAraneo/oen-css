@@ -4,19 +4,19 @@ Every npm script is one TypeScript entry point, and every entry point is one
 module under `scripts/`. No shell script is involved: the chaining is done in
 the `check` and `storybook` modules, where it can be read and typechecked.
 
-| Script                    | Runs                                | Does                                                             |
-| ------------------------- | ----------------------------------- | ---------------------------------------------------------------- |
-| `npm run build`           | `node scripts/build.ts`             | compiles, renames, prepends the banner, minifies, writes `dist/` |
-| `npm run build:watch`     | `node scripts/build.ts --watch`     | the same, then rebuilds on every change under `src/`             |
-| `npm run check`           | `node scripts/check.ts`             | format, typecheck, build, verify, stories — in that order        |
-| `npm run check:stories`   | `node scripts/check.ts --stories`   | only the stories check                                           |
-| `npm run typecheck`       | `node scripts/check.ts --types`     | only `tsc --noEmit`                                              |
-| `npm run clean`           | `node scripts/clean.ts`             | removes `dist/` and `storybook-static/`                          |
-| `npm run format`          | `node scripts/format.ts`            | Prettier, writing                                                |
-| `npm run format:check`    | `node scripts/format.ts --check`    | Prettier, checking                                               |
-| `npm run storybook`       | `node scripts/storybook.ts`         | builds and verifies, then serves the gallery on port 6006        |
-| `npm run storybook:build` | `node scripts/storybook.ts --build` | builds and verifies, then writes `storybook-static/`             |
-| `npm run verify`          | `node scripts/verify.ts`            | the 14 assertions about `dist/`                                  |
+| Script                    | Runs                                | Does                                                                       |
+| ------------------------- | ----------------------------------- | -------------------------------------------------------------------------- |
+| `npm run build`           | `node scripts/build.ts`             | compiles, renames, prepends the banner, minifies, writes the package files |
+| `npm run build:watch`     | `node scripts/build.ts --watch`     | the same, then rebuilds on every change under `src/`                       |
+| `npm run check`           | `node scripts/check.ts`             | format, typecheck, build, verify, stories — in that order                  |
+| `npm run check:stories`   | `node scripts/check.ts --stories`   | only the stories check                                                     |
+| `npm run typecheck`       | `node scripts/check.ts --types`     | only `tsc --noEmit`                                                        |
+| `npm run clean`           | `node scripts/clean.ts`             | removes the generated package files and `storybook-static/`                |
+| `npm run format`          | `node scripts/format.ts`            | Prettier, writing                                                          |
+| `npm run format:check`    | `node scripts/format.ts --check`    | Prettier, checking                                                         |
+| `npm run storybook`       | `node scripts/storybook.ts`         | builds and verifies, then serves the gallery on port 6006                  |
+| `npm run storybook:build` | `node scripts/storybook.ts --build` | builds and verifies, then writes `storybook-static/`                       |
+| `npm run verify`          | `node scripts/verify.ts`            | the 14 assertions about the published files                                |
 
 `prepack` runs `build` then `verify`, so a published tarball cannot contain an
 unverified stylesheet. `prepublishOnly` runs the whole `check`.
@@ -63,7 +63,7 @@ turns `false` into exit code 1 via
 
 ## storybook
 
-The gallery renders against `dist/oen.css`, so both Storybook commands build
+The gallery renders against `oen.css`, so both Storybook commands build
 and verify the stylesheet first — that is what the old
 `npm run build && storybook …` chain did, now expressed in
 [`run-verified-build.ts`](../scripts/storybook/internal/run-verified-build.ts).

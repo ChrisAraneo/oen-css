@@ -35,7 +35,7 @@ strips it.
 
 The comment opens with `/*!`, not `/*`. That marks it as a license comment,
 and clean-css is configured with `specialComments: 'all'`, so it survives
-minification — `dist/oen.min.css` carries the same header as the expanded
+minification — `oen.min.css` carries the same header as the expanded
 file.
 
 ## Charset

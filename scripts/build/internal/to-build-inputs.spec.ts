@@ -10,7 +10,6 @@ const files = (overrides: Partial<BuildFiles> = {}): BuildFiles => ({
   ),
   bulmaManifest: file('{"version":"1.0.4"}'),
   bulmaLicense: file('MIT License\n\nCopyright (c) 2023 Jeremy Thomas\n'),
-  oenLicense: file('Our MIT License'),
   stylesheet: { css: 'body {}', issue: undefined },
   ...overrides,
 });
@@ -24,7 +23,6 @@ describe('toBuildInputs', () => {
       bulmaVersion: '1.0.4',
       bulmaCopyright: 'Copyright (c) 2023 Jeremy Thomas',
       bulmaLicense: 'MIT License\n\nCopyright (c) 2023 Jeremy Thomas\n',
-      oenLicense: 'Our MIT License',
       stylesheet: 'body {}',
       issues: [],
     });
@@ -59,12 +57,15 @@ describe('toBuildInputs', () => {
     expect(
       toBuildInputs(
         files({
-          oenLicense: file('', 'LICENSE could not be read: ENOENT'),
+          oenManifest: file(
+            '{"version":"0.2.1","oen":{"bulmaVersion":"1.0.4"}}',
+            'package.json could not be read: ENOENT',
+          ),
           stylesheet: { css: '', issue: 'undefined variable' },
         }),
         0,
       ).issues,
-    ).toEqual(['LICENSE could not be read: ENOENT', 'undefined variable']);
+    ).toEqual(['package.json could not be read: ENOENT', 'undefined variable']);
   });
 
   it('should return the file issue, the version mismatch, and the missing copyright line when all three happen', () => {

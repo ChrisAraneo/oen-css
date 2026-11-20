@@ -23,7 +23,7 @@ describe('tryToUnknownClassName', () => {
     expect(tryToUnknownClassName('buton', ['a.js'], gallery())).toEqual({
       className: 'buton',
       origins: ['a.js'],
-      reason: 'not in dist/oen.css',
+      reason: 'not in oen.css',
     });
   });
 

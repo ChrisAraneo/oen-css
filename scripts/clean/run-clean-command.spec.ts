@@ -1,6 +1,6 @@
 import { rm } from 'node:fs/promises';
 import { describe, expect, it, vi } from 'vitest';
-import { GENERATED_DIRECTORIES } from './consts.ts';
+import { GENERATED_PATHS } from './consts.ts';
 import { writeCleanReport } from './internal/write-clean-report.ts';
 import { runCleanCommand } from './run-clean-command.ts';
 
@@ -10,25 +10,25 @@ vi.mock('./internal/write-clean-report.ts', () => ({
 }));
 
 describe('runCleanCommand', () => {
-  it('should call `rm` once per generated directory when the command runs', async () => {
+  it('should call `rm` once per generated path when the command runs', async () => {
     await runCleanCommand();
 
-    expect(rm).toHaveBeenCalledTimes(GENERATED_DIRECTORIES.length);
+    expect(rm).toHaveBeenCalledTimes(GENERATED_PATHS.length);
   });
 
   it('should call `rm` with `recursive` and `force` when the command runs', async () => {
     await runCleanCommand();
 
-    expect(rm).toHaveBeenCalledWith(GENERATED_DIRECTORIES.at(0), {
+    expect(rm).toHaveBeenCalledWith(GENERATED_PATHS.at(0), {
       recursive: true,
       force: true,
     });
   });
 
-  it('should pass the generated directories to `writeCleanReport` when the command runs', async () => {
+  it('should pass the generated paths to `writeCleanReport` when the command runs', async () => {
     await runCleanCommand();
 
-    expect(writeCleanReport).toHaveBeenCalledWith(GENERATED_DIRECTORIES);
+    expect(writeCleanReport).toHaveBeenCalledWith(GENERATED_PATHS);
   });
 
   it('should call `writeCleanReport` after every removal when the command runs', async () => {
@@ -47,7 +47,7 @@ describe('runCleanCommand', () => {
     expect(order.at(-1)).toBe('report');
   });
 
-  it('should reject with the removal error when a directory cannot be removed', async () => {
+  it('should reject with the removal error when a path cannot be removed', async () => {
     vi.mocked(rm).mockRejectedValue(new Error('EBUSY'));
 
     await expect(runCleanCommand()).rejects.toThrow('EBUSY');

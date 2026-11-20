@@ -1,6 +1,0 @@
-import { readTextFile } from '../read-text-file.ts';
-import type { TextFile } from '../types/text-file.ts';
-import { toDistPath } from './internal/to-dist-path.ts';
-import type { DistFile } from './types/dist-file.ts';
-
-export const readDistFile = (file: DistFile): Promise<TextFile> => readTextFile(toDistPath(file));

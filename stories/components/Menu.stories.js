@@ -64,7 +64,7 @@ export const InALayout = {
   <div class="column">
     <div class="content">
       <h3>Getting started</h3>
-      <p>Install the package and link <code>dist/oen.css</code>. There is no JavaScript to load.</p>
+      <p>Install the package and link <code>oen.css</code>. There is no JavaScript to load.</p>
       <pre><code>npm install @chris.araneo/oen-css</code></pre>
     </div>
   </div>

@@ -10,7 +10,6 @@ const artifacts = (
   startedAt: 0,
   stylesheet: 'body {}',
   minifiedStylesheet: 'body{}',
-  oenLicense: 'MIT',
   bulmaLicense: 'MIT',
   thirdPartyNotices: '# Notices',
   appliedMappings: [{ description: 'the prefix', count: 7 }],
@@ -36,14 +35,14 @@ describe('formatBuildReport', () => {
   it('should return the size of both stylesheets when called with the artifacts', () => {
     const report = formatBuildReport(artifacts(), 0).join('\n');
 
-    expect(report).toContain('dist/oen.css');
-    expect(report).toContain('dist/oen.min.css');
+    expect(report).toContain('oen.css');
+    expect(report).toContain('oen.min.css');
     expect(report).toContain('kB gzipped');
   });
 
   it('should return a line naming the licenses that ship alongside when called with the artifacts', () => {
     expect(formatBuildReport(artifacts(), 0)).toContain(
-      '  dist/LICENSE, dist/LICENSE-bulma, dist/THIRD-PARTY-NOTICES.md',
+      '  LICENSE, LICENSE-bulma, THIRD_PARTY_NOTICES.md',
     );
   });
 

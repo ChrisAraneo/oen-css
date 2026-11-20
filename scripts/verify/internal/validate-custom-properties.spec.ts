@@ -12,7 +12,7 @@ const COMPLETE_STYLESHEET = [
 ].join('\n');
 
 const file = (text: string) => ({
-  path: 'dist/oen.css',
+  path: 'oen.css',
   text,
   issue: undefined,
 });
@@ -23,7 +23,6 @@ const inputs = (stylesheet: string): VerifyInputs => ({
   oenLicense: file(''),
   bulmaLicense: file(''),
   thirdPartyNotices: file(''),
-  repositoryOenLicense: file(''),
   repositoryBulmaLicense: file(''),
   bulmaManifest: file('{}'),
   upstreamBulmaStylesheet: { css: '', issue: undefined },

@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { readDistFile } from '../../../common/dist/read-dist-file.ts';
+import { readPackageFile } from '../../../common/package/read-package-file.ts';
 import { readTextFile } from '../../../common/read-text-file.ts';
 import { readGallery } from './read-gallery.ts';
 import { readRenderedStories } from './read-rendered-stories.ts';
@@ -9,8 +9,8 @@ vi.mock('./read-rendered-stories.ts', () => ({
   readRenderedStories: vi.fn(),
 }));
 vi.mock('./read-story-sources.ts', () => ({ readStorySources: vi.fn() }));
-vi.mock('../../../common/dist/read-dist-file.ts', () => ({
-  readDistFile: vi.fn(),
+vi.mock('../../../common/package/read-package-file.ts', () => ({
+  readPackageFile: vi.fn(),
 }));
 vi.mock('../../../common/read-text-file.ts', () => ({
   readTextFile: vi.fn(),
@@ -24,8 +24,8 @@ describe('readGallery', () => {
     vi.mocked(readStorySources).mockResolvedValue([
       { path: 'a.js', text: 'source', issue: undefined },
     ]);
-    vi.mocked(readDistFile).mockResolvedValue({
-      path: 'dist/oen.css',
+    vi.mocked(readPackageFile).mockResolvedValue({
+      path: 'oen.css',
       text: '.button{}',
       issue: undefined,
     });
@@ -41,7 +41,7 @@ describe('readGallery', () => {
       renderedStories: [STORY],
       sources: [{ path: 'a.js', text: 'source', issue: undefined }],
       stylesheet: {
-        path: 'dist/oen.css',
+        path: 'oen.css',
         text: '.button{}',
         issue: undefined,
       },
@@ -53,10 +53,10 @@ describe('readGallery', () => {
     });
   });
 
-  it('should call `readDistFile` with `oen.css` when the gallery is read', async () => {
+  it('should call `readPackageFile` with `oen.css` when the gallery is read', async () => {
     await readGallery();
 
-    expect(readDistFile).toHaveBeenCalledWith('oen.css');
+    expect(readPackageFile).toHaveBeenCalledWith('oen.css');
   });
 
   it('should call `readTextFile` with the Storybook stylesheet when the gallery is read', async () => {
@@ -75,14 +75,14 @@ describe('readGallery', () => {
   });
 
   it('should resolve with the read issue when the built stylesheet could not be read', async () => {
-    vi.mocked(readDistFile).mockResolvedValue({
-      path: 'dist/oen.css',
+    vi.mocked(readPackageFile).mockResolvedValue({
+      path: 'oen.css',
       text: '',
-      issue: 'dist/oen.css could not be read: ENOENT',
+      issue: 'oen.css could not be read: ENOENT',
     });
 
     expect((await readGallery()).stylesheet.issue).toBe(
-      'dist/oen.css could not be read: ENOENT',
+      'oen.css could not be read: ENOENT',
     );
   });
 });

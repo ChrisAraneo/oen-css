@@ -3,7 +3,7 @@ import type { VerifyInputs } from '../types/verify-inputs.ts';
 import { validateEveryArtifact } from './validate-every-artifact.ts';
 
 const file = (text: string) => ({
-  path: 'dist/oen.css',
+  path: 'oen.css',
   text,
   issue: undefined,
 });
@@ -14,7 +14,6 @@ const INPUTS: VerifyInputs = {
   oenLicense: file(''),
   bulmaLicense: file(''),
   thirdPartyNotices: file(''),
-  repositoryOenLicense: file(''),
   repositoryBulmaLicense: file(''),
   bulmaManifest: file('{"version":"1.0.4"}'),
   upstreamBulmaStylesheet: { css: '', issue: undefined },
@@ -27,7 +26,7 @@ describe('validateEveryArtifact', () => {
 
   it('should return the check names in order, artifacts first, when called with the inputs', () => {
     expect(validateEveryArtifact(INPUTS).map(({ name }) => name)).toEqual([
-      'dist artifacts are present',
+      'package artifacts are present',
       'stylesheets start with @charset and the attribution banner',
       'no bulma identifiers leak outside the banner',
       'custom properties are namespaced with --oen-',
@@ -38,7 +37,7 @@ describe('validateEveryArtifact', () => {
       'fixed grid container is namespaced',
       'minified output is smaller and still intact',
       "Bulma's license ships verbatim",
-      'own license ships alongside it',
+      'own license ships with the package',
       'notices embedded by Bulma survive minification',
       'output is Bulma, re-namespaced and re-themed, nothing else',
     ]);
@@ -62,7 +61,7 @@ describe('validateEveryArtifact', () => {
   it('should return no issue for the artifacts check when every artifact was read', () => {
     expect(
       validateEveryArtifact(INPUTS).find(
-        ({ name }) => name === 'dist artifacts are present',
+        ({ name }) => name === 'package artifacts are present',
       )?.issue,
     ).toBe(undefined);
   });

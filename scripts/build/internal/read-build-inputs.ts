@@ -2,7 +2,6 @@ import { resolve } from 'node:path';
 import {
   BULMA_LICENSE_FILE,
   BULMA_MANIFEST,
-  OEN_LICENSE_FILE,
   REPOSITORY_ROOT,
 } from '../../common/consts.ts';
 import { readTextFile } from '../../common/read-text-file.ts';
@@ -17,14 +16,12 @@ export const readBuildInputs = (now: () => number): Promise<BuildInputs> =>
     readTextFile(OEN_MANIFEST),
     readTextFile(BULMA_MANIFEST),
     readTextFile(BULMA_LICENSE_FILE),
-    readTextFile(OEN_LICENSE_FILE),
-  ]).then(([oenManifest, bulmaManifest, bulmaLicense, oenLicense]) =>
+  ]).then(([oenManifest, bulmaManifest, bulmaLicense]) =>
     toBuildInputs(
       {
         oenManifest,
         bulmaManifest,
         bulmaLicense,
-        oenLicense,
         stylesheet: readCompiledOenStylesheet(),
       },
       now(),

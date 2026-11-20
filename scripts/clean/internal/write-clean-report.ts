@@ -1,5 +1,5 @@
 import { writeLines } from '../../common/write-lines.ts';
-import { formatRemovedDirectories } from './format-removed-directories.ts';
+import { formatRemovedPaths } from './format-removed-paths.ts';
 
-export const writeCleanReport = (directories: readonly string[]): void =>
-  writeLines([`Removed: ${formatRemovedDirectories(directories)}`]);
+export const writeCleanReport = (paths: readonly string[]): void =>
+  writeLines([`Removed: ${formatRemovedPaths(paths)}`]);

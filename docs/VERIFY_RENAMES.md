@@ -12,7 +12,7 @@ This is a shortlist for a better name, not a decision.
 
 ## What the module does
 
-It reads the five files in `dist/`, the repository's `LICENSE`, Bulma's
+It reads the five published files at the repository root, Bulma's own
 `LICENSE`, and Bulma's `package.json`, recompiles upstream Bulma from source,
 and asserts 14 things about them. It prints `ok` lines, a tally, and exits 1
 on the first issue. It never writes a file.
@@ -37,11 +37,11 @@ Eight of the 14 checks are about the change made to Bulma:
 
 Six are about shipping it legally and intact:
 
-- dist artifacts are present
+- package artifacts are present
 - stylesheets start with `@charset` and the attribution banner
 - minified output is smaller and still intact
 - Bulma's license ships verbatim
-- own license ships alongside it
+- own license ships with the package
 - notices embedded by Bulma survive minification
 
 So the module is mostly, but not only, about the Bulma delta. A name chosen
@@ -106,12 +106,12 @@ abstract, and `FidelityInputs` reads worse than `ParityInputs`.
 - **`attest`** / **`attestation`** — "attest that what we ship is what we
   claim". Covers everything, pairs well with the license checks, but collides
   with supply-chain attestation vocabulary and `npm run attest` reads oddly.
-- **`invariants`** — accurate for all 14 ("the invariants `dist/` must
+- **`invariants`** — accurate for all 14 ("the invariants the package must
   satisfy") and unambiguous, but academic, and long in every slot.
 - **`equivalence`** — already the internal name of the main check
   (`validateBulmaEquivalence`); promoting it to the module name is consistent,
   but it describes one check rather than the set.
-- **`conformance`** — formal and accurate ("`dist/` conforms to the
+- **`conformance`** — formal and accurate ("the package conforms to the
   contract"), long, and vague about _which_ contract.
 - **`drift`** / **`divergence`** — names what is measured: everything that
   differs from Bulma. `npm run drift` reads as a detector, which fits, but
@@ -159,8 +159,8 @@ defensible alternative to finding one word for all of them:
 
 - `parity` — the 8 checks about the Bulma delta, needing a Bulma recompile and
   the namespace and theme configuration.
-- `packaging` — the 6 checks about `dist/` being complete, minified, licensed,
-  and carrying the banner.
+- `packaging` — the 6 checks about the published files being complete,
+  minified, licensed, and carrying the banner.
 
 The seven-module top level is the constraint here: two top-level modules would
 make it eight, so the split belongs _inside_ the renamed module, as

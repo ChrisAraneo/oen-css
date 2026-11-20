@@ -1,7 +1,7 @@
 import { resolve } from 'node:path';
 import { REPOSITORY_ROOT } from '../../../common/consts.ts';
-import { OEN_STYLESHEET } from '../../../common/dist/consts.ts';
-import { readDistFile } from '../../../common/dist/read-dist-file.ts';
+import { OEN_STYLESHEET } from '../../../common/package/consts.ts';
+import { readPackageFile } from '../../../common/package/read-package-file.ts';
 import { readTextFile } from '../../../common/read-text-file.ts';
 import type { Gallery } from '../types/gallery.ts';
 import { readRenderedStories } from './read-rendered-stories.ts';
@@ -17,7 +17,7 @@ export const readGallery = (): Promise<Gallery> =>
   Promise.all([
     readRenderedStories(),
     readStorySources(),
-    readDistFile(OEN_STYLESHEET),
+    readPackageFile(OEN_STYLESHEET),
     readTextFile(STORY_ONLY_STYLESHEET),
   ]).then(([renderedStories, sources, stylesheet, storyOnlyStylesheet]) => ({
     renderedStories,

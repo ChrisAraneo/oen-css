@@ -9,7 +9,6 @@ const inputs = (overrides: Partial<BuildInputs> = {}): BuildInputs => ({
   bulmaVersion: '1.0.4',
   bulmaCopyright: 'Copyright (c) 2023 Jeremy Thomas',
   bulmaLicense: 'MIT License\n\nCopyright (c) 2023 Jeremy Thomas',
-  oenLicense: 'Our MIT License',
   stylesheet: 'body { color: red; }',
   issues: [],
   ...overrides,

@@ -1,10 +1,12 @@
 # Build artifacts
-dist/
+/oen.css
+/oen.min.css
 storybook-static/
 node_modules/
 
 # Generated from the installed Bulma release by `npm run build`
-THIRD-PARTY-NOTICES.md
+/LICENSE-bulma
+THIRD_PARTY_NOTICES.md
 
 # The original spec, kept as written
 IDEA.md

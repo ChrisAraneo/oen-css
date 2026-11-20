@@ -5,6 +5,5 @@ export interface BuildFiles {
   readonly oenManifest: TextFile;
   readonly bulmaManifest: TextFile;
   readonly bulmaLicense: TextFile;
-  readonly oenLicense: TextFile;
   readonly stylesheet: CompiledStylesheet;
 }

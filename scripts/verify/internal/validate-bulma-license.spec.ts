@@ -16,7 +16,6 @@ const inputs = (overrides: Partial<VerifyInputs> = {}): VerifyInputs => ({
   oenLicense: file(''),
   bulmaLicense: file(LICENSE),
   thirdPartyNotices: file(`# Notices\n${LICENSE}\n`),
-  repositoryOenLicense: file(''),
   repositoryBulmaLicense: file(LICENSE),
   bulmaManifest: file('{}'),
   upstreamBulmaStylesheet: { css: '', issue: undefined },
@@ -32,7 +31,7 @@ describe('validateBulmaLicense', () => {
 
   it('should return the copyright line and where it is reproduced as the detail when the license ships', () => {
     expect(validateBulmaLicense(inputs()).detail).toBe(
-      'Copyright (c) 2023 Jeremy Thomas (reproduced in LICENSE-bulma and THIRD-PARTY-NOTICES.md)',
+      'Copyright (c) 2023 Jeremy Thomas (reproduced in LICENSE-bulma and THIRD_PARTY_NOTICES.md)',
     );
   });
 
@@ -61,6 +60,6 @@ describe('validateBulmaLicense', () => {
           repositoryBulmaLicense: file('no notice'),
         }),
       ).detail,
-    ).toBe(' (reproduced in LICENSE-bulma and THIRD-PARTY-NOTICES.md)');
+    ).toBe(' (reproduced in LICENSE-bulma and THIRD_PARTY_NOTICES.md)');
   });
 });

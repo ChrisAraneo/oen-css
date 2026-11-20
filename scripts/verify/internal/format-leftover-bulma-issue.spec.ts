@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { formatLeftoverBulmaIssue } from './format-leftover-bulma-issue.ts';
 
-const file = (text: string, path = 'C:/repo/dist/oen.css') => ({
+const file = (text: string, path = 'C:/repo/oen.css') => ({
   path,
   text,
   issue: undefined,
@@ -36,9 +36,7 @@ describe('formatLeftoverBulmaIssue', () => {
 
   it('should return an issue naming `oen.min.css` when that file is checked', () => {
     expect(
-      formatLeftoverBulmaIssue(
-        file('--bulma-a: 1;', 'C:/repo/dist/oen.min.css'),
-      ),
+      formatLeftoverBulmaIssue(file('--bulma-a: 1;', 'C:/repo/oen.min.css')),
     ).toContain('oen.min.css');
   });
 

@@ -6,7 +6,7 @@ import { readTextFile } from './read-text-file.ts';
 
 vi.mock('node:fs/promises', () => ({ readFile: vi.fn() }));
 
-const PATH = resolve(REPOSITORY_ROOT, 'dist', 'oen.css');
+const PATH = resolve(REPOSITORY_ROOT, 'oen.css');
 
 describe('readTextFile', () => {
   beforeEach(() => {

@@ -5,7 +5,7 @@ import {
   OEN_MINIFIED_STYLESHEET,
   OEN_STYLESHEET,
   THIRD_PARTY_NOTICES,
-} from '../../common/dist/consts.ts';
+} from '../../common/package/consts.ts';
 
 export const formatMissingEmbeddedNotice = (
   { text, name }: LicenseComment,

@@ -8,7 +8,7 @@ src/            what the library is          (TypeScript, no Sass file)
   colors/       the six theme colors
   common/       countMatches, the one helper both trees need
   fonts/        the sans-serif stack
-  licenses/     THIRD-PARTY-NOTICES.md and the embedded notices
+  licenses/     THIRD_PARTY_NOTICES.md and the embedded notices
   namespace/    the --oen- prefix and the renames Sass cannot make
   stylesheet/   assembles the Bulma configuration
   typography/   the seven-step type scale and the body metrics
@@ -17,11 +17,11 @@ scripts/        the tooling that builds and checks it
   build.ts      check.ts  clean.ts  format.ts  storybook.ts  verify.ts
   build/        compile, rename, banner, minify, write
   check/        runs the other commands as one gate; owns the stories check
-  clean/        removes dist/ and storybook-static/
-  common/       paths, process spawning, dist file IO, the Sass compiler wrapper
+  clean/        removes the generated package files and storybook-static/
+  common/       paths, process spawning, package file IO, the Sass compiler wrapper
   format/       Prettier
   storybook/    the Storybook CLI, with a built stylesheet as its prerequisite
-  verify/       the 14 assertions about dist/
+  verify/       the 14 assertions about the published files
 ```
 
 ### The dependency rule
@@ -46,14 +46,13 @@ Inside each tree the convention is the same:
 ### 1. Read the inputs
 
 [`read-build-inputs.ts`](../scripts/build/internal/read-build-inputs.ts) reads
-four files and compiles one stylesheet in parallel:
+three files and compiles one stylesheet in parallel:
 
 | Input                             | Used for                                    |
 | --------------------------------- | ------------------------------------------- |
 | `package.json`                    | the version and homepage in the banner      |
 | `node_modules/bulma/package.json` | the Bulma version in the banner and notices |
-| `node_modules/bulma/LICENSE`      | `dist/LICENSE-bulma` and the copyright line |
-| `LICENSE`                         | `dist/LICENSE`                              |
+| `node_modules/bulma/LICENSE`      | `LICENSE-bulma` and the copyright line      |
 | the compiled stylesheet           | everything downstream                       |
 
 The stylesheet comes from
@@ -91,16 +90,18 @@ Before anything reaches disk, the build searches both stylesheets for leftover
 `bulma` identifiers. It also reads the embedded license comments out of the
 expanded stylesheet to generate the notices. Then
 [`write-every-build-artifact.ts`](../scripts/build/internal/write-every-build-artifact.ts)
-writes six files:
+writes four files, all of them at the repository root, which is also the
+package root:
 
 ```
-dist/oen.css                 the expanded stylesheet
-dist/oen.min.css             the minified stylesheet
-dist/LICENSE                 our license
-dist/LICENSE-bulma           Bulma's license, verbatim
-dist/THIRD-PARTY-NOTICES.md  generated from the built CSS
-THIRD-PARTY-NOTICES.md       the same content, at the repository root
+oen.css                 the expanded stylesheet
+oen.min.css             the minified stylesheet
+LICENSE-bulma           Bulma's license, verbatim
+THIRD_PARTY_NOTICES.md  generated from the built CSS
 ```
+
+The fifth published file, our own `LICENSE`, is not generated: it is kept in
+the repository and ships as it is.
 
 If any stage produced an issue, the build prints the issues instead of the
 report and exits 1. Nothing is half-written: the artifacts are computed in

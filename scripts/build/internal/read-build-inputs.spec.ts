@@ -1,9 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import {
-  BULMA_LICENSE_FILE,
-  BULMA_MANIFEST,
-  OEN_LICENSE_FILE,
-} from '../../common/consts.ts';
+import { BULMA_LICENSE_FILE, BULMA_MANIFEST } from '../../common/consts.ts';
 import { readTextFile } from '../../common/read-text-file.ts';
 import { readCompiledOenStylesheet } from '../../common/sass/read-compiled-oen-stylesheet.ts';
 import type { BuildInputs } from '../types/build-inputs.ts';
@@ -30,12 +26,11 @@ describe('readBuildInputs', () => {
     vi.mocked(toBuildInputs).mockReturnValue(INPUTS);
   });
 
-  it('should call `readTextFile` with the Bulma manifest and both licenses when the inputs are read', async () => {
+  it('should call `readTextFile` with the Bulma manifest and license when the inputs are read', async () => {
     await readBuildInputs(() => 0);
 
     expect(readTextFile).toHaveBeenCalledWith(BULMA_MANIFEST);
     expect(readTextFile).toHaveBeenCalledWith(BULMA_LICENSE_FILE);
-    expect(readTextFile).toHaveBeenCalledWith(OEN_LICENSE_FILE);
   });
 
   it('should call `readTextFile` with our own `package.json` when the inputs are read', async () => {
@@ -46,10 +41,10 @@ describe('readBuildInputs', () => {
     );
   });
 
-  it('should call `readTextFile` four times when the inputs are read', async () => {
+  it('should call `readTextFile` three times when the inputs are read', async () => {
     await readBuildInputs(() => 0);
 
-    expect(readTextFile).toHaveBeenCalledTimes(4);
+    expect(readTextFile).toHaveBeenCalledTimes(3);
   });
 
   it('should pass the compiled stylesheet to `toBuildInputs` when the inputs are read', async () => {

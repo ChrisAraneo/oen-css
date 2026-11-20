@@ -7,8 +7,6 @@ export const REPOSITORY_ROOT: string = resolve(COMMON_DIRECTORY, '..', '..');
 
 export const SRC_DIRECTORY: string = resolve(REPOSITORY_ROOT, 'src');
 
-export const DIST_DIRECTORY: string = resolve(REPOSITORY_ROOT, 'dist');
-
 export const STORIES_DIRECTORY: string = resolve(REPOSITORY_ROOT, 'stories');
 
 export const STORYBOOK_STATIC_DIRECTORY: string = resolve(
@@ -20,8 +18,6 @@ export const NODE_MODULES_DIRECTORY: string = resolve(
   REPOSITORY_ROOT,
   'node_modules',
 );
-
-export const OEN_LICENSE_FILE: string = resolve(REPOSITORY_ROOT, 'LICENSE');
 
 export const BULMA_MANIFEST: string = resolve(
   NODE_MODULES_DIRECTORY,

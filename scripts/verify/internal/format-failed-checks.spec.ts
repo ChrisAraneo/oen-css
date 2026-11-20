@@ -5,9 +5,13 @@ describe('formatFailedChecks', () => {
   it('should return the check name and the issue indented beneath when a check failed', () => {
     expect(
       formatFailedChecks([
-        { name: 'dist artifacts are present', detail: 'x', issue: 'missing' },
+        {
+          name: 'package artifacts are present',
+          detail: 'x',
+          issue: 'missing',
+        },
       ]),
-    ).toEqual(['  FAIL  dist artifacts are present\n        missing']);
+    ).toEqual(['  FAIL  package artifacts are present\n        missing']);
   });
 
   it('should return every issue line indented when the issue spans two lines', () => {

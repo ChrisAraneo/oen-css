@@ -4,7 +4,7 @@ import { countMatches } from '../../../src/common/count-matches.ts';
 import {
   OEN_MINIFIED_STYLESHEET,
   OEN_STYLESHEET,
-} from '../../common/dist/consts.ts';
+} from '../../common/package/consts.ts';
 
 const OPENING_BRACE = /\{/g;
 const CLOSING_BRACE = /\}/g;

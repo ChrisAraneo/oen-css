@@ -10,7 +10,6 @@ const inputs = (expanded: string, minified: string): VerifyInputs => ({
   oenLicense: file(''),
   bulmaLicense: file(''),
   thirdPartyNotices: file(''),
-  repositoryOenLicense: file(''),
   repositoryBulmaLicense: file(''),
   bulmaManifest: file('{}'),
   upstreamBulmaStylesheet: { css: '', issue: undefined },

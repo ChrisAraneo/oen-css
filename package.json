@@ -25,23 +25,22 @@
   "author": "Krzysztof Pająk <chris.araneo@gmail.com> (Chris Araneo)",
   "type": "module",
   "exports": {
-    ".": "./dist/oen.css",
-    "./oen.css": "./dist/oen.css",
-    "./oen.min.css": "./dist/oen.min.css",
-    "./dist/oen.css": "./dist/oen.css",
-    "./dist/oen.min.css": "./dist/oen.min.css",
+    ".": "./oen.css",
+    "./oen.css": "./oen.css",
+    "./oen.min.css": "./oen.min.css",
     "./package.json": "./package.json"
   },
-  "main": "dist/oen.css",
-  "style": "dist/oen.css",
+  "main": "oen.css",
+  "style": "oen.css",
   "sideEffects": [
     "**/*.css"
   ],
   "files": [
-    "dist",
     "LICENSE",
-    "THIRD-PARTY-NOTICES.md",
-    "README.md"
+    "LICENSE-bulma",
+    "oen.css",
+    "oen.min.css",
+    "THIRD_PARTY_NOTICES.md"
   ],
   "scripts": {
     "build": "node scripts/build.ts",

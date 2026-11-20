@@ -1,5 +1,7 @@
-# Build artifacts (root only: scripts/dist/ is source)
-/dist/
+# Build artifacts (the published files sit at the package root)
+/oen.css
+/oen.min.css
+/LICENSE-bulma
 /storybook-static/
 
 # Dependencies

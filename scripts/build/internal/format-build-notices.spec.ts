@@ -10,7 +10,6 @@ const inputs = (overrides: Partial<BuildInputs> = {}): BuildInputs => ({
   bulmaVersion: '1.0.4',
   bulmaCopyright: 'Copyright (c) 2023 Jeremy Thomas',
   bulmaLicense: 'MIT License\n\nCopyright (c) 2023 Jeremy Thomas',
-  oenLicense: 'Our MIT License',
   stylesheet: '',
   issues: [],
   ...overrides,
@@ -27,12 +26,11 @@ const notices = (overrides: Partial<BuildNotices> = {}): BuildNotices => ({
 });
 
 describe('formatBuildNotices', () => {
-  it('should return both stylesheets and our license when called with the build notices', () => {
+  it('should return both stylesheets when called with the build notices', () => {
     const artifacts = formatBuildNotices(notices());
 
     expect(artifacts.stylesheet).toBe('body {}');
     expect(artifacts.minifiedStylesheet).toBe('body{}');
-    expect(artifacts.oenLicense).toBe('Our MIT License');
   });
 
   it('should return the version facts from the inputs when called with the build notices', () => {

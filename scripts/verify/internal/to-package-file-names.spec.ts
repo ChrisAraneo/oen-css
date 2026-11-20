@@ -1,27 +1,25 @@
 import { describe, expect, it } from 'vitest';
-import { toDistFileNames } from './to-dist-file-names.ts';
+import { toPackageFileNames } from './to-package-file-names.ts';
 
 const file = (path: string) => ({ path, text: '', issue: undefined });
 
-describe('toDistFileNames', () => {
+describe('toPackageFileNames', () => {
   it('should return the base name when called with one absolute path', () => {
-    expect(toDistFileNames([file('C:/repo/dist/oen.css')])).toEqual([
-      'oen.css',
-    ]);
+    expect(toPackageFileNames([file('C:/repo/oen.css')])).toEqual(['oen.css']);
   });
 
   it('should return both base names when called with two paths', () => {
     expect(
-      toDistFileNames([file('/repo/dist/oen.css'), file('/repo/dist/LICENSE')]),
+      toPackageFileNames([file('/repo/oen.css'), file('/repo/LICENSE')]),
     ).toEqual(['oen.css', 'LICENSE']);
   });
 
   it('should return an empty array when called with no file', () => {
-    expect(toDistFileNames([])).toEqual([]);
+    expect(toPackageFileNames([])).toEqual([]);
   });
 
   it('should return `oen.min.css` when the file has a compound extension', () => {
-    expect(toDistFileNames([file('/repo/dist/oen.min.css')])).toEqual([
+    expect(toPackageFileNames([file('/repo/oen.min.css')])).toEqual([
       'oen.min.css',
     ]);
   });

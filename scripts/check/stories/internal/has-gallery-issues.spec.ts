@@ -33,7 +33,7 @@ describe('hasGalleryIssues', () => {
       hasGalleryIssues(
         report({
           unknownClassNames: [
-            { className: 'typo', origins: ['a'], reason: 'not in dist' },
+            { className: 'typo', origins: ['a'], reason: 'not in oen.css' },
           ],
         }),
       ),

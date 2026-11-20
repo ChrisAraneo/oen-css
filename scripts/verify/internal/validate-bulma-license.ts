@@ -2,7 +2,7 @@ import { findCopyrightLine } from '../../../src/licenses/find-copyright-line.ts'
 import {
   BULMA_LICENSE,
   THIRD_PARTY_NOTICES,
-} from '../../common/dist/consts.ts';
+} from '../../common/package/consts.ts';
 import type { CheckResult } from '../types/check-result.ts';
 import type { VerifyInputs } from '../types/verify-inputs.ts';
 import { NO_COPYRIGHT_LINE } from './consts.ts';

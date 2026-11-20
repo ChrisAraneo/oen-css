@@ -1,28 +1,23 @@
-import {
-  BULMA_LICENSE_FILE,
-  BULMA_MANIFEST,
-  OEN_LICENSE_FILE,
-} from '../../common/consts.ts';
+import { BULMA_LICENSE_FILE, BULMA_MANIFEST } from '../../common/consts.ts';
 import {
   BULMA_LICENSE,
   OEN_LICENSE,
   OEN_MINIFIED_STYLESHEET,
   OEN_STYLESHEET,
   THIRD_PARTY_NOTICES,
-} from '../../common/dist/consts.ts';
-import { readDistFile } from '../../common/dist/read-dist-file.ts';
+} from '../../common/package/consts.ts';
+import { readPackageFile } from '../../common/package/read-package-file.ts';
 import { readTextFile } from '../../common/read-text-file.ts';
 import { readCompiledBulmaStylesheet } from '../../common/sass/read-compiled-bulma-stylesheet.ts';
 import type { VerifyInputs } from '../types/verify-inputs.ts';
 
 export const readVerifyInputs = (): Promise<VerifyInputs> =>
   Promise.all([
-    readDistFile(OEN_STYLESHEET),
-    readDistFile(OEN_MINIFIED_STYLESHEET),
-    readDistFile(OEN_LICENSE),
-    readDistFile(BULMA_LICENSE),
-    readDistFile(THIRD_PARTY_NOTICES),
-    readTextFile(OEN_LICENSE_FILE),
+    readPackageFile(OEN_STYLESHEET),
+    readPackageFile(OEN_MINIFIED_STYLESHEET),
+    readPackageFile(OEN_LICENSE),
+    readPackageFile(BULMA_LICENSE),
+    readPackageFile(THIRD_PARTY_NOTICES),
     readTextFile(BULMA_LICENSE_FILE),
     readTextFile(BULMA_MANIFEST),
   ]).then(
@@ -32,7 +27,6 @@ export const readVerifyInputs = (): Promise<VerifyInputs> =>
       oenLicense,
       bulmaLicense,
       thirdPartyNotices,
-      repositoryOenLicense,
       repositoryBulmaLicense,
       bulmaManifest,
     ]) => ({
@@ -41,7 +35,6 @@ export const readVerifyInputs = (): Promise<VerifyInputs> =>
       oenLicense,
       bulmaLicense,
       thirdPartyNotices,
-      repositoryOenLicense,
       repositoryBulmaLicense,
       bulmaManifest,
       upstreamBulmaStylesheet: readCompiledBulmaStylesheet(),

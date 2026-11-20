@@ -5,12 +5,11 @@ import { validateNoLeftoverBulma } from './validate-no-leftover-bulma.ts';
 const file = (path: string, text: string) => ({ path, text, issue: undefined });
 
 const inputs = (overrides: Partial<VerifyInputs> = {}): VerifyInputs => ({
-  stylesheet: file('dist/oen.css', '--oen-primary: red;'),
-  minifiedStylesheet: file('dist/oen.min.css', '--oen-primary:red'),
-  oenLicense: file('dist/LICENSE', ''),
-  bulmaLicense: file('dist/LICENSE-bulma', ''),
-  thirdPartyNotices: file('dist/THIRD-PARTY-NOTICES.md', ''),
-  repositoryOenLicense: file('LICENSE', ''),
+  stylesheet: file('oen.css', '--oen-primary: red;'),
+  minifiedStylesheet: file('oen.min.css', '--oen-primary:red'),
+  oenLicense: file('LICENSE', ''),
+  bulmaLicense: file('LICENSE-bulma', ''),
+  thirdPartyNotices: file('THIRD_PARTY_NOTICES.md', ''),
   repositoryBulmaLicense: file('node_modules/bulma/LICENSE', ''),
   bulmaManifest: file('node_modules/bulma/package.json', '{}'),
   upstreamBulmaStylesheet: { css: '', issue: undefined },
@@ -32,7 +31,7 @@ describe('validateNoLeftoverBulma', () => {
   it('should return the `oen.css` issue when the expanded stylesheet kept a bulma property', () => {
     expect(
       validateNoLeftoverBulma(
-        inputs({ stylesheet: file('dist/oen.css', '--bulma-primary: red;') }),
+        inputs({ stylesheet: file('oen.css', '--bulma-primary: red;') }),
       ).issue,
     ).toBe('oen.css still contains --bulma- custom properties');
   });
@@ -41,7 +40,7 @@ describe('validateNoLeftoverBulma', () => {
     expect(
       validateNoLeftoverBulma(
         inputs({
-          minifiedStylesheet: file('dist/oen.min.css', '--bulma-primary:red'),
+          minifiedStylesheet: file('oen.min.css', '--bulma-primary:red'),
         }),
       ).issue,
     ).toBe('oen.min.css still contains --bulma- custom properties');
@@ -51,8 +50,8 @@ describe('validateNoLeftoverBulma', () => {
     expect(
       validateNoLeftoverBulma(
         inputs({
-          stylesheet: file('dist/oen.css', '--bulma-a: 1;'),
-          minifiedStylesheet: file('dist/oen.min.css', '--bulma-a:1'),
+          stylesheet: file('oen.css', '--bulma-a: 1;'),
+          minifiedStylesheet: file('oen.min.css', '--bulma-a:1'),
         }),
       ).issue,
     ).toContain('oen.css');
@@ -63,7 +62,7 @@ describe('validateNoLeftoverBulma', () => {
       validateNoLeftoverBulma(
         inputs({
           stylesheet: file(
-            'dist/oen.css',
+            'oen.css',
             '/*! Built from Bulma v1.0.4 | https://bulma.io */\nbody{}',
           ),
         }),

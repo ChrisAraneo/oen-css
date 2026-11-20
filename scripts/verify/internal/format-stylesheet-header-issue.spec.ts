@@ -8,7 +8,7 @@ const BANNER = `/*!
  * reproduced verbatim in LICENSE-bulma
  */`;
 
-const file = (text: string, path = 'dist/oen.css') => ({
+const file = (text: string, path = 'oen.css') => ({
   path,
   text,
   issue: undefined,
@@ -45,7 +45,7 @@ describe('formatStylesheetHeaderIssue', () => {
 
   it('should return an issue naming `oen.min.css` when that file is checked', () => {
     expect(
-      formatStylesheetHeaderIssue(file('body{}', 'C:/repo/dist/oen.min.css')),
+      formatStylesheetHeaderIssue(file('body{}', 'C:/repo/oen.min.css')),
     ).toContain('oen.min.css');
   });
 });

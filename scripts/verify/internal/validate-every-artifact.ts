@@ -4,7 +4,7 @@ import { validateBulmaEquivalence } from './validate-bulma-equivalence.ts';
 import { validateBulmaLicense } from './validate-bulma-license.ts';
 import { validateComponentClasses } from './validate-component-classes.ts';
 import { validateCustomProperties } from './validate-custom-properties.ts';
-import { validateDistArtifacts } from './validate-dist-artifacts.ts';
+import { validatePackageArtifacts } from './validate-package-artifacts.ts';
 import { validateEmbeddedNotices } from './validate-embedded-notices.ts';
 import { validateFixedGridContainer } from './validate-fixed-grid-container.ts';
 import { validateMinifiedStylesheet } from './validate-minified-stylesheet.ts';
@@ -18,7 +18,7 @@ import { validateThemeType } from './validate-theme-type.ts';
 export const validateEveryArtifact = (
   inputs: VerifyInputs,
 ): readonly CheckResult[] => [
-  validateDistArtifacts(inputs),
+  validatePackageArtifacts(inputs),
   validateStylesheetHeaders(inputs),
   validateNoLeftoverBulma(inputs),
   validateCustomProperties(inputs),

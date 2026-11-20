@@ -58,7 +58,7 @@ describe('writeGalleryReport', () => {
     writeGalleryReport(report());
 
     expect(writeLines).toHaveBeenCalledWith([
-      '  every class exists in dist/oen.css or .storybook/storybook.css',
+      '  every class exists in oen.css or .storybook/storybook.css',
     ]);
   });
 
@@ -66,13 +66,13 @@ describe('writeGalleryReport', () => {
     writeGalleryReport(
       report({
         unknownClassNames: [
-          { className: 'buton', origins: ['a.js'], reason: 'not in dist' },
+          { className: 'buton', origins: ['a.js'], reason: 'not in oen.css' },
         ],
       }),
     );
 
     expect(writeIssueLines).toHaveBeenCalledWith([
-      '  FAIL  .buton: not in dist\n        a.js',
+      '  FAIL  .buton: not in oen.css\n        a.js',
     ]);
   });
 

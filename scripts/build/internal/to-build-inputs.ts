@@ -11,13 +11,7 @@ import type { BuildFiles } from './types/build-files.ts';
 const NO_COPYRIGHT_LINE = '';
 
 export const toBuildInputs = (
-  {
-    oenManifest,
-    bulmaManifest,
-    bulmaLicense,
-    oenLicense,
-    stylesheet,
-  }: BuildFiles,
+  { oenManifest, bulmaManifest, bulmaLicense, stylesheet }: BuildFiles,
   startedAt: number,
 ): BuildInputs =>
   pipe(
@@ -33,13 +27,11 @@ export const toBuildInputs = (
       bulmaVersion: bulma.version,
       bulmaCopyright: copyrightLine ?? NO_COPYRIGHT_LINE,
       bulmaLicense: bulmaLicense.text,
-      oenLicense: oenLicense.text,
       stylesheet: stylesheet.css,
       issues: compact([
         oenManifest.issue,
         bulmaManifest.issue,
         bulmaLicense.issue,
-        oenLicense.issue,
         stylesheet.issue,
         formatBulmaVersionMismatch(oen.bulmaVersion, bulma.version),
         formatMissingCopyrightIssue(copyrightLine),

@@ -1,5 +1,5 @@
 import { match } from 'ts-pattern';
-import { OEN_STYLESHEET } from '../../../common/dist/consts.ts';
+import { OEN_STYLESHEET } from '../../../common/package/consts.ts';
 import type { GalleryReport } from '../types/gallery-report.ts';
 import { hasGalleryIssues } from './has-gallery-issues.ts';
 
@@ -11,5 +11,5 @@ export const formatGalleryOutcome = (
   match(hasGalleryIssues(report))
     .with(true, () => NOTHING_TO_REPORT)
     .otherwise(() => [
-      `  every class exists in dist/${OEN_STYLESHEET} or .storybook/storybook.css`,
+      `  every class exists in ${OEN_STYLESHEET} or .storybook/storybook.css`,
     ]);

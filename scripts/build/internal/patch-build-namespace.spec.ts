@@ -9,7 +9,6 @@ const inputs = (stylesheet: string): BuildInputs => ({
   bulmaVersion: '1.0.4',
   bulmaCopyright: 'Copyright (c) 2023 Jeremy Thomas',
   bulmaLicense: 'MIT License',
-  oenLicense: 'MIT License',
   stylesheet,
   issues: [],
 });

@@ -1,16 +1,12 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import {
-  BULMA_LICENSE_FILE,
-  BULMA_MANIFEST,
-  OEN_LICENSE_FILE,
-} from '../../common/consts.ts';
-import { readDistFile } from '../../common/dist/read-dist-file.ts';
+import { BULMA_LICENSE_FILE, BULMA_MANIFEST } from '../../common/consts.ts';
+import { readPackageFile } from '../../common/package/read-package-file.ts';
 import { readTextFile } from '../../common/read-text-file.ts';
 import { readCompiledBulmaStylesheet } from '../../common/sass/read-compiled-bulma-stylesheet.ts';
 import { readVerifyInputs } from './read-verify-inputs.ts';
 
-vi.mock('../../common/dist/read-dist-file.ts', () => ({
-  readDistFile: vi.fn(),
+vi.mock('../../common/package/read-package-file.ts', () => ({
+  readPackageFile: vi.fn(),
 }));
 vi.mock('../../common/read-text-file.ts', () => ({ readTextFile: vi.fn() }));
 vi.mock('../../common/sass/read-compiled-bulma-stylesheet.ts', () => ({
@@ -19,8 +15,8 @@ vi.mock('../../common/sass/read-compiled-bulma-stylesheet.ts', () => ({
 
 describe('readVerifyInputs', () => {
   beforeEach(() => {
-    vi.mocked(readDistFile).mockImplementation((file) =>
-      Promise.resolve({ path: `dist/${file}`, text: file, issue: undefined }),
+    vi.mocked(readPackageFile).mockImplementation((file) =>
+      Promise.resolve({ path: `${file}`, text: file, issue: undefined }),
     );
     vi.mocked(readTextFile).mockImplementation((path) =>
       Promise.resolve({ path, text: path, issue: undefined }),
@@ -31,23 +27,22 @@ describe('readVerifyInputs', () => {
     });
   });
 
-  it('should call `readDistFile` five times when the inputs are read', async () => {
+  it('should call `readPackageFile` five times when the inputs are read', async () => {
     await readVerifyInputs();
 
-    expect(readDistFile).toHaveBeenCalledTimes(5);
+    expect(readPackageFile).toHaveBeenCalledTimes(5);
   });
 
-  it('should call `readDistFile` with both stylesheets when the inputs are read', async () => {
+  it('should call `readPackageFile` with both stylesheets when the inputs are read', async () => {
     await readVerifyInputs();
 
-    expect(readDistFile).toHaveBeenCalledWith('oen.css');
-    expect(readDistFile).toHaveBeenCalledWith('oen.min.css');
+    expect(readPackageFile).toHaveBeenCalledWith('oen.css');
+    expect(readPackageFile).toHaveBeenCalledWith('oen.min.css');
   });
 
-  it('should call `readTextFile` with both repository licenses when the inputs are read', async () => {
+  it('should call `readTextFile` with the upstream Bulma license when the inputs are read', async () => {
     await readVerifyInputs();
 
-    expect(readTextFile).toHaveBeenCalledWith(OEN_LICENSE_FILE);
     expect(readTextFile).toHaveBeenCalledWith(BULMA_LICENSE_FILE);
   });
 
@@ -69,6 +64,6 @@ describe('readVerifyInputs', () => {
 
     expect(inputs.stylesheet.text).toBe('oen.css');
     expect(inputs.minifiedStylesheet.text).toBe('oen.min.css');
-    expect(inputs.thirdPartyNotices.text).toBe('THIRD-PARTY-NOTICES.md');
+    expect(inputs.thirdPartyNotices.text).toBe('THIRD_PARTY_NOTICES.md');
   });
 });

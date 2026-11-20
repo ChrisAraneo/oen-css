@@ -14,12 +14,11 @@ const HEADER = `@charset "UTF-8";\n${BANNER}\n`;
 const file = (path: string, text: string) => ({ path, text, issue: undefined });
 
 const inputs = (overrides: Partial<VerifyInputs> = {}): VerifyInputs => ({
-  stylesheet: file('dist/oen.css', `${HEADER}body {}`),
-  minifiedStylesheet: file('dist/oen.min.css', `${HEADER}body{}`),
-  oenLicense: file('dist/LICENSE', ''),
-  bulmaLicense: file('dist/LICENSE-bulma', ''),
-  thirdPartyNotices: file('dist/THIRD-PARTY-NOTICES.md', ''),
-  repositoryOenLicense: file('LICENSE', ''),
+  stylesheet: file('oen.css', `${HEADER}body {}`),
+  minifiedStylesheet: file('oen.min.css', `${HEADER}body{}`),
+  oenLicense: file('LICENSE', ''),
+  bulmaLicense: file('LICENSE-bulma', ''),
+  thirdPartyNotices: file('THIRD_PARTY_NOTICES.md', ''),
   repositoryBulmaLicense: file('node_modules/bulma/LICENSE', ''),
   bulmaManifest: file('node_modules/bulma/package.json', '{}'),
   upstreamBulmaStylesheet: { css: '', issue: undefined },
@@ -43,7 +42,7 @@ describe('validateStylesheetHeaders', () => {
   it('should return the charset issue when the expanded stylesheet has no charset', () => {
     expect(
       validateStylesheetHeaders(
-        inputs({ stylesheet: file('dist/oen.css', `${BANNER}\nbody {}`) }),
+        inputs({ stylesheet: file('oen.css', `${BANNER}\nbody {}`) }),
       ).issue,
     ).toContain('oen.css does not start with');
   });
@@ -53,7 +52,7 @@ describe('validateStylesheetHeaders', () => {
       validateStylesheetHeaders(
         inputs({
           minifiedStylesheet: file(
-            'dist/oen.min.css',
+            'oen.min.css',
             `@charset "UTF-8";\n${BANNER.replace('Bulma v1.0.4', '')}\nbody{}`,
           ),
         }),
@@ -65,8 +64,8 @@ describe('validateStylesheetHeaders', () => {
     expect(
       validateStylesheetHeaders(
         inputs({
-          stylesheet: file('dist/oen.css', 'body {}'),
-          minifiedStylesheet: file('dist/oen.min.css', 'body{}'),
+          stylesheet: file('oen.css', 'body {}'),
+          minifiedStylesheet: file('oen.min.css', 'body{}'),
         }),
       ).issue,
     ).toContain('oen.css');

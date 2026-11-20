@@ -14,14 +14,14 @@ const report = (overrides: Partial<GalleryReport> = {}): GalleryReport => ({
 describe('formatGalleryOutcome', () => {
   it('should return one line confirming every class exists when the report has no issue', () => {
     expect(formatGalleryOutcome(report())).toEqual([
-      '  every class exists in dist/oen.css or .storybook/storybook.css',
+      '  every class exists in oen.css or .storybook/storybook.css',
     ]);
   });
 
   it('should return a line naming both stylesheets when the report has no issue', () => {
     const outcome = formatGalleryOutcome(report()).join('');
 
-    expect(outcome).toContain('dist/oen.css');
+    expect(outcome).toContain('oen.css');
     expect(outcome).toContain('.storybook/storybook.css');
   });
 

@@ -4,7 +4,7 @@
  * These exist to arrange examples on the page (rows of buttons, variant
  * captions, colour swatches). They never restyle an Oen component: every
  * component in the gallery is rendered with nothing but Oen classes, so what you
- * see is what `dist/oen.css` gives you.
+ * see is what `oen.css` gives you.
  */
 
 .sb-stack {

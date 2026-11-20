@@ -12,7 +12,6 @@ const inputs = (overrides: Partial<VerifyInputs> = {}): VerifyInputs => ({
   oenLicense: file(''),
   bulmaLicense: file(''),
   thirdPartyNotices: file(`# Notices\n${NOTICE}`),
-  repositoryOenLicense: file(''),
   repositoryBulmaLicense: file(''),
   bulmaManifest: file('{}'),
   upstreamBulmaStylesheet: { css: '', issue: undefined },
@@ -42,7 +41,7 @@ describe('validateEmbeddedNotices', () => {
     expect(
       validateEmbeddedNotices(inputs({ thirdPartyNotices: file('# Notices') }))
         .issue,
-    ).toContain('not documented in THIRD-PARTY-NOTICES.md');
+    ).toContain('not documented in THIRD_PARTY_NOTICES.md');
   });
 
   it('should return the missing notice issue when the stylesheet embeds none', () => {

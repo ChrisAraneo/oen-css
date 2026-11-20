@@ -18,10 +18,7 @@ npm install "@chris.araneo/oen-css"
 ```
 
 ```html
-<link
-  rel="stylesheet"
-  href="node_modules/@chris.araneo/oen-css/dist/oen.min.css"
-/>
+<link rel="stylesheet" href="node_modules/@chris.araneo/oen-css/oen.min.css" />
 ```
 
 From a bundler:
@@ -49,10 +46,10 @@ How Oen is built, themed, and verified is documented in [docs/](./docs/README.md
 MIT, see [LICENSE](./LICENSE).
 
 Oen CSS is a derivative work of Bulma, copyright (c) 2023 Jeremy Thomas, also MIT licensed. Bulma's
-copyright and permission notice is reproduced in [THIRD-PARTY-NOTICES.md](./THIRD-PARTY-NOTICES.md) and
-ships inside the package as `dist/LICENSE-bulma`.
+copyright and permission notice is reproduced in [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md) and
+ships inside the package as `LICENSE-bulma`.
 
 Bulma's base styles also vendor [minireset.css](https://github.com/jgthms/minireset.css) (MIT, same author)
 together with its own notice. That notice is embedded in both stylesheets. The build reads it back out of
-the compiled stylesheet and documents it in `THIRD-PARTY-NOTICES.md`, and `npm run verify` fails if
+the compiled stylesheet and documents it in `THIRD_PARTY_NOTICES.md`, and `npm run verify` fails if
 minification strips it.

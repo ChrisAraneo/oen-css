@@ -5,7 +5,7 @@ writes nothing, it prints one `ok` line per check, and it exits 1 on the first
 issue found.
 
 ```
-  ok    dist artifacts are present: oen.css, oen.min.css, LICENSE, LICENSE-bulma, THIRD-PARTY-NOTICES.md
+  ok    package artifacts are present: oen.css, oen.min.css, LICENSE, LICENSE-bulma, THIRD_PARTY_NOTICES.md
   ...
 14/14 checks passed
 ```
@@ -13,16 +13,16 @@ issue found.
 ## What it reads
 
 [`read-verify-inputs.ts`](../scripts/verify/internal/read-verify-inputs.ts)
-loads the five files from `dist/`, the repository's own `LICENSE`, Bulma's
-`LICENSE`, and `package.json` — and compiles **unconfigured Bulma** from
-source for the comparison described below. That last input is why `verify`
+loads the five published files from the repository root, Bulma's own
+`LICENSE` and `package.json` from `node_modules` — and compiles
+**unconfigured Bulma** from source for the comparison described below. That last input is why `verify`
 takes longer than the build.
 
 ## The fourteen checks
 
 | Check                                                        | Asserts                                                                                                                              |
 | ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
-| `dist artifacts are present`                                 | all five files exist and are readable                                                                                                |
+| `package artifacts are present`                              | all five files exist and are readable                                                                                                |
 | `stylesheets start with @charset and the attribution banner` | both stylesheets carry `oen-css v`, `MIT License`, `Bulma v`, `Copyright (c)`, `LICENSE-bulma`                                       |
 | `no bulma identifiers leak outside the banner`               | the string `bulma` appears nowhere but the banner, in either stylesheet                                                              |
 | `custom properties are namespaced with --oen-`               | at least 500 distinct `--oen-*` declarations, including `--oen-primary`, `--oen-scheme-main`, `--oen-radius`, `--oen-family-primary` |
@@ -33,7 +33,7 @@ takes longer than the build.
 | `fixed grid container is namespaced`                         | `container-name: oen-fixed-grid` plus at least one `@container oen-fixed-grid` query                                                 |
 | `minified output is smaller and still intact`                | `oen.min.css` is smaller than `oen.css` and has balanced braces                                                                      |
 | `Bulma's license ships verbatim`                             | Bulma's copyright line is in `LICENSE-bulma` and in the notices                                                                      |
-| `own license ships alongside it`                             | our copyright line is in `dist/LICENSE`                                                                                              |
+| `own license ships with the package`                         | `LICENSE` is an MIT notice, and its copyright line is reported                                                                       |
 | `notices embedded by Bulma survive minification`             | every embedded notice is in both stylesheets and documented                                                                          |
 | `output is Bulma, re-namespaced and re-themed, nothing else` | the main claim — see below                                                                                                           |
 
@@ -96,12 +96,12 @@ explicit decision.
 `npm run check:stories` is a separate assertion, about the gallery rather than
 the package. It renders every story under `stories/`, collects every class name
 the rendered HTML and the story sources use, and checks each one exists in
-`dist/oen.css` or in `.storybook/storybook.css`.
+`oen.css` or in `.storybook/storybook.css`.
 
 ```
   rendered 183 stories, skipped 6 that need a browser
   checked 533 distinct classes used by the gallery
-  every class exists in dist/oen.css or .storybook/storybook.css
+  every class exists in oen.css or .storybook/storybook.css
 ```
 
 It catches a story that documents a class the stylesheet does not define —

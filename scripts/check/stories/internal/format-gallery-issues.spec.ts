@@ -42,12 +42,12 @@ describe('formatGalleryIssues', () => {
             {
               className: 'buton',
               origins: ['stories/a.js'],
-              reason: 'not in dist/oen.css',
+              reason: 'not in oen.css',
             },
           ],
         }),
       ),
-    ).toEqual(['  FAIL  .buton: not in dist/oen.css\n        stories/a.js']);
+    ).toEqual(['  FAIL  .buton: not in oen.css\n        stories/a.js']);
   });
 
   it('should return at most four origins when the class has five', () => {
@@ -63,7 +63,7 @@ describe('formatGalleryIssues', () => {
               'origin-4',
               'origin-5',
             ],
-            reason: 'not in dist/oen.css',
+            reason: 'not in oen.css',
           },
         ],
       }),

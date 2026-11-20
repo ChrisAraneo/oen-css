@@ -52,7 +52,7 @@ describe('computeGalleryReport', () => {
       {
         className: 'buton',
         origins: ['a › Default'],
-        reason: 'not in dist/oen.css',
+        reason: 'not in oen.css',
       },
     ]);
   });

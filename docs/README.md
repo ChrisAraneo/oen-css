@@ -10,8 +10,8 @@ The repository has two trees, and the split between them matters:
 - **`src/`** declares what the library _is_ — the theme, the namespace, the
   banner, the notices. It is plain TypeScript; there is no `.scss` file
   anywhere in the repository.
-- **`scripts/`** is the tooling that turns that declaration into `dist/` and
-  then checks the result.
+- **`scripts/`** is the tooling that turns that declaration into the published
+  files at the repository root, and then checks the result.
 
 `scripts/` imports `src/`. `src/` never imports `scripts/`.
 

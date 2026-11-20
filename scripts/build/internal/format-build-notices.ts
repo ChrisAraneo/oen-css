@@ -16,7 +16,6 @@ export const formatBuildNotices = ({
   startedAt: inputs.startedAt,
   stylesheet,
   minifiedStylesheet: minified.css,
-  oenLicense: inputs.oenLicense,
   bulmaLicense: inputs.bulmaLicense,
   thirdPartyNotices: formatThirdPartyNotices({
     bulmaVersion: inputs.bulmaVersion,

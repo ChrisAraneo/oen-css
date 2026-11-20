@@ -4,7 +4,7 @@ import { formatLeftoverIssue } from '../../../src/namespace/format-leftover-issu
 import {
   OEN_MINIFIED_STYLESHEET,
   OEN_STYLESHEET,
-} from '../../common/dist/consts.ts';
+} from '../../common/package/consts.ts';
 import type { BuildCheck } from './types/build-check.ts';
 import type { BuildMinification } from './types/build-minification.ts';
 

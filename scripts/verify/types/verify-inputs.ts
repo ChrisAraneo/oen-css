@@ -7,7 +7,6 @@ export interface VerifyInputs {
   readonly oenLicense: TextFile;
   readonly bulmaLicense: TextFile;
   readonly thirdPartyNotices: TextFile;
-  readonly repositoryOenLicense: TextFile;
   readonly repositoryBulmaLicense: TextFile;
   readonly bulmaManifest: TextFile;
   readonly upstreamBulmaStylesheet: CompiledStylesheet;

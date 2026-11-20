@@ -60,7 +60,7 @@ describe('findGalleryIssues', () => {
         classNameOrigins: { buton: ['a.js'] },
       }).unknownClassNames,
     ).toEqual([
-      { className: 'buton', origins: ['a.js'], reason: 'not in dist/oen.css' },
+      { className: 'buton', origins: ['a.js'], reason: 'not in oen.css' },
     ]);
   });
 

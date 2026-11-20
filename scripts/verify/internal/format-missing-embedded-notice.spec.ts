@@ -30,7 +30,7 @@ describe('formatMissingEmbeddedNotice', () => {
     expect(
       formatMissingEmbeddedNotice(COMMENT, COMMENT.text, '# Notices'),
     ).toBe(
-      '"minireset.css v0.0.6" is not documented in THIRD-PARTY-NOTICES.md',
+      '"minireset.css v0.0.6" is not documented in THIRD_PARTY_NOTICES.md',
     );
   });
 

@@ -14,7 +14,7 @@ const GALLERY: Gallery = {
 describe('findUnknownClassNames', () => {
   it('should return the class with its origin and reason when no stylesheet declares it', () => {
     expect(findUnknownClassNames({ buton: ['a.js'] }, GALLERY)).toEqual([
-      { className: 'buton', origins: ['a.js'], reason: 'not in dist/oen.css' },
+      { className: 'buton', origins: ['a.js'], reason: 'not in oen.css' },
     ]);
   });
 

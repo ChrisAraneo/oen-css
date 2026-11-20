@@ -22,7 +22,7 @@ const card = `<div class="modal-card">
   <section class="modal-card-body">
     <div class="content">
       <p>This publishes <code>@chris.araneo/oen-css@0.2.1</code> to the public registry.</p>
-      <p>The tarball contains <code>dist/oen.css</code>, <code>dist/oen.min.css</code>, both licenses and the third-party notice.</p>
+      <p>The tarball contains <code>oen.css</code>, <code>oen.min.css</code>, both licenses and the third-party notice.</p>
     </div>
   </section>
   <footer class="modal-card-foot">
