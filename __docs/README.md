@@ -2,8 +2,9 @@
 
 oen-css is Bulma, re-namespaced and re-themed. The published stylesheet is
 Bulma's own compiled output, apart from the custom property prefix, the six
-theme colors, the sans-serif stack, and the type scale. `npm run verify` fails
-when that stops being true.
+theme colors, the sans-serif stack, the type scale, the control metrics, and
+one rule of its own for the button radius. `npm run verify` fails when that
+stops being true.
 
 The repository has two trees, and the split between them matters:
 
@@ -24,12 +25,13 @@ The repository has two trees, and the split between them matters:
 | [COLORS.md](./COLORS.md)                 | The six theme colors, and everything Bulma derives from them       |
 | [FONTS.md](./FONTS.md)                   | The sans-serif stack and the properties it reaches                 |
 | [TYPOGRAPHY.md](./TYPOGRAPHY.md)         | The seven-step type scale and the body metrics                     |
+| [CONTROLS.md](./CONTROLS.md)             | The 40px button: its line height, padding, and 20px radius         |
 | [NAMESPACE.md](./NAMESPACE.md)           | `--oen-*`, the renames Sass cannot make, and the leftover check    |
 | [BANNER.md](./BANNER.md)                 | The attribution header, and the notices embedded in the stylesheet |
 | [LICENSES.md](./LICENSES.md)             | What ships, and the MIT obligations behind it                      |
 | [COMMANDS.md](./COMMANDS.md)             | Every npm script, and what it runs                                 |
-| [VERIFICATION.md](./VERIFICATION.md)     | The 14 checks, and how to relax one deliberately                   |
-| [VERIFY-RENAMES.md](./VERIFY-RENAMES.md) | Candidate names for the `verify` module                            |
+| [VERIFICATION.md](./VERIFICATION.md)     | The 15 checks, and how to relax one deliberately                   |
+| [VERIFY_RENAMES.md](./VERIFY_RENAMES.md) | Candidate names for the `verify` module                            |
 
 ## Changing the theme
 
@@ -40,10 +42,11 @@ Every theme value lives in exactly one place, as TypeScript:
 | A theme color       | `src/colors/consts.ts`     | [COLORS.md](./COLORS.md)         |
 | The font stack      | `src/fonts/consts.ts`      | [FONTS.md](./FONTS.md)           |
 | A type size         | `src/typography/consts.ts` | [TYPOGRAPHY.md](./TYPOGRAPHY.md) |
+| A control metric    | `src/controls/consts.ts`   | [CONTROLS.md](./CONTROLS.md)     |
 | The property prefix | `src/namespace/consts.ts`  | [NAMESPACE.md](./NAMESPACE.md)   |
 | Anything else Bulma | `src/stylesheet/`          | [STYLESHEET.md](./STYLESHEET.md) |
 
-Then run `npm run build && npm run verify`. The first three need no other
+Then run `npm run build && npm run verify`. The first four need no other
 change: the same constant is read by the Bulma configuration and by what
 `verify` asserts about the output. The last one is deliberately
 harder — see [VERIFICATION.md](./VERIFICATION.md#relaxing-the-equivalence-check).

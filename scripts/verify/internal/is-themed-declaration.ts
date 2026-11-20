@@ -1,5 +1,6 @@
 import { concat, map, some, startsWith, trim } from 'lodash-es';
 import { OEN_THEME_COLORS } from '../../../src/colors/consts.ts';
+import { OEN_CONTROL_DECLARATIONS } from '../../../src/controls/consts.ts';
 import { OEN_FONT_PROPERTIES } from '../../../src/fonts/consts.ts';
 import { BULMA_CUSTOM_PROPERTY_PREFIX } from '../../../src/namespace/consts.ts';
 import { OEN_TYPE_DECLARATIONS } from '../../../src/typography/consts.ts';
@@ -20,6 +21,10 @@ const THEMED_DECLARATION_PREFIXES: readonly string[] = Object.freeze(
     ),
     map(
       OEN_TYPE_DECLARATIONS,
+      ({ property }) => `${BULMA_CUSTOM_PROPERTY_PREFIX}${property}`,
+    ),
+    map(
+      OEN_CONTROL_DECLARATIONS,
       ({ property }) => `${BULMA_CUSTOM_PROPERTY_PREFIX}${property}`,
     ),
     FONT_FAMILY_PROPERTY,

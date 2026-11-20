@@ -12,6 +12,7 @@ import { validateNoLeftoverBulma } from './validate-no-leftover-bulma.ts';
 import { validateOenLicense } from './validate-oen-license.ts';
 import { validateStylesheetHeaders } from './validate-stylesheet-headers.ts';
 import { validateThemeColors } from './validate-theme-colors.ts';
+import { validateThemeControls } from './validate-theme-controls.ts';
 import { validateThemeFonts } from './validate-theme-fonts.ts';
 import { validateThemeType } from './validate-theme-type.ts';
 
@@ -25,6 +26,7 @@ export const validateEveryArtifact = (
   validateThemeColors(inputs),
   validateThemeFonts(inputs),
   validateThemeType(inputs),
+  validateThemeControls(inputs),
   validateComponentClasses(inputs),
   validateFixedGridContainer(inputs),
   validateMinifiedStylesheet(inputs),

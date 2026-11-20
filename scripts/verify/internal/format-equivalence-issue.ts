@@ -13,7 +13,7 @@ export const formatEquivalenceIssue = (
       () =>
         `${OEN_STYLESHEET} differs from Bulma outside the Oen theme. Either a NamespaceMapping in ` +
         `src/namespace/consts.ts is too broad, or src/stylesheet/ now configures something beyond the colors ` +
-        `in src/colors/, the stack in src/fonts/ and the scale in src/typography/. In that case this check ` +
-        `needs to be relaxed ` +
+        `in src/colors/, the stack in src/fonts/, the scale in src/typography/ and the metrics in ` +
+        `src/controls/. In that case this check needs to be relaxed ` +
         `deliberately.\n${join(formatFirstDifferences(unthemed), '\n')}`,
     );

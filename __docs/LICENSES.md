@@ -54,7 +54,7 @@ distributes.
 
 ## What verify enforces
 
-Three of the fourteen checks are about licensing:
+Three of the fifteen checks are about licensing:
 
 | Check                                            | Asserts                                                                                |
 | ------------------------------------------------ | -------------------------------------------------------------------------------------- |

@@ -3,11 +3,11 @@ import { toRem } from './internal/to-rem.ts';
 import { toUnitlessLineHeight } from './internal/to-unitless-line-height.ts';
 import type { ThemeTypeDeclaration } from './types/theme-type-declaration.ts';
 
-const GENERAL_TEXT_SIZE_IN_PIXELS = 14;
+export const GENERAL_TEXT_SIZE_IN_PIXELS = 14;
 
 const META_TEXT_SIZE_IN_PIXELS = 12;
 
-const BODY_LINE_HEIGHT_IN_PIXELS = 20;
+export const GLOBAL_LINE_HEIGHT_IN_PIXELS = 22;
 
 const OEN_TYPE_SCALE_STEPS: readonly ThemeTypeDeclaration[] = Object.freeze([
   { property: 'size-1', value: toRem(28) },
@@ -24,7 +24,7 @@ const OEN_BASE_TEXT_METRICS: readonly ThemeTypeDeclaration[] = Object.freeze([
   {
     property: 'body-line-height',
     value: toUnitlessLineHeight(
-      BODY_LINE_HEIGHT_IN_PIXELS,
+      GLOBAL_LINE_HEIGHT_IN_PIXELS,
       GENERAL_TEXT_SIZE_IN_PIXELS,
     ),
   },

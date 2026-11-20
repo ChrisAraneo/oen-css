@@ -34,12 +34,12 @@ Verbatim, as of today:
   $helpers-has-prefix: "has-",
   $variables-host: ":root",
   $family-sans-serif: ("Trebuchet MS", Seravek, "Gill Sans Nova", "Segoe UI", Ubuntu, Calibri, "Noto Sans", "DejaVu Sans", sans-serif),
-  $primary: #47b27b,
-  $link: #b24795,
-  $info: #479db2,
-  $success: #47b247,
-  $warning: #b26747,
-  $danger: #b24747,
+  $primary: #2DE5A7,
+  $link: #E55DB4,
+  $info: #2DC1E2,
+  $success: #2DE52D,
+  $warning: #E5612D,
+  $danger: #E25A5A,
   $size-1: 1.75rem,
   $size-2: 1.5rem,
   $size-3: 1.3125rem,
@@ -48,10 +48,22 @@ Verbatim, as of today:
   $size-6: 0.875rem,
   $size-7: 0.75rem,
   $body-font-size: 0.875em,
-  $body-line-height: 1.4286,
-  $small-font-size: 0.75rem
+  $body-line-height: 1.5714,
+  $small-font-size: 0.75rem,
+  $control-line-height: 1.5714,
+  $button-padding-vertical: 0.6429em,
+  $button-padding-horizontal: 1.5714em
 );
+
+.button {
+  border-radius: 20px;
+}
 ```
+
+The `@use` statement is the whole configuration. The rule after it is the one
+thing Oen adds that Bulma has no variable for, the button radius; `src/controls/`
+owns it and [CONTROLS.md](./CONTROLS.md#the-button-radius) explains why it has
+to be a rule.
 
 Nothing in that output is written by hand. Each group comes from the module
 that owns it, and
@@ -64,11 +76,13 @@ concatenates them in this order:
 | `toFontConfiguration()`       | `src/fonts/`      | [FONTS.md](./FONTS.md)           |
 | `toColorConfiguration()`      | `src/colors/`     | [COLORS.md](./COLORS.md)         |
 | `toTypographyConfiguration()` | `src/typography/` | [TYPOGRAPHY.md](./TYPOGRAPHY.md) |
+| `toControlConfiguration()`    | `src/controls/`   | [CONTROLS.md](./CONTROLS.md)     |
 
 Each module emits already-formatted `$name: value` fragments, so the module
 that owns a value also owns how it is spelled in Sass — the parentheses that
 keep the font stack one value, the quotes around a prefix, the units on a
-size. `src/stylesheet/` only indents and joins them.
+size. `src/stylesheet/` only indents and joins them, and then appends the
+button radius rule with `patchOenButtonRadius`.
 
 ## One source of truth
 
@@ -82,7 +96,7 @@ because there is only one of them.
 
 ## Adding a Bulma option
 
-Bulma accepts far more than the 23 variables above; the full list is in
+Bulma accepts far more than the 25 variables above; the full list is in
 `node_modules/bulma/sass/utilities/initial-variables.scss`. Setting one more
 is a two-line change, but it is intentionally not the whole job: the
 equivalence check knows about the groups above and nothing else, so a new

@@ -20,8 +20,8 @@ const INPUTS: VerifyInputs = {
 };
 
 describe('validateEveryArtifact', () => {
-  it('should return fourteen results when called with the inputs', () => {
-    expect(validateEveryArtifact(INPUTS)).toHaveLength(14);
+  it('should return fifteen results when called with the inputs', () => {
+    expect(validateEveryArtifact(INPUTS)).toHaveLength(15);
   });
 
   it('should return the check names in order, artifacts first, when called with the inputs', () => {
@@ -33,6 +33,7 @@ describe('validateEveryArtifact', () => {
       'theme colors are the configured Oen palette',
       'theme fonts are the configured Oen stack',
       'type scale is the configured Oen scale',
+      'controls are the configured Oen metrics',
       'component classes are unchanged from Bulma',
       'fixed grid container is namespaced',
       'minified output is smaller and still intact',

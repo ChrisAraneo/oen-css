@@ -10,6 +10,6 @@ export const formatMissingDeclarationsIssue = (
     .with(true, () => undefined)
     .otherwise(
       () =>
-        `${OEN_STYLESHEET} does not carry the theme declared in src/colors/, src/fonts/ and ` +
-        `src/typography/. The values src/stylesheet/ passes to Bulma have to match it.\n${formatExpectedDeclarations(missing)}`,
+        `${OEN_STYLESHEET} does not carry the theme declared in src/colors/, src/fonts/, src/typography/ and ` +
+        `src/controls/. The values src/stylesheet/ passes to Bulma have to match it.\n${formatExpectedDeclarations(missing)}`,
     );

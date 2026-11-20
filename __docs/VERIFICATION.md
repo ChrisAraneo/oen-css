@@ -1,13 +1,13 @@
 # Verification
 
-`npm run verify` reads what was built and asserts fourteen things about it. It
+`npm run verify` reads what was built and asserts fifteen things about it. It
 writes nothing, it prints one `ok` line per check, and it exits 1 on the first
 issue found.
 
 ```
   ok    package artifacts are present: oen.css, oen.min.css, LICENSE, LICENSE-bulma, THIRD_PARTY_NOTICES.md
   ...
-14/14 checks passed
+15/15 checks passed
 ```
 
 ## What it reads
@@ -18,7 +18,7 @@ loads the five published files from the repository root, Bulma's own
 **unconfigured Bulma** from source for the comparison described below. That last input is why `verify`
 takes longer than the build.
 
-## The fourteen checks
+## The fifteen checks
 
 | Check                                                        | Asserts                                                                                                                              |
 | ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
@@ -29,6 +29,7 @@ takes longer than the build.
 | `theme colors are the configured Oen palette`                | each of the six colors appears as its `-rgb` declaration                                                                             |
 | `theme fonts are the configured Oen stack`                   | `--oen-family-primary` and `--oen-family-secondary` carry the stack                                                                  |
 | `type scale is the configured Oen scale`                     | all fourteen type declarations are present, derived control sizes included                                                           |
+| `controls are the configured Oen metrics`                    | the control line height, both button paddings, and the button radius rule are present                                                |
 | `component classes are unchanged from Bulma`                 | twelve spot-checked selectors still exist, from `.button` to `.skeleton-block`                                                       |
 | `fixed grid container is namespaced`                         | `container-name: oen-fixed-grid` plus at least one `@container oen-fixed-grid` query                                                 |
 | `minified output is smaller and still intact`                | `oen.min.css` is smaller than `oen.css` and has balanced braces                                                                      |
@@ -37,32 +38,42 @@ takes longer than the build.
 | `notices embedded by Bulma survive minification`             | every embedded notice is in both stylesheets and documented                                                                          |
 | `output is Bulma, re-namespaced and re-themed, nothing else` | the main claim — see below                                                                                                           |
 
-The first thirteen are cheap checks: they catch a build that half-ran, a
+The first fourteen are cheap checks: they catch a build that half-ran, a
 minifier that removed a comment, a Bulma upgrade that renamed a component. The
 threshold ones are deliberately loose — "at least 500 custom properties" is a
 smoke test for a truncated build, not a count to maintain.
 
 ## The equivalence check
 
-The fourteenth is the one that makes the others nearly redundant. It proves
-the published stylesheet is Bulma and nothing but Bulma, apart from the theme.
+The fifteenth is the one that makes the others nearly redundant. It proves
+the published stylesheet is Bulma and nothing but Bulma, apart from the theme
+and one rule of our own.
 
 1. Compile unconfigured Bulma from the same `node_modules` the build used.
 2. Map our stylesheet **back** to Bulma's namespace, using the reverse
    direction of every mapping in `src/namespace/` — see
    [NAMESPACE.md](./NAMESPACE.md#every-mapping-is-reversible).
-3. Strip the charset and banner from both sides, since ours carries a version
+3. Remove the button radius rule from the end of ours, since Bulma has no
+   line to compare it against — see
+   [CONTROLS.md](./CONTROLS.md#the-button-radius).
+4. Strip the charset and banner from both sides, since ours carries a version
    number that changes on every release.
-4. Compare line by line.
-5. Allow a difference only if **both** lines are themed declarations.
+5. Compare line by line.
+6. Allow a difference only if **both** lines are themed declarations.
 
-Step 5 is the allowlist, and it is narrow. `THEMED_DECLARATION_PREFIXES` in
-[`consts.ts`](../scripts/verify/internal/consts.ts) is built from the theme
-itself: `--bulma-<color>` for each of the six colors, `--bulma-<property>`
-for each font and type property, plus bare `font-family` and `font-size` for
-the literal declarations the type scale compiles into. Anything else — a
-changed radius, a different transition speed, an extra rule — is drift, and
-the check fails with the first five offending lines:
+Step 3 is the one deliberate relaxation, and it is as narrow as a relaxation
+gets: it removes one exact rule, read from the same
+`formatButtonRadiusRule` the build appends, at the end of the stylesheet and
+nowhere else. A second Oen-only rule would fail the check until it is listed
+here too.
+
+Step 6 is the allowlist, and it is narrow. `THEMED_DECLARATION_PREFIXES` in
+[`is-themed-declaration.ts`](../scripts/verify/internal/is-themed-declaration.ts)
+is built from the theme itself: `--bulma-<color>` for each of the six colors,
+`--bulma-<property>` for each font, type, and control property, plus bare
+`font-family` and `font-size` for the literal declarations the type scale
+compiles into. Anything else — a changed transition speed, an extra rule — is
+drift, and the check fails with the first five offending lines:
 
 ```
   line 1234:
@@ -70,7 +81,8 @@ the check fails with the first five offending lines:
     bulma: --bulma-radius: 0.375rem;
 ```
 
-Today it reports 834 allowed theme declarations across 764,086 compared bytes.
+Today it reports 720 allowed theme declarations and the Oen button radius
+across 764,084 compared bytes.
 A change in that number on its own is informative: the theme reaches a
 different set of declarations than before.
 
@@ -90,6 +102,14 @@ theme?", and answering it takes two deliberate steps:
 Step 2 is intentionally manual. It is where "Oen is Bulma with a theme" either
 stays true or is knowingly widened, so it should appear in a diff as an
 explicit decision.
+
+A rule Bulma has no variable for is the wider case, and the button radius is
+the one example in the repository today. It takes the same two steps, in a
+stronger form: the module that owns it writes the rule in one place and
+appends it to the generated source, and the check removes that same rule
+before comparing. `src/controls/` does both with `formatButtonRadiusRule`, so
+the build and the check cannot disagree about what was added — see
+[CONTROLS.md](./CONTROLS.md#the-button-radius).
 
 ## The stories check
 

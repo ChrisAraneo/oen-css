@@ -20,6 +20,18 @@ describe('isThemedDeclaration', () => {
     expect(isThemedDeclaration('--bulma-size-1: 1.75rem;')).toBe(true);
   });
 
+  it('should return `true` when the line declares the control line height', () => {
+    expect(isThemedDeclaration('--bulma-control-line-height: 1.5714;')).toBe(
+      true,
+    );
+  });
+
+  it('should return `true` when the line declares a button padding property', () => {
+    expect(
+      isThemedDeclaration('--bulma-button-padding-horizontal: 1.5714em;'),
+    ).toBe(true);
+  });
+
   it('should return `true` when the line declares `font-family` or `font-size`', () => {
     expect(isThemedDeclaration('font-family: sans-serif;')).toBe(true);
     expect(isThemedDeclaration('font-size: 1rem;')).toBe(true);

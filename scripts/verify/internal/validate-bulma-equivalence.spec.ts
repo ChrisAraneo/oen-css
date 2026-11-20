@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { formatButtonRadiusRule } from '../../../src/controls/format-button-radius-rule.ts';
 import type { VerifyInputs } from '../types/verify-inputs.ts';
 import { validateBulmaEquivalence } from './validate-bulma-equivalence.ts';
 
@@ -55,6 +56,20 @@ describe('validateBulmaEquivalence', () => {
         inputs('--oen-primary: red;', '--bulma-primary: blue;'),
       ).detail,
     ).toContain('apart from 1 theme declarations');
+  });
+
+  it('should return `undefined` as the issue when the only difference is the Oen button radius rule', () => {
+    expect(
+      validateBulmaEquivalence(
+        inputs(`body{}\n\n${formatButtonRadiusRule()}`, 'body{}'),
+      ).issue,
+    ).toBe(undefined);
+  });
+
+  it('should return the Oen button radius in the detail when the stylesheets match', () => {
+    expect(
+      validateBulmaEquivalence(inputs('body{}', 'body{}')).detail,
+    ).toContain('and the Oen button radius');
   });
 
   it('should return the equivalence issue when the theme does not explain the difference', () => {

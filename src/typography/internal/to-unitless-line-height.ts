@@ -1,9 +1,6 @@
-import { round } from 'lodash-es';
-
-const LINE_HEIGHT_DECIMAL_PLACES = 4;
+import { toRatio } from '../../common/to-ratio.ts';
 
 export const toUnitlessLineHeight = (
   lineHeightInPixels: number,
   fontSizeInPixels: number,
-): string =>
-  `${round(lineHeightInPixels / fontSizeInPixels, LINE_HEIGHT_DECIMAL_PLACES)}`;
+): string => toRatio(lineHeightInPixels, fontSizeInPixels);

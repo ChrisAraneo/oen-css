@@ -6,11 +6,12 @@
 src/            what the library is          (TypeScript, no Sass file)
   banner/       the attribution header prepended to both stylesheets
   colors/       the six theme colors
-  common/       countMatches, the one helper both trees need
+  common/       countMatches and toRatio, the helpers more than one module needs
+  controls/     the control line height, the button padding and its radius
   fonts/        the sans-serif stack
   licenses/     THIRD_PARTY_NOTICES.md and the embedded notices
   namespace/    the --oen- prefix and the renames Sass cannot make
-  stylesheet/   assembles the Bulma configuration
+  stylesheet/   assembles the Bulma configuration and the Oen button radius
   typography/   the seven-step type scale and the body metrics
 
 scripts/        the tooling that builds and checks it
@@ -21,7 +22,7 @@ scripts/        the tooling that builds and checks it
   common/       paths, process spawning, package file IO, the Sass compiler wrapper
   format/       Prettier
   storybook/    the Storybook CLI, with a built stylesheet as its prerequisite
-  verify/       the 14 assertions about the published files
+  verify/       the 15 assertions about the published files
 ```
 
 ### The dependency rule

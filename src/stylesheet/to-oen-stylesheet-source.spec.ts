@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { formatButtonRadiusRule } from '../controls/format-button-radius-rule.ts';
 import { toBulmaConfiguration } from './internal/to-bulma-configuration.ts';
 import { toOenStylesheetSource } from './to-oen-stylesheet-source.ts';
 
@@ -9,8 +10,14 @@ describe('toOenStylesheetSource', () => {
     ).toBe(true);
   });
 
-  it('should return a source that ends with the closed statement and a newline when the source is built', () => {
-    expect(toOenStylesheetSource().endsWith('\n);\n')).toBe(true);
+  it('should return a source that closes the statement before the Oen rules when the source is built', () => {
+    expect(toOenStylesheetSource()).toContain('\n);\n');
+  });
+
+  it('should return a source that ends with the button radius rule when the source is built', () => {
+    expect(
+      toOenStylesheetSource().endsWith(`${formatButtonRadiusRule()}\n`),
+    ).toBe(true);
   });
 
   it('should return every configured variable when the source is built', () => {

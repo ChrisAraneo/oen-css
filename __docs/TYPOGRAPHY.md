@@ -28,13 +28,18 @@ untouched. Only the type is rescaled.
 | Variable           | Value     | Why                                   |
 | ------------------ | --------- | ------------------------------------- |
 | `body-font-size`   | `0.875em` | 14px of the 1em root                  |
-| `body-line-height` | `1.4286`  | 20px at 14px, as a unitless ratio     |
+| `body-line-height` | `1.5714`  | 22px at 14px, as a unitless ratio     |
 | `small-font-size`  | `0.75rem` | `<small>` on the same scale as step 7 |
 
-`body-line-height` is computed, not typed: the constants say 20px of line on
+`GLOBAL_LINE_HEIGHT_IN_PIXELS`, the 22, is also read by `src/controls/` as the
+line height of every control, so body text and controls share one line
+height — see [CONTROLS.md](./CONTROLS.md#one-global-line-height).
+
+`body-line-height` is computed, not typed: the constants say 22px of line on
 14px of text, and
 [`to-unitless-line-height.ts`](../src/typography/internal/to-unitless-line-height.ts)
-rounds the ratio to four places. A unitless line height is used so nested
+converts it with [`to-ratio.ts`](../src/common/to-ratio.ts), which rounds to
+four places. A unitless line height is used so nested
 elements inherit the ratio rather than a fixed pixel height.
 
 ## How the scale reaches rendered text
