@@ -15,6 +15,7 @@ export const drawButtonGradient = (
   { source, metal }: ButtonCanvasPainter,
   palette: ButtonPalette,
   phase: number,
+  frame: number,
 ): HTMLCanvasElement =>
   match(getButtonCanvasContext(source))
     .with(nullish, () => source)
@@ -22,7 +23,9 @@ export const drawButtonGradient = (
       pipe(
         context,
         (context) =>
-          runEffect(context, () => drawButtonMetal(context, metal, palette)),
+          runEffect(context, () =>
+            drawButtonMetal(context, metal, palette, frame),
+          ),
         (context) =>
           runEffect(context, () => drawButtonGradientTint(context, palette)),
         (context) =>

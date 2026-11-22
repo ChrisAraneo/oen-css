@@ -7,35 +7,33 @@ import {
   OEN_BUTTON_METAL_FRAME,
   OEN_BUTTON_METAL_MAX_PIXELS,
   OEN_BUTTON_METAL_PIXEL_RATIO,
-  OEN_BUTTON_METAL_SPEED,
+  OEN_BUTTON_METAL_STILL_SPEED,
 } from '../consts.ts';
 import type { BrowserView } from '../types/browser-view.ts';
 import { createButtonMetalHost } from './create-button-metal-host.ts';
 import { toButtonMetalUniforms } from './to-button-metal-uniforms.ts';
 
-const mountButtonMetal = (host: HTMLElement): HTMLCanvasElement =>
+const mountButtonMetal = (host: HTMLElement): ShaderMount =>
   new ShaderMount(
     host,
     liquidMetalFragmentShader,
     toButtonMetalUniforms(),
     OEN_BUTTON_METAL_CONTEXT_ATTRIBUTES,
-    OEN_BUTTON_METAL_SPEED,
+    OEN_BUTTON_METAL_STILL_SPEED,
     OEN_BUTTON_METAL_FRAME,
     OEN_BUTTON_METAL_PIXEL_RATIO,
     OEN_BUTTON_METAL_MAX_PIXELS,
-  ).canvasElement;
+  );
 
 const removeButtonMetalHost = (host: HTMLElement): undefined =>
   runEffect(undefined, () => host.remove());
 
-export const startButtonMetal = (
-  view: BrowserView,
-): HTMLCanvasElement | undefined =>
+export const startButtonMetal = (view: BrowserView): ShaderMount | undefined =>
   pipe(createButtonMetalHost(view.document), (host) =>
     pipe(
       tryCatch(
-        (): HTMLCanvasElement | undefined => mountButtonMetal(host),
-        (): HTMLCanvasElement | undefined => removeButtonMetalHost(host),
+        (): ShaderMount | undefined => mountButtonMetal(host),
+        (): ShaderMount | undefined => removeButtonMetalHost(host),
       ),
       (start) => start(),
     ),

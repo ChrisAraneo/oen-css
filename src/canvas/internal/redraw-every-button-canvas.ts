@@ -5,16 +5,26 @@ import type { ButtonCanvasPainter } from '../types/button-canvas-painter.ts';
 import { drawButtonCanvasGroup } from './draw-button-canvas-group.ts';
 import { findButtonCanvasPaints } from './find-button-canvas-paints.ts';
 import { toButtonCanvasGroups } from './to-button-canvas-groups.ts';
+import { toButtonGradientOffsetPhase } from './to-button-gradient-offset-phase.ts';
+import { toButtonMetalOffsetFrame } from './to-button-metal-offset-frame.ts';
 
 export const redrawEveryButtonCanvas = (
   view: BrowserView,
   painter: ButtonCanvasPainter,
   phase: number,
+  frame: number,
 ): readonly HTMLCanvasElement[] =>
   pipe(
     findButtonCanvasPaints(view),
     toButtonCanvasGroups,
     (groups) =>
-      map(groups, (group) => drawButtonCanvasGroup(painter, group, phase)),
+      map(groups, (group) =>
+        drawButtonCanvasGroup(
+          painter,
+          group,
+          toButtonGradientOffsetPhase(phase, group.offset),
+          toButtonMetalOffsetFrame(frame, group.offset),
+        ),
+      ),
     flatten,
   );

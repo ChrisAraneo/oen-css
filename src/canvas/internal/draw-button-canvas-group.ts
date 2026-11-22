@@ -14,13 +14,14 @@ export const drawButtonCanvasGroup = (
   painter: ButtonCanvasPainter,
   { palette, canvases }: ButtonCanvasGroup,
   phase: number,
+  frame: number,
 ): readonly HTMLCanvasElement[] =>
   match(palette)
     .with(nullish, () => map(canvases, (canvas) => clearButtonCanvas(canvas)))
     .otherwise((palette) =>
       pipe(
         runEffect(painter.source, () =>
-          drawButtonGradient(painter, palette, phase),
+          drawButtonGradient(painter, palette, phase, frame),
         ),
         (source) => map(canvases, (canvas) => drawButtonCanvas(canvas, source)),
       ),

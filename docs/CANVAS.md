@@ -40,8 +40,9 @@ one of them.
 
 1. Finds every `.button` that is not `.is-ghost` or `.is-text`.
 2. Skips the ones that cannot hold a child.
-3. Inserts `<canvas class="oen-button-canvas" aria-hidden="true">` as the
-   button's **first** child, if it has none yet.
+3. Inserts `<canvas class="oen-button-canvas" aria-hidden="true"
+data-oen-button-offset="…">` as the button's **first** child, if it has
+   none yet.
 4. Sets the canvas `width` and `height` attributes to the button's size in
    device pixels.
 5. Watches the document for buttons added later, and every button it has
@@ -113,20 +114,28 @@ The bottom layer is `liquidMetalFragmentShader` from
 [Paper Shaders](https://shaders.paper.design), mounted once with that
 package's own `ShaderMount`. One WebGL context exists on the page however
 many buttons there are: `startButtonMetal` creates an invisible host element,
-mounts the shader into it, and hands back the canvas that the shader draws
-into. Every button then reads that one canvas.
+mounts the shader into it, and hands back the mount. Every button then reads
+the one canvas that mount draws into.
 
-The host is `position: fixed` at the top left of the viewport with
-`opacity: 0` and `pointer-events: none`. It has to be _in_ the viewport rather
-than parked off-screen: `ShaderMount` watches its own host with an
-`IntersectionObserver` and stops the shader when it leaves the viewport, which
-is the right default for a shader you can see and the wrong one for a shader
-you only copy from.
+The mount is created with a speed of `OEN_BUTTON_METAL_STILL_SPEED`, which is
+zero, so it never starts a rAF loop of its own and never advances its own
+clock. This runtime's frame loop drives it instead: before each group is
+blitted, `writeButtonMetalFrame` calls `setFrame` with that group's instant,
+and `ShaderMount` renders synchronously because its loop is stopped. One
+context therefore paints as many different instants per frame as there are
+groups — see [below](#the-metal-is-desynchronized-too).
+
+Driving the clock also settles what the host has to be. `ShaderMount` watches
+its own host with an `IntersectionObserver` and stops the shader when it
+leaves the viewport, which is the right default for a shader you can see and
+the wrong one for a shader you only copy from; with the speed at zero that
+observer has nothing left to pause, and renders happen on demand wherever the
+host sits. It is still `position: fixed` at the top left with `opacity: 0`
+and `pointer-events: none`.
 
 The context is asked for with `preserveDrawingBuffer: true`. Without it a
 WebGL drawing buffer is cleared once the browser has composited the frame, and
-`drawImage` from it returns nothing — which is exactly what this runtime does
-with it, one frame later, from its own loop.
+`drawImage` from it returns nothing.
 
 If the mount throws — no WebGL2, a context limit, a blocked GPU — the host is
 removed and `startButtonMetal` returns `undefined`. The frame loop then fills
@@ -174,16 +183,78 @@ addition: a white or grey button has no hue to boost, and adding a flat `75%`
 to a saturation of `0` would wash it in whatever hue `0` happens to be, which
 is red.
 
+### Every canvas starts somewhere else in the loop
+
+Buttons that share a color used to share a frame exactly: one source canvas
+was painted per palette and blitted into all of them, so a row of primary
+buttons breathed in lockstep. Each canvas now carries its own starting point
+in the loop, drawn when the element is created and written onto it:
+
+```html
+<canvas
+  class="oen-button-canvas"
+  aria-hidden="true"
+  data-oen-button-offset="0.375"
+></canvas>
+```
+
+`createButtonCanvasOffset` draws it, `readButtonCanvasOffset` reads it back
+each frame, and `toButtonGradientOffsetPhase` adds it to the frame's phase and
+wraps at `OEN_BUTTON_GRADIENT_CYCLE`. The button above is three eighths of the
+way through the same ten second loop as its neighbours rather than at the
+start of it, so nothing on the page breathes in time with anything else.
+
+The offset is one of `OEN_BUTTON_GRADIENT_OFFSET_STEPS` points in the loop and
+not a free-running number, which is what keeps the batching below possible: a
+unique offset per button would mean a gradient source per button, which is
+exactly the cost that batching exists to avoid.
+
+The attribute is the state. A canvas is created once and never removed, the
+offset is written once, and nothing in the runtime keeps a map from element to
+offset — so a button a script adds an hour later draws its own offset the
+moment its canvas is injected, with no bookkeeping to miss it.
+
+#### The metal is desynchronized too
+
+The offset shifts both layers, not just the lobes. `toButtonMetalFrame` turns
+the frame's timestamp into a shader frame at `OEN_BUTTON_METAL_SPEED`, and
+`toButtonMetalOffsetFrame` adds `offset * OEN_BUTTON_METAL_SPREAD` to it, so
+each group asks the shader for a different moment of the same flow.
+
+The spread is large on purpose. The shader's inner time is
+`t = .3 * (u_time + 2.8)`, and the term that decides what the metal looks like
+is `snoise(uv - t)` — the noise field is _translated_ by time rather than
+cycled through it, so two instants look unrelated once they are about one unit
+of `t` apart and never repeat. `OEN_BUTTON_METAL_SPREAD` of 48000 puts one
+step at 3000 frame-milliseconds, which is 3 units of `u_time` and 0.9 of
+`t`: far enough apart that two buttons read as two different pieces of metal
+rather than the same piece a moment later.
+
+Under reduced motion `toButtonMetalFrame` returns a fixed
+`OEN_BUTTON_METAL_STILL_FRAME`, and the offset is still added to it, so the
+buttons hold still at different patches of metal rather than at one.
+
 ### One source canvas, one blit per button
 
 Painting six lobes into every button every frame does not scale — eighty
 buttons at 60fps is eighty times the gradient work. Instead the frame groups
-the canvases by palette with `toButtonCanvasGroups`, draws the metal and the
-gradients for each palette once into a single offscreen source canvas of
-`OEN_BUTTON_GRADIENT_SOURCE_WIDTH` by `OEN_BUTTON_GRADIENT_SOURCE_HEIGHT`,
-and `drawImage`s that source into every canvas in the group. The expensive
-work is therefore per distinct color on screen — typically under ten — and
-each button pays only for one scaled blit.
+the canvases by palette **and** offset with `toButtonCanvasGroups`, draws the
+metal and the gradients for each group once into a single offscreen source
+canvas of `OEN_BUTTON_GRADIENT_SOURCE_WIDTH` by
+`OEN_BUTTON_GRADIENT_SOURCE_HEIGHT`, and `drawImage`s that source into every
+canvas in the group. Each button pays only for one scaled blit.
+
+A group now costs a shader render as well as the gradients, because each one
+asks the mount for its own instant before it blits. The group count is what
+bounds both, and both halves of its key are bounded: the palettes on screen are typically under ten, and the offsets
+cannot outnumber `OEN_BUTTON_GRADIENT_OFFSET_STEPS`. Eighty primary buttons
+are therefore sixteen sources rather than eighty, and that sixteen is a
+constant, not a function of how many buttons the page has.
+
+Raising the step count is close to free on an ordinary page, where there are
+fewer buttons of one color than there are steps and the group count follows
+the buttons either way. It costs only on a page that has more buttons of one
+color than steps — and that is the page the cap is there for.
 
 The source is a fixed size and the blit stretches it to the button, so a wide
 button stretches both layers horizontally. They are soft, broad and moving, so
@@ -214,8 +285,10 @@ the cost.
 
 `isButtonGradientStill` reads `(prefers-reduced-motion: reduce)` each frame,
 and `toButtonGradientPhase` returns a fixed `OEN_BUTTON_GRADIENT_STILL_PHASE`
-when it is set, so the lobes are painted in one position and never move. The
-frame loop still runs, because that is what keeps hover, the scheme switch and
+when it is set, so the lobes are painted in one position and never move. A
+canvas still adds its own offset to that fixed phase, so the buttons settle at
+sixteen different points in the loop instead of all at the same one; nothing
+moves either way. The frame loop still runs, because that is what keeps hover, the scheme switch and
 every other color change on the canvas; what it draws just stops changing.
 
 ## The layer
@@ -331,13 +404,17 @@ functions that compute something take plain data and have specs beside them:
 `canHoldButtonCanvas`, `toButtonCanvasSize`, `isButtonCanvasSized`,
 `toButtonRgb`, `toButtonHue`, `toButtonPalette`, `formatButtonGradientColor`,
 `toButtonGradientLayerPalette`, `toButtonGradientTintPalette`,
-`toButtonGradientPhase`, `toButtonGradientDrift`, `toButtonCanvasGroups`,
-`toButtonMetalUniforms`, `formatButtonCanvasRules` and both patches.
+`toButtonGradientPhase`, `toButtonGradientOffsetPhase`,
+`toButtonGradientDrift`, `toButtonCanvasGroups`, `toButtonMetalUniforms`,
+`toButtonMetalFrame`, `toButtonMetalOffsetFrame`, `formatButtonCanvasRules`
+and both patches.
 
 The files that only wire the DOM or issue draw commands have none, because
 there is neither in a spec: everything named `create-*`, `draw-*`, `write-*`,
-`read-*`, `find-*`, `watch-*`, `clear-*`, `get-*`, `run-*` and `start-*`.
-They are checked in a browser instead, and `verify` asserts that both
+`read-*`, `find-*`, `watch-*`, `clear-*`, `get-*`, `run-*` and `start-*` —
+apart from `createButtonCanvasOffset`, which touches no DOM at all, and
+`readButtonCanvasOffset`, which wants one attribute and takes it from a stub.
+The rest are checked in a browser instead, and `verify` asserts that both
 published runtimes still name the class and the host selector they read — see
 [VERIFICATION.md](./VERIFICATION.md#the-seventeen-checks).
 
@@ -353,6 +430,7 @@ npm run build && npm run verify
 | --------------------------------------- | ---------------------------------------------- |
 | `OEN_BUTTON_METAL_*`                    | every uniform the liquid metal shader reads    |
 | `OEN_BUTTON_METAL_SPEED`                | how fast the metal flows, `0` to stop it       |
+| `OEN_BUTTON_METAL_SPREAD`               | how far apart two buttons' metal looks         |
 | `OEN_BUTTON_GRADIENT_TINT_ALPHA`        | how much of the metal the color gradient hides |
 | `OEN_BUTTON_GRADIENT_OPACITY`           | how much of it the lobes hide                  |
 | `OEN_BUTTON_GRADIENT_STOPS`             | the two ends of the vertical gradient          |
@@ -361,6 +439,7 @@ npm run build && npm run verify
 | `OEN_BUTTON_GRADIENT_SATURATION_BOOST`  | how vivid the lobes are against the button     |
 | `OEN_BUTTON_GRADIENT_RAMP`              | how soft a lobe's edge is                      |
 | `OEN_BUTTON_GRADIENT_DURATION`          | how long one lobe loop takes, in milliseconds  |
+| `OEN_BUTTON_GRADIENT_OFFSET_STEPS`      | how many starting points a canvas can draw     |
 | `OEN_BUTTON_GRADIENT_DRIFT_LEFT`/`_TOP` | how far the lobe layer travels                 |
 | `OEN_BUTTON_GRADIENT_ZOOM_FROM`/`_TO`   | how much of that layer fits in a button        |
 | `OEN_BUTTON_GRADIENT_SPREAD`            | how far it reaches outside the button          |

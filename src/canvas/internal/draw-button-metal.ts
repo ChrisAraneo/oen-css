@@ -1,3 +1,4 @@
+import type { ShaderMount } from '@paper-design/shaders';
 import { pipe } from 'remeda';
 import { match, P } from 'ts-pattern';
 import { runEffect } from '../../common/run-effect.ts';
@@ -10,20 +11,24 @@ import {
 } from '../consts.ts';
 import type { ButtonPalette } from '../types/button-palette.ts';
 import { formatButtonGradientColor } from './format-button-gradient-color.ts';
+import { writeButtonMetalFrame } from './write-button-metal-frame.ts';
 
 const { nullish } = P;
 
 const drawMetalImage = (
   context: CanvasRenderingContext2D,
-  metal: HTMLCanvasElement,
+  metal: ShaderMount,
+  frame: number,
 ): CanvasRenderingContext2D =>
-  runEffect(context, () =>
-    context.drawImage(
-      metal,
-      OEN_BUTTON_CANVAS_ORIGIN,
-      OEN_BUTTON_CANVAS_ORIGIN,
-      OEN_BUTTON_GRADIENT_SOURCE_WIDTH,
-      OEN_BUTTON_GRADIENT_SOURCE_HEIGHT,
+  pipe(writeButtonMetalFrame(metal, frame), (metal) =>
+    runEffect(context, () =>
+      context.drawImage(
+        metal.canvasElement,
+        OEN_BUTTON_CANVAS_ORIGIN,
+        OEN_BUTTON_CANVAS_ORIGIN,
+        OEN_BUTTON_GRADIENT_SOURCE_WIDTH,
+        OEN_BUTTON_GRADIENT_SOURCE_HEIGHT,
+      ),
     ),
   );
 
@@ -55,8 +60,9 @@ const drawMetalFallback = (
 
 export const drawButtonMetal = (
   context: CanvasRenderingContext2D,
-  metal: HTMLCanvasElement | undefined,
+  metal: ShaderMount | undefined,
   palette: ButtonPalette,
+  frame: number,
 ): CanvasRenderingContext2D =>
   pipe(
     context,
@@ -76,5 +82,5 @@ export const drawButtonMetal = (
     (context) =>
       match(metal)
         .with(nullish, () => drawMetalFallback(context, palette))
-        .otherwise((metal) => drawMetalImage(context, metal)),
+        .otherwise((metal) => drawMetalImage(context, metal, frame)),
   );

@@ -19,6 +19,8 @@ export const OEN_BUTTON_CANVAS_BLEND_MODE = 'normal';
 
 export const OEN_BUTTON_CANVAS_HIDDEN_ATTRIBUTE = 'aria-hidden';
 
+export const OEN_BUTTON_CANVAS_OFFSET_ATTRIBUTE = 'data-oen-button-offset';
+
 export const OEN_BUTTON_CANVAS_MOUNT_EVENT = 'oen:button-canvas-mount';
 
 export const OEN_BUTTON_CANVAS_RESIZE_EVENT = 'oen:button-canvas-resize';
@@ -64,6 +66,14 @@ export const OEN_BUTTON_GRADIENT_OPACITY: number = 0.5;
 export const OEN_BUTTON_GRADIENT_FULL_ALPHA = 1;
 
 export const OEN_BUTTON_GRADIENT_DURATION = 10000;
+
+export const OEN_BUTTON_GRADIENT_CYCLE = 1;
+
+export const OEN_BUTTON_GRADIENT_FIRST_OFFSET = 0;
+
+export const OEN_BUTTON_GRADIENT_FIRST_STEP = 0;
+
+export const OEN_BUTTON_GRADIENT_OFFSET_STEPS = 16;
 
 export const OEN_BUTTON_GRADIENT_DRIFT_LEFT = 6;
 
@@ -205,6 +215,12 @@ export const OEN_BUTTON_METAL_ORIGIN: number = 0.5;
 export const OEN_BUTTON_METAL_WORLD_SIZE = 0;
 
 export const OEN_BUTTON_METAL_SPEED: number = 0.1;
+
+export const OEN_BUTTON_METAL_STILL_SPEED = 0;
+
+export const OEN_BUTTON_METAL_STILL_FRAME = 0;
+
+export const OEN_BUTTON_METAL_SPREAD = 48000;
 
 export const OEN_BUTTON_METAL_FRAME = 0;
 
