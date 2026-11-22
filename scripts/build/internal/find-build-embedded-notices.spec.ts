@@ -9,7 +9,15 @@ const INPUTS: BuildInputs = {
   bulmaVersion: '1.0.4',
   bulmaCopyright: 'Copyright (c) 2023 Jeremy Thomas',
   bulmaLicense: 'MIT License',
+  paperShaders: {
+    version: '0.0.82',
+    license: 'Apache License',
+    notice: 'Paper Shaders\n\nCopyright 2026 Paper\n',
+  },
+  paperShadersCopyright: 'Copyright 2026 Paper',
   stylesheet: '',
+  runtime: '',
+  minifiedRuntime: '',
   issues: [],
 };
 
@@ -19,6 +27,8 @@ const checked = (stylesheet: string) => ({
   stylesheet,
   minified: { css: '', warnings: [], issue: undefined },
   stylesheetIssues: [],
+  runtime: '',
+  minifiedRuntime: '',
 });
 
 describe('findBuildEmbeddedNotices', () => {

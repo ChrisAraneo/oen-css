@@ -13,11 +13,15 @@ export const findBuildStylesheetIssues = ({
   namespaced,
   stylesheet,
   minified,
+  runtime,
+  minifiedRuntime,
 }: BuildMinification): BuildCheck => ({
   inputs,
   namespaced,
   stylesheet,
   minified,
+  runtime,
+  minifiedRuntime,
   stylesheetIssues: compact([
     formatLeftoverIssue(
       filterLeftoverBulmaIdentifiers(stylesheet, OEN_STYLESHEET),

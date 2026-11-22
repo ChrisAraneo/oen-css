@@ -10,4 +10,6 @@ export interface BuildNotices {
   readonly minified: MinifiedStylesheet;
   readonly stylesheetIssues: readonly string[];
   readonly embeddedLicenseComments: readonly LicenseComment[];
+  readonly runtime: string;
+  readonly minifiedRuntime: string;
 }

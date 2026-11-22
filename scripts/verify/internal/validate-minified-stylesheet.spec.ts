@@ -7,6 +7,8 @@ const file = (text: string) => ({ path: 'p', text, issue: undefined });
 const inputs = (expanded: string, minified: string): VerifyInputs => ({
   stylesheet: file(expanded),
   minifiedStylesheet: file(minified),
+  runtime: file(''),
+  minifiedRuntime: file(''),
   oenLicense: file(''),
   bulmaLicense: file(''),
   thirdPartyNotices: file(''),

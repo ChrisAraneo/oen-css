@@ -4,6 +4,11 @@ import { formatThirdPartyNotices } from './format-third-party-notices.ts';
 const FACTS = {
   bulmaVersion: '1.0.4',
   bulmaLicense: '\nMIT License\n\nCopyright (c) 2023 Jeremy Thomas\n\n',
+  paperShaders: {
+    version: '0.0.82',
+    license: '\nApache License 2.0\n',
+    notice: '\nPaper Shaders\n\nCopyright 2026 Paper\n',
+  },
   embeddedLicenseComments: [],
 };
 

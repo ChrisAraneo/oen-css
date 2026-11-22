@@ -19,12 +19,7 @@ npm install "@chris.araneo/oen-css"
 
 ```html
 <link rel="stylesheet" href="node_modules/@chris.araneo/oen-css/oen.min.css" />
-```
-
-From a bundler:
-
-```js
-import '@chris.araneo/oen-css'; // or '@chris.araneo/oen-css/oen.min.css'
+<script src="node_modules/@chris.araneo/oen-css/oen.min.js"></script>
 ```
 
 ## Storybook
@@ -53,3 +48,8 @@ Bulma's base styles also vendor [minireset.css](https://github.com/jgthms/minire
 together with its own notice. That notice is embedded in both stylesheets. The build reads it back out of
 the compiled stylesheet and documents it in `THIRD_PARTY_NOTICES.md`, and `npm run verify` fails if
 minification strips it.
+
+Oen CSS bundles the liquid metal shader from [Paper Shaders](https://shaders.paper.design),
+which is Apache 2.0 and ships a notice. Both are reproduced in
+[THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md), and `oen.js` and `oen.min.js` name them in their
+banner.

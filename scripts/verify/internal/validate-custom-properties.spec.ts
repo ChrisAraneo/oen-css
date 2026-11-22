@@ -20,6 +20,8 @@ const file = (text: string) => ({
 const inputs = (stylesheet: string): VerifyInputs => ({
   stylesheet: file(stylesheet),
   minifiedStylesheet: file(''),
+  runtime: file(''),
+  minifiedRuntime: file(''),
   oenLicense: file(''),
   bulmaLicense: file(''),
   thirdPartyNotices: file(''),

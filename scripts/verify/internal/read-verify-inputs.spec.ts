@@ -27,10 +27,10 @@ describe('readVerifyInputs', () => {
     });
   });
 
-  it('should call `readPackageFile` five times when the inputs are read', async () => {
+  it('should call `readPackageFile` seven times when the inputs are read', async () => {
     await readVerifyInputs();
 
-    expect(readPackageFile).toHaveBeenCalledTimes(5);
+    expect(readPackageFile).toHaveBeenCalledTimes(7);
   });
 
   it('should call `readPackageFile` with both stylesheets when the inputs are read', async () => {

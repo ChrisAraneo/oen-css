@@ -1,5 +1,5 @@
 import { filter, includes } from 'lodash-es';
-import { sliceStylesheetBanner } from './slice-stylesheet-banner.ts';
+import { sliceArtifactBanner } from './slice-artifact-banner.ts';
 
 const REQUIRED_BANNER_FRAGMENTS: readonly string[] = Object.freeze([
   'oen-css v',
@@ -9,8 +9,8 @@ const REQUIRED_BANNER_FRAGMENTS: readonly string[] = Object.freeze([
   'LICENSE-bulma',
 ]);
 
-export const filterMissingBannerFragments = (css: string): readonly string[] =>
+export const filterMissingBannerFragments = (text: string): readonly string[] =>
   filter(
     REQUIRED_BANNER_FRAGMENTS,
-    (fragment) => !includes(sliceStylesheetBanner(css), fragment),
+    (fragment) => !includes(sliceArtifactBanner(text), fragment),
   );

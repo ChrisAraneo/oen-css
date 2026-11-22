@@ -1,3 +1,4 @@
+import { BULMA_COPYRIGHT_PREFIX } from '../../../src/licenses/consts.ts';
 import { findCopyrightLine } from '../../../src/licenses/find-copyright-line.ts';
 import type { CheckResult } from '../types/check-result.ts';
 import type { VerifyInputs } from '../types/verify-inputs.ts';
@@ -10,6 +11,8 @@ export const validateOenLicense = ({
   oenLicense,
 }: VerifyInputs): CheckResult => ({
   name: CHECK_NAME,
-  detail: findCopyrightLine(oenLicense.text) ?? NO_COPYRIGHT_LINE,
+  detail:
+    findCopyrightLine(oenLicense.text, BULMA_COPYRIGHT_PREFIX) ??
+    NO_COPYRIGHT_LINE,
   issue: formatOenLicenseIssue(oenLicense.text),
 });

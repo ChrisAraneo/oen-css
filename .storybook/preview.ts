@@ -2,6 +2,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import { withThemeByDataAttribute } from '@storybook/addon-themes';
 import type { HtmlRenderer, Preview } from '@storybook/html-vite';
 import '../oen.css';
+import '../oen.js';
 import './storybook.css';
 
 const preview: Preview = {

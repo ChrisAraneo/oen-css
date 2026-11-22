@@ -8,4 +8,6 @@ export interface BuildCheck {
   readonly stylesheet: string;
   readonly minified: MinifiedStylesheet;
   readonly stylesheetIssues: readonly string[];
+  readonly runtime: string;
+  readonly minifiedRuntime: string;
 }

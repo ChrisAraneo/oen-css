@@ -9,6 +9,8 @@ const file = (text: string) => ({ path: 'p', text, issue: undefined });
 const inputs = (overrides: Partial<VerifyInputs> = {}): VerifyInputs => ({
   stylesheet: file(`body{}\n${NOTICE}`),
   minifiedStylesheet: file(`body{}${NOTICE}`),
+  runtime: file(''),
+  minifiedRuntime: file(''),
   oenLicense: file(''),
   bulmaLicense: file(''),
   thirdPartyNotices: file(`# Notices\n${NOTICE}`),

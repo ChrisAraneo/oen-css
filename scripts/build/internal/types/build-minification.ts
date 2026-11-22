@@ -7,4 +7,6 @@ export interface BuildMinification {
   readonly namespaced: NamespacedStylesheet;
   readonly stylesheet: string;
   readonly minified: MinifiedStylesheet;
+  readonly runtime: string;
+  readonly minifiedRuntime: string;
 }

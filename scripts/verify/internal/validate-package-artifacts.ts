@@ -12,6 +12,8 @@ const CHECK_NAME = 'package artifacts are present';
 export const validatePackageArtifacts = ({
   stylesheet,
   minifiedStylesheet,
+  runtime,
+  minifiedRuntime,
   oenLicense,
   bulmaLicense,
   thirdPartyNotices,
@@ -20,6 +22,8 @@ export const validatePackageArtifacts = ({
     [
       stylesheet,
       minifiedStylesheet,
+      runtime,
+      minifiedRuntime,
       oenLicense,
       bulmaLicense,
       thirdPartyNotices,

@@ -1,6 +1,6 @@
 import { pipe } from 'remeda';
+import { patchOenButtonCanvas } from '../canvas/patch-oen-button-canvas.ts';
 import { patchOenButtonBorder } from '../controls/patch-oen-button-border.ts';
-import { patchOenButtonGlass } from '../controls/patch-oen-button-glass.ts';
 import { patchOenButtonLabel } from '../controls/patch-oen-button-label.ts';
 import { patchOenButtonRadius } from '../controls/patch-oen-button-radius.ts';
 import { patchOenButtonShadow } from '../controls/patch-oen-button-shadow.ts';
@@ -17,7 +17,7 @@ export const toOenStylesheetSource = (): string =>
     formatUseStatement,
     patchOenButtonRadius,
     patchOenButtonBorder,
-    patchOenButtonGlass,
     patchOenButtonShadow,
     patchOenButtonLabel,
+    patchOenButtonCanvas,
   );

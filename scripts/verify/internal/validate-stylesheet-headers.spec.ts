@@ -16,6 +16,8 @@ const file = (path: string, text: string) => ({ path, text, issue: undefined });
 const inputs = (overrides: Partial<VerifyInputs> = {}): VerifyInputs => ({
   stylesheet: file('oen.css', `${HEADER}body {}`),
   minifiedStylesheet: file('oen.min.css', `${HEADER}body{}`),
+  runtime: file('oen.js', ''),
+  minifiedRuntime: file('oen.min.js', ''),
   oenLicense: file('LICENSE', ''),
   bulmaLicense: file('LICENSE-bulma', ''),
   thirdPartyNotices: file('THIRD_PARTY_NOTICES.md', ''),

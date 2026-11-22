@@ -1,3 +1,5 @@
+import type { PaperShadersFacts } from '../../../src/licenses/types/paper-shaders-facts.ts';
+
 export interface BuildInputs {
   readonly startedAt: number;
   readonly version: string;
@@ -5,6 +7,10 @@ export interface BuildInputs {
   readonly bulmaVersion: string;
   readonly bulmaCopyright: string;
   readonly bulmaLicense: string;
+  readonly paperShaders: PaperShadersFacts;
+  readonly paperShadersCopyright: string;
   readonly stylesheet: string;
+  readonly runtime: string;
+  readonly minifiedRuntime: string;
   readonly issues: readonly string[];
 }

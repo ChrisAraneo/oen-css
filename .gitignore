@@ -1,6 +1,8 @@
 # Build artifacts (the published files sit at the package root)
 /oen.css
 /oen.min.css
+/oen.js
+/oen.min.js
 /LICENSE-bulma
 /storybook-static/
 

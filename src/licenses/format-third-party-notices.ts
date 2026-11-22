@@ -1,10 +1,12 @@
 import { trim } from 'lodash-es';
 import { formatEmbeddedLicenseComments } from './internal/format-embedded-license-comments.ts';
+import { formatPaperShadersNotices } from './format-paper-shaders-notices.ts';
 import type { ThirdPartyNoticesFacts } from './types/third-party-notices-facts.ts';
 
 export const formatThirdPartyNotices = ({
   bulmaVersion,
   bulmaLicense,
+  paperShaders,
   embeddedLicenseComments,
 }: ThirdPartyNoticesFacts): string => `# Third-party notices
 
@@ -28,4 +30,5 @@ oen-css's own license is in [LICENSE](./LICENSE); it does not replace the notice
 \`\`\`text
 ${trim(bulmaLicense)}
 \`\`\`
-${formatEmbeddedLicenseComments(embeddedLicenseComments)}`;
+
+${formatPaperShadersNotices(paperShaders)}${formatEmbeddedLicenseComments(embeddedLicenseComments)}`;

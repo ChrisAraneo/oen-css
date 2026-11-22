@@ -13,6 +13,8 @@ const ARTIFACTS: BuildArtifacts = {
   startedAt: 0,
   stylesheet: 'body {}',
   minifiedStylesheet: 'body{}',
+  runtime: 'void 0;',
+  minifiedRuntime: 'void 0;',
   bulmaLicense: 'Bulma MIT',
   thirdPartyNotices: '# Notices',
   appliedMappings: [],
@@ -48,10 +50,10 @@ describe('writeEveryBuildArtifact', () => {
     );
   });
 
-  it('should call `writePackageFile` four times when the artifacts are written', async () => {
+  it('should call `writePackageFile` six times when the artifacts are written', async () => {
     await writeEveryBuildArtifact(ARTIFACTS);
 
-    expect(writePackageFile).toHaveBeenCalledTimes(4);
+    expect(writePackageFile).toHaveBeenCalledTimes(6);
   });
 
   it('should resolve with the artifacts when every write succeeds', async () => {

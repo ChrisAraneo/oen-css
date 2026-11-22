@@ -31,4 +31,25 @@ export const BULMA_LICENSE_FILE: string = resolve(
   'LICENSE',
 );
 
+export const PAPER_SHADERS_MANIFEST: string = resolve(
+  NODE_MODULES_DIRECTORY,
+  '@paper-design',
+  'shaders',
+  'package.json',
+);
+
+export const PAPER_SHADERS_LICENSE_FILE: string = resolve(
+  NODE_MODULES_DIRECTORY,
+  '@paper-design',
+  'shaders',
+  'LICENSE',
+);
+
+export const PAPER_SHADERS_NOTICE_FILE: string = resolve(
+  NODE_MODULES_DIRECTORY,
+  '@paper-design',
+  'shaders',
+  'NOTICE',
+);
+
 export const BLANK_LINE = '';

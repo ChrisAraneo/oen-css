@@ -1,6 +1,6 @@
 import { isEmpty } from 'lodash-es';
 import { pipe } from 'remeda';
-import { runEffect } from '../../common/run-effect.ts';
+import { runEffect } from '../../../src/common/run-effect.ts';
 import { writeLines } from '../../common/write-lines.ts';
 import { writeIssueLines } from '../../common/write-issue-lines.ts';
 import type { CheckResult } from '../types/check-result.ts';

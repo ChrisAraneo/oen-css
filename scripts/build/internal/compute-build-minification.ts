@@ -7,9 +7,13 @@ export const computeBuildMinification = ({
   inputs,
   namespaced,
   stylesheet,
+  runtime,
+  minifiedRuntime,
 }: BuildBanner): BuildMinification => ({
   inputs,
   namespaced,
   stylesheet,
+  runtime,
+  minifiedRuntime,
   minified: minifyStylesheet(stylesheet, OEN_MINIFIED_STYLESHEET),
 });

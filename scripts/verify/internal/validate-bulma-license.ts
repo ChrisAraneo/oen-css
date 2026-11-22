@@ -1,3 +1,4 @@
+import { BULMA_COPYRIGHT_PREFIX } from '../../../src/licenses/consts.ts';
 import { findCopyrightLine } from '../../../src/licenses/find-copyright-line.ts';
 import {
   BULMA_LICENSE,
@@ -16,7 +17,7 @@ export const validateBulmaLicense = ({
   thirdPartyNotices,
 }: VerifyInputs): CheckResult => ({
   name: CHECK_NAME,
-  detail: `${findCopyrightLine(repositoryBulmaLicense.text) ?? NO_COPYRIGHT_LINE} (reproduced in ${BULMA_LICENSE} and ${THIRD_PARTY_NOTICES})`,
+  detail: `${findCopyrightLine(repositoryBulmaLicense.text, BULMA_COPYRIGHT_PREFIX) ?? NO_COPYRIGHT_LINE} (reproduced in ${BULMA_LICENSE} and ${THIRD_PARTY_NOTICES})`,
   issue: formatBulmaLicenseIssue(
     bulmaLicense.text,
     repositoryBulmaLicense.text,

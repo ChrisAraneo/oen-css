@@ -8,11 +8,15 @@ export const findBuildEmbeddedNotices = ({
   stylesheet,
   minified,
   stylesheetIssues,
+  runtime,
+  minifiedRuntime,
 }: BuildCheck): BuildNotices => ({
   inputs,
   namespaced,
   stylesheet,
   minified,
   stylesheetIssues,
+  runtime,
+  minifiedRuntime,
   embeddedLicenseComments: filterEmbeddedLicenseComments(stylesheet),
 });

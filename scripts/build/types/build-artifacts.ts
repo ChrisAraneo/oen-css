@@ -7,6 +7,8 @@ export interface BuildArtifacts {
   readonly startedAt: number;
   readonly stylesheet: string;
   readonly minifiedStylesheet: string;
+  readonly runtime: string;
+  readonly minifiedRuntime: string;
   readonly bulmaLicense: string;
   readonly thirdPartyNotices: string;
   readonly appliedMappings: readonly AppliedMapping[];

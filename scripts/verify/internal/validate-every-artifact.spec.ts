@@ -11,6 +11,8 @@ const file = (text: string) => ({
 const INPUTS: VerifyInputs = {
   stylesheet: file('body{}'),
   minifiedStylesheet: file('body{}'),
+  runtime: file(''),
+  minifiedRuntime: file(''),
   oenLicense: file(''),
   bulmaLicense: file(''),
   thirdPartyNotices: file(''),
@@ -20,20 +22,22 @@ const INPUTS: VerifyInputs = {
 };
 
 describe('validateEveryArtifact', () => {
-  it('should return fifteen results when called with the inputs', () => {
-    expect(validateEveryArtifact(INPUTS)).toHaveLength(15);
+  it('should return seventeen results when called with the inputs', () => {
+    expect(validateEveryArtifact(INPUTS)).toHaveLength(17);
   });
 
   it('should return the check names in order, artifacts first, when called with the inputs', () => {
     expect(validateEveryArtifact(INPUTS).map(({ name }) => name)).toEqual([
       'package artifacts are present',
       'stylesheets start with @charset and the attribution banner',
+      'runtimes start with the attribution banner',
       'no bulma identifiers leak outside the banner',
       'custom properties are namespaced with --oen-',
       'theme colors are the configured Oen palette',
       'theme fonts are the configured Oen stack',
       'type scale is the configured Oen scale',
       'controls are the configured Oen metrics',
+      'every button carries an injected canvas layer',
       'component classes are unchanged from Bulma',
       'fixed grid container is namespaced',
       'minified output is smaller and still intact',

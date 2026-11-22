@@ -3,10 +3,15 @@
 oen-css is Bulma, re-namespaced and re-themed. The published stylesheet is
 Bulma's own compiled output, apart from the custom property prefix, the six
 theme colors, the sans-serif stack, the type scale, the control metrics, and
-rules of its own for the button radius, the gradient button border, the frosted
-glass behind every button label, the soft shadow each one casts, and the
-uppercase label itself.
+rules of its own for the button radius, the rim around it, the soft shadow it
+casts, the uppercase label it carries, and the canvas layer behind that label.
 `npm run verify` fails when that stops being true.
+
+The package also ships an optional runtime, `oen.js`, which puts that canvas
+into every button and paints two layers onto it: a liquid metal shader from
+[Paper Shaders](https://shaders.paper.design), and a partly transparent mix of
+gradients in the button's own color over it. The stylesheet alone paints one
+flat color, which is the no-JavaScript fallback.
 
 The repository has two trees, and the split between them matters:
 
@@ -27,12 +32,13 @@ The repository has two trees, and the split between them matters:
 | [COLORS.md](./COLORS.md)                 | The six theme colors, and everything Bulma derives from them       |
 | [FONTS.md](./FONTS.md)                   | The sans-serif stack and the properties it reaches                 |
 | [TYPOGRAPHY.md](./TYPOGRAPHY.md)         | The seven-step type scale and the body metrics                     |
-| [CONTROLS.md](./CONTROLS.md)             | The 40px button: metrics, radius, border, glass, shadow            |
+| [CONTROLS.md](./CONTROLS.md)             | The 40px button: metrics, radius, rim, shadow, label               |
+| [CANVAS.md](./CANVAS.md)                 | The canvas every button wears, its two layers, and `oen.js`        |
 | [NAMESPACE.md](./NAMESPACE.md)           | `--oen-*`, the renames Sass cannot make, and the leftover check    |
 | [BANNER.md](./BANNER.md)                 | The attribution header, and the notices embedded in the stylesheet |
 | [LICENSES.md](./LICENSES.md)             | What ships, and the MIT obligations behind it                      |
 | [COMMANDS.md](./COMMANDS.md)             | Every npm script, and what it runs                                 |
-| [VERIFICATION.md](./VERIFICATION.md)     | The 15 checks, and how to relax one deliberately                   |
+| [VERIFICATION.md](./VERIFICATION.md)     | The 17 checks, and how to relax one deliberately                   |
 | [VERIFY_RENAMES.md](./VERIFY_RENAMES.md) | Candidate names for the `verify` module                            |
 
 ## Changing the theme

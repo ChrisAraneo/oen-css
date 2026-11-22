@@ -16,7 +16,7 @@ the `check` and `storybook` modules, where it can be read and typechecked.
 | `npm run format:check`    | `node scripts/format.ts --check`    | Prettier, checking                                                         |
 | `npm run storybook`       | `node scripts/storybook.ts`         | builds and verifies, then serves the gallery on port 6006                  |
 | `npm run storybook:build` | `node scripts/storybook.ts --build` | builds and verifies, then writes `storybook-static/`                       |
-| `npm run verify`          | `node scripts/verify.ts`            | the 15 assertions about the published files                                |
+| `npm run verify`          | `node scripts/verify.ts`            | the 17 assertions about the published files                                |
 
 `prepack` runs `build` then `verify`, so a published tarball cannot contain an
 unverified stylesheet. `prepublishOnly` runs the whole `check`.

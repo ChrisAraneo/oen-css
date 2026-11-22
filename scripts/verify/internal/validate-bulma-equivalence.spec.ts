@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest';
 import { formatButtonBorderRules } from '../../../src/controls/format-button-border-rules.ts';
-import { formatButtonGlassRules } from '../../../src/controls/format-button-glass-rules.ts';
 import { formatButtonLabelRule } from '../../../src/controls/format-button-label-rule.ts';
 import { formatButtonRadiusRule } from '../../../src/controls/format-button-radius-rule.ts';
 import { formatButtonShadowRules } from '../../../src/controls/format-button-shadow-rules.ts';
@@ -12,6 +11,8 @@ const file = (text: string) => ({ path: 'p', text, issue: undefined });
 const inputs = (ours: string, theirs: string): VerifyInputs => ({
   stylesheet: file(ours),
   minifiedStylesheet: file(''),
+  runtime: file(''),
+  minifiedRuntime: file(''),
   oenLicense: file(''),
   bulmaLicense: file(''),
   thirdPartyNotices: file(''),
@@ -74,7 +75,7 @@ describe('validateBulmaEquivalence', () => {
     expect(
       validateBulmaEquivalence(
         inputs(
-          `body{}\n\n${formatButtonRadiusRule()}\n\n${formatButtonBorderRules()}\n\n${formatButtonGlassRules()}\n\n${formatButtonShadowRules()}\n\n${formatButtonLabelRule()}`,
+          `body{}\n\n${formatButtonRadiusRule()}\n\n${formatButtonBorderRules()}\n\n${formatButtonShadowRules()}\n\n${formatButtonLabelRule()}`,
           'body{}',
         ),
       ).issue,

@@ -2,7 +2,9 @@ import { BULMA_LICENSE_FILE, BULMA_MANIFEST } from '../../common/consts.ts';
 import {
   BULMA_LICENSE,
   OEN_LICENSE,
+  OEN_MINIFIED_RUNTIME,
   OEN_MINIFIED_STYLESHEET,
+  OEN_RUNTIME,
   OEN_STYLESHEET,
   THIRD_PARTY_NOTICES,
 } from '../../common/package/consts.ts';
@@ -15,6 +17,8 @@ export const readVerifyInputs = (): Promise<VerifyInputs> =>
   Promise.all([
     readPackageFile(OEN_STYLESHEET),
     readPackageFile(OEN_MINIFIED_STYLESHEET),
+    readPackageFile(OEN_RUNTIME),
+    readPackageFile(OEN_MINIFIED_RUNTIME),
     readPackageFile(OEN_LICENSE),
     readPackageFile(BULMA_LICENSE),
     readPackageFile(THIRD_PARTY_NOTICES),
@@ -24,6 +28,8 @@ export const readVerifyInputs = (): Promise<VerifyInputs> =>
     ([
       stylesheet,
       minifiedStylesheet,
+      runtime,
+      minifiedRuntime,
       oenLicense,
       bulmaLicense,
       thirdPartyNotices,
@@ -32,6 +38,8 @@ export const readVerifyInputs = (): Promise<VerifyInputs> =>
     ]) => ({
       stylesheet,
       minifiedStylesheet,
+      runtime,
+      minifiedRuntime,
       oenLicense,
       bulmaLicense,
       thirdPartyNotices,

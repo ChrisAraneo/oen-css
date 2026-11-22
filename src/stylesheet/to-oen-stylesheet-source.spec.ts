@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
+import { formatButtonCanvasRules } from '../canvas/format-button-canvas-rules.ts';
 import { formatButtonBorderRules } from '../controls/format-button-border-rules.ts';
-import { formatButtonGlassRules } from '../controls/format-button-glass-rules.ts';
 import { formatButtonLabelRule } from '../controls/format-button-label-rule.ts';
 import { formatButtonRadiusRule } from '../controls/format-button-radius-rule.ts';
 import { formatButtonShadowRules } from '../controls/format-button-shadow-rules.ts';
@@ -26,18 +26,22 @@ describe('toOenStylesheetSource', () => {
     expect(toOenStylesheetSource()).toContain(`${formatButtonBorderRules()}\n`);
   });
 
-  it('should return a source that carries the button glass rules when the source is built', () => {
-    expect(toOenStylesheetSource()).toContain(`${formatButtonGlassRules()}\n`);
-  });
-
   it('should return a source that carries the button shadow rule when the source is built', () => {
     expect(toOenStylesheetSource()).toContain(`${formatButtonShadowRules()}\n`);
   });
 
-  it('should return a source that ends with the button label rule when the source is built', () => {
+  it('should return a source that carries the button label rule when the source is built', () => {
+    expect(toOenStylesheetSource()).toContain(`${formatButtonLabelRule()}\n`);
+  });
+
+  it('should return a source that ends with the button canvas rules when the source is built', () => {
     expect(
-      toOenStylesheetSource().endsWith(`${formatButtonLabelRule()}\n`),
+      toOenStylesheetSource().endsWith(`${formatButtonCanvasRules()}\n`),
     ).toBe(true);
+  });
+
+  it('should not return the removed button glass rules when the source is built', () => {
+    expect(toOenStylesheetSource()).not.toContain('oen-button-glass');
   });
 
   it('should return the five Oen rules in append order when the source is built', () => {
@@ -47,13 +51,13 @@ describe('toOenStylesheetSource', () => {
       source.indexOf(formatButtonBorderRules()),
     );
     expect(source.indexOf(formatButtonBorderRules())).toBeLessThan(
-      source.indexOf(formatButtonGlassRules()),
-    );
-    expect(source.indexOf(formatButtonGlassRules())).toBeLessThan(
       source.indexOf(formatButtonShadowRules()),
     );
     expect(source.indexOf(formatButtonShadowRules())).toBeLessThan(
       source.indexOf(formatButtonLabelRule()),
+    );
+    expect(source.indexOf(formatButtonLabelRule())).toBeLessThan(
+      source.indexOf(formatButtonCanvasRules()),
     );
   });
 

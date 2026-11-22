@@ -1,6 +1,8 @@
 # Build artifacts
 /oen.css
 /oen.min.css
+/oen.js
+/oen.min.js
 storybook-static/
 node_modules/
 

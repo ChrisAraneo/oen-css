@@ -13,6 +13,8 @@ const artifacts = (issues: readonly string[] = []): BuildArtifacts => ({
   startedAt: 0,
   stylesheet: 'body {}',
   minifiedStylesheet: 'body{}',
+  runtime: 'void 0;',
+  minifiedRuntime: 'void 0;',
   bulmaLicense: 'MIT',
   thirdPartyNotices: '# Notices',
   appliedMappings: [],

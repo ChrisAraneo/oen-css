@@ -5,4 +5,6 @@ export interface BuildBanner {
   readonly inputs: BuildInputs;
   readonly namespaced: NamespacedStylesheet;
   readonly stylesheet: string;
+  readonly runtime: string;
+  readonly minifiedRuntime: string;
 }

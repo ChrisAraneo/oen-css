@@ -1,8 +1,8 @@
 import { size } from 'lodash-es';
 import { pipe } from 'remeda';
 import { toStylesheetBody } from '../../../src/banner/to-stylesheet-body.ts';
+import { patchBulmaButtonCanvas } from '../../../src/canvas/patch-bulma-button-canvas.ts';
 import { patchBulmaButtonBorder } from '../../../src/controls/patch-bulma-button-border.ts';
-import { patchBulmaButtonGlass } from '../../../src/controls/patch-bulma-button-glass.ts';
 import { patchBulmaButtonLabel } from '../../../src/controls/patch-bulma-button-label.ts';
 import { patchBulmaButtonRadius } from '../../../src/controls/patch-bulma-button-radius.ts';
 import { patchBulmaButtonShadow } from '../../../src/controls/patch-bulma-button-shadow.ts';
@@ -28,9 +28,9 @@ export const validateBulmaEquivalence = ({
       ours: patchBulmaNamespace(
         patchBulmaButtonRadius(
           patchBulmaButtonBorder(
-            patchBulmaButtonGlass(
-              patchBulmaButtonShadow(
-                patchBulmaButtonLabel(toStylesheetBody(stylesheet.text)),
+            patchBulmaButtonShadow(
+              patchBulmaButtonLabel(
+                patchBulmaButtonCanvas(toStylesheetBody(stylesheet.text)),
               ),
             ),
           ),

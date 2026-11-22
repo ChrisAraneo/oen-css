@@ -2,7 +2,6 @@ import { map } from 'lodash-es';
 import { describe, expect, it } from 'vitest';
 import { OEN_CONTROL_DECLARATIONS } from '../../../src/controls/consts.ts';
 import { formatButtonBorderRules } from '../../../src/controls/format-button-border-rules.ts';
-import { formatButtonGlassRules } from '../../../src/controls/format-button-glass-rules.ts';
 import { formatButtonLabelRule } from '../../../src/controls/format-button-label-rule.ts';
 import { formatButtonRadiusRule } from '../../../src/controls/format-button-radius-rule.ts';
 import { formatButtonShadowRules } from '../../../src/controls/format-button-shadow-rules.ts';
@@ -15,7 +14,7 @@ const EVERY_DECLARATION = `${map(
   formatThemeControlDeclaration,
 ).join(
   '\n',
-)}\n${formatButtonRadiusRule()}\n${formatButtonBorderRules()}\n${formatButtonGlassRules()}\n${formatButtonShadowRules()}\n${formatButtonLabelRule()}`;
+)}\n${formatButtonRadiusRule()}\n${formatButtonBorderRules()}\n${formatButtonShadowRules()}\n${formatButtonLabelRule()}`;
 
 const file = (text: string) => ({
   path: 'oen.css',
@@ -26,6 +25,8 @@ const file = (text: string) => ({
 const inputs = (stylesheet: string): VerifyInputs => ({
   stylesheet: file(stylesheet),
   minifiedStylesheet: file(''),
+  runtime: file(''),
+  minifiedRuntime: file(''),
   oenLicense: file(''),
   bulmaLicense: file(''),
   thirdPartyNotices: file(''),
@@ -40,7 +41,7 @@ describe('validateThemeControls', () => {
 
     expect(result.name).toBe('controls are the configured Oen metrics');
     expect(result.detail).toBe(
-      `${OEN_CONTROL_DECLARATIONS.length} declarations and the button radius, border, glass, shadow and label rules compile to their configured metrics`,
+      `${OEN_CONTROL_DECLARATIONS.length} declarations and the button radius, border, shadow and label rules compile to their configured metrics`,
     );
   });
 

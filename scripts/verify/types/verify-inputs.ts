@@ -4,6 +4,8 @@ import type { TextFile } from '../../common/types/text-file.ts';
 export interface VerifyInputs {
   readonly stylesheet: TextFile;
   readonly minifiedStylesheet: TextFile;
+  readonly runtime: TextFile;
+  readonly minifiedRuntime: TextFile;
   readonly oenLicense: TextFile;
   readonly bulmaLicense: TextFile;
   readonly thirdPartyNotices: TextFile;

@@ -11,6 +11,8 @@ const file = (path: string, issue?: string) => ({
 const inputs = (overrides: Partial<VerifyInputs> = {}): VerifyInputs => ({
   stylesheet: file('oen.css'),
   minifiedStylesheet: file('oen.min.css'),
+  runtime: file('oen.js'),
+  minifiedRuntime: file('oen.min.js'),
   oenLicense: file('LICENSE'),
   bulmaLicense: file('LICENSE-bulma'),
   thirdPartyNotices: file('THIRD_PARTY_NOTICES.md'),
@@ -21,12 +23,12 @@ const inputs = (overrides: Partial<VerifyInputs> = {}): VerifyInputs => ({
 });
 
 describe('validatePackageArtifacts', () => {
-  it('should return the check name and the five artifacts as the detail when every artifact was read', () => {
+  it('should return the check name and the seven artifacts as the detail when every artifact was read', () => {
     const result = validatePackageArtifacts(inputs());
 
     expect(result.name).toBe('package artifacts are present');
     expect(result.detail).toBe(
-      'oen.css, oen.min.css, LICENSE, LICENSE-bulma, THIRD_PARTY_NOTICES.md',
+      'oen.css, oen.min.css, oen.js, oen.min.js, LICENSE, LICENSE-bulma, THIRD_PARTY_NOTICES.md',
     );
   });
 

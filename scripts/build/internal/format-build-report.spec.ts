@@ -10,6 +10,8 @@ const artifacts = (
   startedAt: 0,
   stylesheet: 'body {}',
   minifiedStylesheet: 'body{}',
+  runtime: 'void 0;',
+  minifiedRuntime: 'void 0;',
   bulmaLicense: 'MIT',
   thirdPartyNotices: '# Notices',
   appliedMappings: [{ description: 'the prefix', count: 7 }],
@@ -42,7 +44,7 @@ describe('formatBuildReport', () => {
 
   it('should return a line naming the licenses that ship alongside when called with the artifacts', () => {
     expect(formatBuildReport(artifacts(), 0)).toContain(
-      '  LICENSE, LICENSE-bulma, THIRD_PARTY_NOTICES.md',
+      '  LICENSE-bulma, THIRD_PARTY_NOTICES.md',
     );
   });
 

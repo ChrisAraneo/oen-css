@@ -41,10 +41,10 @@ describe('readBuildInputs', () => {
     );
   });
 
-  it('should call `readTextFile` three times when the inputs are read', async () => {
+  it('should call `readTextFile` six times when the inputs are read', async () => {
     await readBuildInputs(() => 0);
 
-    expect(readTextFile).toHaveBeenCalledTimes(3);
+    expect(readTextFile).toHaveBeenCalledTimes(6);
   });
 
   it('should pass the compiled stylesheet to `toBuildInputs` when the inputs are read', async () => {

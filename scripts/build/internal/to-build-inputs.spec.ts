@@ -10,7 +10,11 @@ const files = (overrides: Partial<BuildFiles> = {}): BuildFiles => ({
   ),
   bulmaManifest: file('{"version":"1.0.4"}'),
   bulmaLicense: file('MIT License\n\nCopyright (c) 2023 Jeremy Thomas\n'),
+  paperShadersManifest: file('{"version":"0.0.82"}'),
+  paperShadersLicense: file('Apache License'),
+  paperShadersNotice: file('Paper Shaders\n\nCopyright 2026 Paper\n'),
   stylesheet: { css: 'body {}', issue: undefined },
+  runtime: { code: 'void 0;', minifiedCode: 'void 0;', issue: undefined },
   ...overrides,
 });
 
@@ -23,7 +27,15 @@ describe('toBuildInputs', () => {
       bulmaVersion: '1.0.4',
       bulmaCopyright: 'Copyright (c) 2023 Jeremy Thomas',
       bulmaLicense: 'MIT License\n\nCopyright (c) 2023 Jeremy Thomas\n',
+      paperShaders: {
+        version: '0.0.82',
+        license: 'Apache License',
+        notice: 'Paper Shaders\n\nCopyright 2026 Paper\n',
+      },
+      paperShadersCopyright: 'Copyright 2026 Paper',
       stylesheet: 'body {}',
+      runtime: 'void 0;',
+      minifiedRuntime: 'void 0;',
       issues: [],
     });
   });
