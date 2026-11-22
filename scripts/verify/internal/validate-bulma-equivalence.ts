@@ -1,7 +1,11 @@
 import { size } from 'lodash-es';
 import { pipe } from 'remeda';
 import { toStylesheetBody } from '../../../src/banner/to-stylesheet-body.ts';
+import { patchBulmaButtonBorder } from '../../../src/controls/patch-bulma-button-border.ts';
+import { patchBulmaButtonGlass } from '../../../src/controls/patch-bulma-button-glass.ts';
+import { patchBulmaButtonLabel } from '../../../src/controls/patch-bulma-button-label.ts';
 import { patchBulmaButtonRadius } from '../../../src/controls/patch-bulma-button-radius.ts';
+import { patchBulmaButtonShadow } from '../../../src/controls/patch-bulma-button-shadow.ts';
 import { patchBulmaNamespace } from '../../../src/namespace/patch-bulma-namespace.ts';
 import { parsePackageManifest } from '../../common/parse-package-manifest.ts';
 import type { CheckResult } from '../types/check-result.ts';
@@ -21,8 +25,16 @@ export const validateBulmaEquivalence = ({
 }: VerifyInputs): CheckResult =>
   pipe(
     {
-      ours: patchBulmaButtonRadius(
-        patchBulmaNamespace(toStylesheetBody(stylesheet.text)),
+      ours: patchBulmaNamespace(
+        patchBulmaButtonRadius(
+          patchBulmaButtonBorder(
+            patchBulmaButtonGlass(
+              patchBulmaButtonShadow(
+                patchBulmaButtonLabel(toStylesheetBody(stylesheet.text)),
+              ),
+            ),
+          ),
+        ),
       ),
       theirs: toStylesheetBody(upstreamBulmaStylesheet.css),
     },
@@ -32,7 +44,7 @@ export const validateBulmaEquivalence = ({
     }),
     ({ ours, differences }) => ({
       name: CHECK_NAME,
-      detail: `Bulma v${parsePackageManifest(bulmaManifest.text).version} apart from ${size(differences)} theme declarations and the Oen button radius (${size(ours).toLocaleString(BYTE_COUNT_LOCALE)} bytes compared)`,
+      detail: `Bulma v${parsePackageManifest(bulmaManifest.text).version} apart from ${size(differences)} theme declarations and the Oen button rules (${size(ours).toLocaleString(BYTE_COUNT_LOCALE)} bytes compared)`,
       issue: formatEquivalenceIssue(filterUnthemedDifferences(differences)),
     }),
   );

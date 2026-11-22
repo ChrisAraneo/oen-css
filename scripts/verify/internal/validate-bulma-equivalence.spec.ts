@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
+import { formatButtonBorderRules } from '../../../src/controls/format-button-border-rules.ts';
+import { formatButtonGlassRules } from '../../../src/controls/format-button-glass-rules.ts';
+import { formatButtonLabelRule } from '../../../src/controls/format-button-label-rule.ts';
 import { formatButtonRadiusRule } from '../../../src/controls/format-button-radius-rule.ts';
+import { formatButtonShadowRules } from '../../../src/controls/format-button-shadow-rules.ts';
 import type { VerifyInputs } from '../types/verify-inputs.ts';
 import { validateBulmaEquivalence } from './validate-bulma-equivalence.ts';
 
@@ -66,10 +70,21 @@ describe('validateBulmaEquivalence', () => {
     ).toBe(undefined);
   });
 
-  it('should return the Oen button radius in the detail when the stylesheets match', () => {
+  it('should return `undefined` as the issue when the only difference is every Oen button rule', () => {
+    expect(
+      validateBulmaEquivalence(
+        inputs(
+          `body{}\n\n${formatButtonRadiusRule()}\n\n${formatButtonBorderRules()}\n\n${formatButtonGlassRules()}\n\n${formatButtonShadowRules()}\n\n${formatButtonLabelRule()}`,
+          'body{}',
+        ),
+      ).issue,
+    ).toBe(undefined);
+  });
+
+  it('should return the Oen button rules in the detail when the stylesheets match', () => {
     expect(
       validateBulmaEquivalence(inputs('body{}', 'body{}')).detail,
-    ).toContain('and the Oen button radius');
+    ).toContain('and the Oen button rules');
   });
 
   it('should return the equivalence issue when the theme does not explain the difference', () => {

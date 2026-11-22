@@ -29,7 +29,7 @@ takes longer than the build.
 | `theme colors are the configured Oen palette`                | each of the six colors appears as its `-rgb` declaration                                                                             |
 | `theme fonts are the configured Oen stack`                   | `--oen-family-primary` and `--oen-family-secondary` carry the stack                                                                  |
 | `type scale is the configured Oen scale`                     | all fourteen type declarations are present, derived control sizes included                                                           |
-| `controls are the configured Oen metrics`                    | the control line height, both button paddings, and the button radius rule are present                                                |
+| `controls are the configured Oen metrics`                    | the control line height, both button paddings, and the button radius, border, glass, shadow and label rules are present              |
 | `component classes are unchanged from Bulma`                 | twelve spot-checked selectors still exist, from `.button` to `.skeleton-block`                                                       |
 | `fixed grid container is namespaced`                         | `container-name: oen-fixed-grid` plus at least one `@container oen-fixed-grid` query                                                 |
 | `minified output is smaller and still intact`                | `oen.min.css` is smaller than `oen.css` and has balanced braces                                                                      |
@@ -47,24 +47,29 @@ smoke test for a truncated build, not a count to maintain.
 
 The fifteenth is the one that makes the others nearly redundant. It proves
 the published stylesheet is Bulma and nothing but Bulma, apart from the theme
-and one rule of our own.
+and two rules of our own.
 
 1. Compile unconfigured Bulma from the same `node_modules` the build used.
-2. Map our stylesheet **back** to Bulma's namespace, using the reverse
+2. Remove the Oen-only button rules from the end of ours, in reverse append
+   order — label, shadow, glass, border, radius — since Bulma has no lines to
+   compare them
+   against; see [CONTROLS.md](./CONTROLS.md#the-button-radius). The border and
+   glass rules name `--oen-*` properties, so they come off before the mapping
+   in the next step.
+3. Map our stylesheet **back** to Bulma's namespace, using the reverse
    direction of every mapping in `src/namespace/` — see
    [NAMESPACE.md](./NAMESPACE.md#every-mapping-is-reversible).
-3. Remove the button radius rule from the end of ours, since Bulma has no
-   line to compare it against — see
-   [CONTROLS.md](./CONTROLS.md#the-button-radius).
 4. Strip the charset and banner from both sides, since ours carries a version
    number that changes on every release.
 5. Compare line by line.
 6. Allow a difference only if **both** lines are themed declarations.
 
-Step 3 is the one deliberate relaxation, and it is as narrow as a relaxation
-gets: it removes one exact rule, read from the same
-`formatButtonRadiusRule` the build appends, at the end of the stylesheet and
-nowhere else. A second Oen-only rule would fail the check until it is listed
+Step 2 is the one deliberate relaxation, and it is as narrow as a relaxation
+gets: it removes five exact blocks of text, read from the same
+`formatButtonRadiusRule`, `formatButtonBorderRules`, `formatButtonGlassRules`
+`formatButtonShadowRules` and `formatButtonLabelRule` the build appends, at
+the end of the stylesheet and
+nowhere else. A further Oen-only rule would fail the check until it is listed
 here too.
 
 Step 6 is the allowlist, and it is narrow. `THEMED_DECLARATION_PREFIXES` in
@@ -81,7 +86,7 @@ drift, and the check fails with the first five offending lines:
     bulma: --bulma-radius: 0.375rem;
 ```
 
-Today it reports 720 allowed theme declarations and the Oen button radius
+Today it reports 720 allowed theme declarations and the five Oen button rules
 across 764,084 compared bytes.
 A change in that number on its own is informative: the theme reaches a
 different set of declarations than before.
@@ -103,12 +108,16 @@ Step 2 is intentionally manual. It is where "Oen is Bulma with a theme" either
 stays true or is knowingly widened, so it should appear in a diff as an
 explicit decision.
 
-A rule Bulma has no variable for is the wider case, and the button radius is
-the one example in the repository today. It takes the same two steps, in a
-stronger form: the module that owns it writes the rule in one place and
-appends it to the generated source, and the check removes that same rule
-before comparing. `src/controls/` does both with `formatButtonRadiusRule`, so
-the build and the check cannot disagree about what was added — see
+A rule Bulma has no variable for is the wider case, and the button radius, the
+gradient button border, the frosted glass, the soft shadow and the label are
+the five examples in the repository today. Each
+takes the same two steps, in a stronger form: the module that owns it writes
+the rule in one place and appends it to the generated source, and the check
+removes that same text before comparing. `src/controls/` does both with
+`formatButtonRadiusRule`, `formatButtonBorderRules`, `formatButtonGlassRules`
+`formatButtonShadowRules` and `formatButtonLabelRule`, so the build and the
+check cannot disagree about
+what was added — see
 [CONTROLS.md](./CONTROLS.md#the-button-radius).
 
 ## The stories check

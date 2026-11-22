@@ -3,8 +3,10 @@
 oen-css is Bulma, re-namespaced and re-themed. The published stylesheet is
 Bulma's own compiled output, apart from the custom property prefix, the six
 theme colors, the sans-serif stack, the type scale, the control metrics, and
-one rule of its own for the button radius. `npm run verify` fails when that
-stops being true.
+rules of its own for the button radius, the gradient button border, the frosted
+glass behind every button label, the soft shadow each one casts, and the
+uppercase label itself.
+`npm run verify` fails when that stops being true.
 
 The repository has two trees, and the split between them matters:
 
@@ -25,7 +27,7 @@ The repository has two trees, and the split between them matters:
 | [COLORS.md](./COLORS.md)                 | The six theme colors, and everything Bulma derives from them       |
 | [FONTS.md](./FONTS.md)                   | The sans-serif stack and the properties it reaches                 |
 | [TYPOGRAPHY.md](./TYPOGRAPHY.md)         | The seven-step type scale and the body metrics                     |
-| [CONTROLS.md](./CONTROLS.md)             | The 40px button: its line height, padding, and 20px radius         |
+| [CONTROLS.md](./CONTROLS.md)             | The 40px button: metrics, radius, border, glass, shadow            |
 | [NAMESPACE.md](./NAMESPACE.md)           | `--oen-*`, the renames Sass cannot make, and the leftover check    |
 | [BANNER.md](./BANNER.md)                 | The attribution header, and the notices embedded in the stylesheet |
 | [LICENSES.md](./LICENSES.md)             | What ships, and the MIT obligations behind it                      |

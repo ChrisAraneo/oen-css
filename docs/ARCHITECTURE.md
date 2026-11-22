@@ -7,11 +7,11 @@ src/            what the library is          (TypeScript, no Sass file)
   banner/       the attribution header prepended to both stylesheets
   colors/       the six theme colors
   common/       countMatches and toRatio, the helpers more than one module needs
-  controls/     the control line height, the button padding and its radius
+  controls/     the control metrics, the button radius, border, glass, shadow and label
   fonts/        the sans-serif stack
   licenses/     THIRD_PARTY_NOTICES.md and the embedded notices
   namespace/    the --oen- prefix and the renames Sass cannot make
-  stylesheet/   assembles the Bulma configuration and the Oen button radius
+  stylesheet/   assembles the Bulma configuration and the Oen button rules
   typography/   the seven-step type scale and the body metrics
 
 scripts/        the tooling that builds and checks it
