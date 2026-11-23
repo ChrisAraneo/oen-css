@@ -3,10 +3,11 @@ import type { ButtonCanvasGroup } from '../types/button-canvas-group.ts';
 import type { ButtonCanvasKey } from '../types/button-canvas-key.ts';
 import type { ButtonCanvasPaint } from '../types/button-canvas-paint.ts';
 
-const toKey = ({ palette, offset }: ButtonCanvasPaint): ButtonCanvasKey => ({
+const toKey = ({
   palette,
   offset,
-});
+  pressed,
+}: ButtonCanvasPaint): ButtonCanvasKey => ({ palette, offset, pressed });
 
 const toGroup = (
   paints: readonly ButtonCanvasPaint[],
@@ -14,6 +15,7 @@ const toGroup = (
 ): ButtonCanvasGroup => ({
   palette: key.palette,
   offset: key.offset,
+  pressed: key.pressed,
   canvases: map(
     filter(paints, (paint) => isEqual(toKey(paint), key)),
     ({ canvas }) => canvas,

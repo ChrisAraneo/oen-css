@@ -11,14 +11,20 @@ const FIRST_OFFSET = 0;
 
 const LATER_OFFSET = 0.375;
 
+const RELEASED = false;
+
+const PRESSED = true;
+
 const toPaint = (
   name: string,
   palette: ButtonCanvasPaint['palette'],
   offset: number,
+  pressed: boolean = RELEASED,
 ): ButtonCanvasPaint => ({
   canvas: { id: name } as unknown as HTMLCanvasElement,
   palette,
   offset,
+  pressed,
 });
 
 describe('toButtonCanvasGroups', () => {
@@ -26,7 +32,7 @@ describe('toButtonCanvasGroups', () => {
     expect(toButtonCanvasGroups([])).toEqual([]);
   });
 
-  it('should return one group when every paint carries the same palette and offset', () => {
+  it('should return one group when every paint carries the same palette, offset and press', () => {
     expect(
       toButtonCanvasGroups([
         toPaint('a', BLUE, FIRST_OFFSET),
@@ -36,6 +42,7 @@ describe('toButtonCanvasGroups', () => {
       {
         palette: BLUE,
         offset: FIRST_OFFSET,
+        pressed: RELEASED,
         canvases: [{ id: 'a' }, { id: 'b' }],
       },
     ]);
@@ -65,6 +72,18 @@ describe('toButtonCanvasGroups', () => {
     ).toBe(2);
   });
 
+  it('should return one group for each press when the paints share a palette and an offset but one is pressed', () => {
+    expect(
+      size(
+        toButtonCanvasGroups([
+          toPaint('a', BLUE, FIRST_OFFSET, RELEASED),
+          toPaint('b', BLUE, FIRST_OFFSET, PRESSED),
+          toPaint('c', BLUE, FIRST_OFFSET, RELEASED),
+        ]),
+      ),
+    ).toBe(2);
+  });
+
   it('should return every canvas of a palette in one group when the paints are grouped', () => {
     expect(
       toButtonCanvasGroups([
@@ -85,6 +104,16 @@ describe('toButtonCanvasGroups', () => {
     ).toEqual([{ id: 'a' }, { id: 'c' }]);
   });
 
+  it('should return only the canvases that are released when one paint is pressed', () => {
+    expect(
+      toButtonCanvasGroups([
+        toPaint('a', BLUE, FIRST_OFFSET, RELEASED),
+        toPaint('b', BLUE, FIRST_OFFSET, PRESSED),
+        toPaint('c', BLUE, FIRST_OFFSET, RELEASED),
+      ])[0]?.canvases,
+    ).toEqual([{ id: 'a' }, { id: 'c' }]);
+  });
+
   it('should return the offset its canvases carry when a group is returned', () => {
     expect(
       toButtonCanvasGroups([
@@ -92,6 +121,15 @@ describe('toButtonCanvasGroups', () => {
         toPaint('b', BLUE, FIRST_OFFSET),
       ])[0]?.offset,
     ).toBe(LATER_OFFSET);
+  });
+
+  it('should return the press its canvases carry when a group is returned', () => {
+    expect(
+      toButtonCanvasGroups([
+        toPaint('a', BLUE, FIRST_OFFSET, PRESSED),
+        toPaint('b', BLUE, FIRST_OFFSET, RELEASED),
+      ])[0]?.pressed,
+    ).toBe(PRESSED);
   });
 
   it('should return a group without a palette when a paint has no palette', () => {
@@ -103,6 +141,7 @@ describe('toButtonCanvasGroups', () => {
     ).toEqual({
       palette: undefined,
       offset: FIRST_OFFSET,
+      pressed: RELEASED,
       canvases: [{ id: 'a' }],
     });
   });

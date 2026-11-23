@@ -4,6 +4,7 @@ import { OEN_BUTTON_CANVAS_CHILD_SELECTOR } from '../consts.ts';
 import type { BrowserView } from '../types/browser-view.ts';
 import type { ButtonCanvasPaint } from '../types/button-canvas-paint.ts';
 import { findButtonCanvasHosts } from './find-button-canvas-hosts.ts';
+import { isButtonPressed } from './is-button-pressed.ts';
 import { readButtonCanvasOffset } from './read-button-canvas-offset.ts';
 import { readButtonPalette } from './read-button-palette.ts';
 
@@ -19,6 +20,7 @@ const toButtonCanvasPaint = (
       canvas,
       palette: readButtonPalette(view, host),
       offset: readButtonCanvasOffset(canvas),
+      pressed: isButtonPressed(host),
     }));
 
 export const findButtonCanvasPaints = (

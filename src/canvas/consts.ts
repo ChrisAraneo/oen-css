@@ -1,6 +1,7 @@
 import type { ButtonGradientLayer } from './types/button-gradient-layer.ts';
 import type { ButtonGradientRampStop } from './types/button-gradient-ramp-stop.ts';
 import type { ButtonGradientStop } from './types/button-gradient-stop.ts';
+import type { ButtonPressBand } from './types/button-press-band.ts';
 
 export const OEN_BUTTON_CANVAS_CLASS = 'oen-button-canvas';
 
@@ -154,6 +155,29 @@ export const OEN_BUTTON_GRADIENT_RAMP: readonly ButtonGradientRampStop[] =
     { position: 0.25, alpha: 0.9 },
     { position: 0.5, alpha: 0.62 },
     { position: 0.75, alpha: 0.26 },
+    { position: 1, alpha: 0 },
+  ]);
+
+export const OEN_BUTTON_PRESS_SELECTOR = ':active, .is-active';
+
+export const OEN_BUTTON_PRESS_BANDS: readonly ButtonPressBand[] = Object.freeze(
+  [
+    { side: 'top', depth: 1, lightnessShift: -0.55, alpha: 0.34 },
+    { side: 'top', depth: 0.3, lightnessShift: -0.76, alpha: 0.6 },
+    { side: 'top', depth: 0.1, lightnessShift: -0.86, alpha: 0.42 },
+    { side: 'left', depth: 0.3, lightnessShift: -0.65, alpha: 0.36 },
+    { side: 'right', depth: 0.3, lightnessShift: -0.65, alpha: 0.36 },
+    { side: 'bottom', depth: 0.3, lightnessShift: -0.45, alpha: 0.16 },
+    { side: 'bottom', depth: 0.16, lightnessShift: 0.68, alpha: 0.72 },
+  ],
+);
+
+export const OEN_BUTTON_PRESS_RAMP: readonly ButtonGradientRampStop[] =
+  Object.freeze([
+    { position: 0, alpha: 1 },
+    { position: 0.2, alpha: 0.62 },
+    { position: 0.45, alpha: 0.3 },
+    { position: 0.7, alpha: 0.1 },
     { position: 1, alpha: 0 },
   ]);
 

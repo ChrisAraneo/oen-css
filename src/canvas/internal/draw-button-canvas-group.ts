@@ -12,7 +12,7 @@ const { nullish } = P;
 
 export const drawButtonCanvasGroup = (
   painter: ButtonCanvasPainter,
-  { palette, canvases }: ButtonCanvasGroup,
+  { palette, pressed, canvases }: ButtonCanvasGroup,
   phase: number,
   frame: number,
 ): readonly HTMLCanvasElement[] =>
@@ -23,6 +23,9 @@ export const drawButtonCanvasGroup = (
         runEffect(painter.source, () =>
           drawButtonGradient(painter, palette, phase, frame),
         ),
-        (source) => map(canvases, (canvas) => drawButtonCanvas(canvas, source)),
+        (source) =>
+          map(canvases, (canvas) =>
+            drawButtonCanvas(canvas, source, palette, pressed),
+          ),
       ),
     );

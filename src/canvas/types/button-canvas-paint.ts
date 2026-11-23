@@ -4,4 +4,5 @@ export interface ButtonCanvasPaint {
   readonly canvas: HTMLCanvasElement;
   readonly palette: ButtonPalette | undefined;
   readonly offset: number;
+  readonly pressed: boolean;
 }
