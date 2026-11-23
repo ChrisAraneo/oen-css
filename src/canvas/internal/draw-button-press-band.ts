@@ -5,16 +5,22 @@ import type { ButtonCanvasSize } from '../types/button-canvas-size.ts';
 import type { ButtonPalette } from '../types/button-palette.ts';
 import type { ButtonPressBand } from '../types/button-press-band.ts';
 import { createButtonPressFill } from './create-button-press-fill.ts';
+import { toButtonPressAlpha } from './to-button-press-alpha.ts';
 
 export const drawButtonPressBand = (
   context: CanvasRenderingContext2D,
   palette: ButtonPalette,
   size: ButtonCanvasSize,
   band: ButtonPressBand,
+  press: number,
 ): CanvasRenderingContext2D =>
   pipe(
     context,
-    (context) => runEffect(context, () => (context.globalAlpha = band.alpha)),
+    (context) =>
+      runEffect(
+        context,
+        () => (context.globalAlpha = toButtonPressAlpha(band, press)),
+      ),
     (context) =>
       runEffect(
         context,

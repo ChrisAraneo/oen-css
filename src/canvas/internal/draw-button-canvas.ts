@@ -5,6 +5,7 @@ import {
   OEN_BUTTON_CANVAS_ORIGIN,
   OEN_BUTTON_CANVAS_REPLACE_OPERATION,
   OEN_BUTTON_GRADIENT_FULL_ALPHA,
+  OEN_BUTTON_PRESS_NO_PROGRESS,
 } from '../consts.ts';
 import type { ButtonPalette } from '../types/button-palette.ts';
 import { drawButtonPress } from './draw-button-press.ts';
@@ -16,7 +17,7 @@ export const drawButtonCanvas = (
   canvas: HTMLCanvasElement,
   source: HTMLCanvasElement,
   palette: ButtonPalette,
-  pressed: boolean,
+  press: number,
 ): HTMLCanvasElement =>
   match(getButtonCanvasContext(canvas))
     .with(nullish, () => canvas)
@@ -47,8 +48,10 @@ export const drawButtonCanvas = (
             ),
           ),
         () =>
-          match(pressed)
-            .with(true, () => drawButtonPress(canvas, palette))
+          match(press)
+            .with(P.number.gt(OEN_BUTTON_PRESS_NO_PROGRESS), () =>
+              drawButtonPress(canvas, palette, press),
+            )
             .otherwise(() => canvas),
       ),
     );

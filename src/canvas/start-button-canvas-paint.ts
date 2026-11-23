@@ -12,6 +12,6 @@ export const startButtonCanvasPaint = (view: BrowserView): number =>
     },
     (painter) =>
       view.requestAnimationFrame((time) =>
-        runButtonCanvasFrame(view, painter, time),
+        runButtonCanvasFrame(view, painter, time, time),
       ),
   );

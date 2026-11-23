@@ -22,6 +22,8 @@ export const OEN_BUTTON_CANVAS_HIDDEN_ATTRIBUTE = 'aria-hidden';
 
 export const OEN_BUTTON_CANVAS_OFFSET_ATTRIBUTE = 'data-oen-button-offset';
 
+export const OEN_BUTTON_CANVAS_PRESS_ATTRIBUTE = 'data-oen-button-press';
+
 export const OEN_BUTTON_CANVAS_MOUNT_EVENT = 'oen:button-canvas-mount';
 
 export const OEN_BUTTON_CANVAS_RESIZE_EVENT = 'oen:button-canvas-resize';
@@ -159,6 +161,21 @@ export const OEN_BUTTON_GRADIENT_RAMP: readonly ButtonGradientRampStop[] =
   ]);
 
 export const OEN_BUTTON_PRESS_SELECTOR = ':active, .is-active';
+
+export const OEN_BUTTON_PRESS_SINK_DURATION = 49;
+
+export const OEN_BUTTON_PRESS_LIFT_DURATION = 147;
+
+export const OEN_BUTTON_PRESS_MAX_ELAPSED: number =
+  OEN_BUTTON_PRESS_LIFT_DURATION;
+
+export const OEN_BUTTON_PRESS_NO_ELAPSED = 0;
+
+export const OEN_BUTTON_PRESS_NO_PROGRESS = 0;
+
+export const OEN_BUTTON_PRESS_FULL_PROGRESS = 1;
+
+export const OEN_BUTTON_PRESS_EASE_EXPONENT = 2;
 
 export const OEN_BUTTON_PRESS_BANDS: readonly ButtonPressBand[] = Object.freeze(
   [

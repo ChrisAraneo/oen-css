@@ -13,6 +13,7 @@ export const drawEveryButtonPressBand = (
   context: CanvasRenderingContext2D,
   palette: ButtonPalette,
   size: ButtonCanvasSize,
+  press: number,
 ): readonly CanvasRenderingContext2D[] =>
   pipe(
     context,
@@ -25,6 +26,6 @@ export const drawEveryButtonPressBand = (
       ),
     (context) =>
       map(OEN_BUTTON_PRESS_BANDS, (band) =>
-        drawButtonPressBand(context, palette, size, band),
+        drawButtonPressBand(context, palette, size, band, press),
       ),
   );

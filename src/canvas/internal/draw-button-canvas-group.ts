@@ -12,7 +12,7 @@ const { nullish } = P;
 
 export const drawButtonCanvasGroup = (
   painter: ButtonCanvasPainter,
-  { palette, pressed, canvases }: ButtonCanvasGroup,
+  { palette, press, canvases }: ButtonCanvasGroup,
   phase: number,
   frame: number,
 ): readonly HTMLCanvasElement[] =>
@@ -25,7 +25,7 @@ export const drawButtonCanvasGroup = (
         ),
         (source) =>
           map(canvases, (canvas) =>
-            drawButtonCanvas(canvas, source, palette, pressed),
+            drawButtonCanvas(canvas, source, palette, press),
           ),
       ),
     );

@@ -11,20 +11,22 @@ const FIRST_OFFSET = 0;
 
 const LATER_OFFSET = 0.375;
 
-const RELEASED = false;
+const RELEASED = 0;
 
-const PRESSED = true;
+const PRESSED = 1;
+
+const HALF_PRESSED = 0.5;
 
 const toPaint = (
   name: string,
   palette: ButtonCanvasPaint['palette'],
   offset: number,
-  pressed: boolean = RELEASED,
+  press: number = RELEASED,
 ): ButtonCanvasPaint => ({
   canvas: { id: name } as unknown as HTMLCanvasElement,
   palette,
   offset,
-  pressed,
+  press,
 });
 
 describe('toButtonCanvasGroups', () => {
@@ -42,7 +44,7 @@ describe('toButtonCanvasGroups', () => {
       {
         palette: BLUE,
         offset: FIRST_OFFSET,
-        pressed: RELEASED,
+        press: RELEASED,
         canvases: [{ id: 'a' }, { id: 'b' }],
       },
     ]);
@@ -128,8 +130,19 @@ describe('toButtonCanvasGroups', () => {
       toButtonCanvasGroups([
         toPaint('a', BLUE, FIRST_OFFSET, PRESSED),
         toPaint('b', BLUE, FIRST_OFFSET, RELEASED),
-      ])[0]?.pressed,
+      ])[0]?.press,
     ).toBe(PRESSED);
+  });
+
+  it('should return one group for each press when two paints are pressed by different amounts', () => {
+    expect(
+      size(
+        toButtonCanvasGroups([
+          toPaint('a', BLUE, FIRST_OFFSET, PRESSED),
+          toPaint('b', BLUE, FIRST_OFFSET, HALF_PRESSED),
+        ]),
+      ),
+    ).toBe(2);
   });
 
   it('should return a group without a palette when a paint has no palette', () => {
@@ -141,7 +154,7 @@ describe('toButtonCanvasGroups', () => {
     ).toEqual({
       palette: undefined,
       offset: FIRST_OFFSET,
-      pressed: RELEASED,
+      press: RELEASED,
       canvases: [{ id: 'a' }],
     });
   });

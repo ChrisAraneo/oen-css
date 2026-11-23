@@ -5,11 +5,13 @@ import { isButtonGradientStill } from './is-button-gradient-still.ts';
 import { redrawEveryButtonCanvas } from './redraw-every-button-canvas.ts';
 import { toButtonGradientPhase } from './to-button-gradient-phase.ts';
 import { toButtonMetalFrame } from './to-button-metal-frame.ts';
+import { toButtonPressElapsed } from './to-button-press-elapsed.ts';
 
 export const runButtonCanvasFrame = (
   view: BrowserView,
   painter: ButtonCanvasPainter,
   time: number,
+  last: number,
 ): number =>
   pipe(
     isButtonGradientStill(view),
@@ -19,9 +21,10 @@ export const runButtonCanvasFrame = (
         painter,
         toButtonGradientPhase(time, still),
         toButtonMetalFrame(time, still),
+        toButtonPressElapsed(time, last, still),
       ),
     () =>
       view.requestAnimationFrame((next) =>
-        runButtonCanvasFrame(view, painter, next),
+        runButtonCanvasFrame(view, painter, next, time),
       ),
   );

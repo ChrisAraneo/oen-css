@@ -13,9 +13,10 @@ export const redrawEveryButtonCanvas = (
   painter: ButtonCanvasPainter,
   phase: number,
   frame: number,
+  elapsed: number,
 ): readonly HTMLCanvasElement[] =>
   pipe(
-    findButtonCanvasPaints(view),
+    findButtonCanvasPaints(view, elapsed),
     toButtonCanvasGroups,
     (groups) =>
       map(groups, (group) =>

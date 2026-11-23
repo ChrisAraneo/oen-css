@@ -105,7 +105,7 @@ held gets a third:
 | ---------- | ---------------------------------------------------------------- |
 | **bottom** | the liquid metal shader, shared by every button on the page      |
 | **middle** | a mix of gradients in the button's own color, partly transparent |
-| **top**    | the pressed shading, painted only while the button is pressed    |
+| **top**    | the pressed shading, painted only while a press is on the canvas |
 
 The middle layer is what makes a button look like itself; the metal shows
 through it and is what makes it move. The top layer is the only one a button
@@ -170,8 +170,10 @@ translate-rotate-scale loop, moved from a CSS `::before` onto the canvas.
 A pressed button is a surface that has sunk below its rim, and the canvas
 paints it that way. `isButtonPressed` reads the host against
 `OEN_BUTTON_PRESS_SELECTOR`, which is `:active, .is-active` — the same
-pair Bulma's own rule targets — and a canvas whose host matches gets one more
-pass after the blit.
+pair Bulma's own rule targets — and a canvas with any press on it gets one
+more pass after the blit. The press is a number rather than a flag, so the
+pass eases in and out instead of appearing whole; [the press
+animates](#the-press-animates) covers that part.
 
 That pass is `OEN_BUTTON_PRESS_BANDS`: a list of linear gradients, each one
 running from one edge of the canvas inward and fading out over
@@ -198,11 +200,67 @@ source, in the canvas's own pixel space. That is the point of it: a band
 drawn into the 256x128 source would be stretched with it, and a 400px button
 would wear a side band four times the thickness of a small button's. The
 bands cost a group nothing, and a pressed button pays for seven `fillRect`s
-in the one frame it is held.
+in each frame that carries a press.
 
 The canvas carries the button's `border-radius`, so the bands are clipped to
-the pill without being told its shape. Nothing in the pass moves, so reduced
-motion leaves it exactly as it is.
+the pill without being told its shape.
+
+### The press animates
+
+The press is a progress number between `OEN_BUTTON_PRESS_NO_PROGRESS` and
+`OEN_BUTTON_PRESS_FULL_PROGRESS`, and every frame moves it toward whatever
+`isButtonPressed` says. `nextButtonPressProgress` does the moving, over
+`OEN_BUTTON_PRESS_SINK_DURATION` on the way in and
+`OEN_BUTTON_PRESS_LIFT_DURATION` on the way out. The two are not the same
+number on purpose: a button sinks in a third of the time it takes to rise, so
+even a tap too short to register as a hold shows the whole recess, and letting
+go still reads as a release rather than as the shading being switched off.
+
+The lift is shorter than the `--oen-duration` Bulma spends easing the
+button's `background-color` back, so the recess has gone before the color
+has finished returning. That is deliberate — the shading is what says
+"pressed", and it should stop saying it as soon as the finger is up — but it
+is the one place where the canvas and the stylesheet are on purpose out of
+step.
+
+`toButtonPressAlpha` turns that progress into each band's alpha. It is the
+band's own alpha times an ease-out curve — `1 - (1 - press)²`, the exponent
+being `OEN_BUTTON_PRESS_EASE_EXPONENT` — which mirrors the `--oen-easing`
+the stylesheet uses on the color, so most of the shading lands in the first
+third of the sink and the button feels like it answers the pointer. Only the
+alpha moves: the bands keep their geometry, so the recess fades in rather than
+growing inward.
+
+The progress lives on the canvas, in `data-oen-button-press`, the way the
+offset does:
+
+```html
+<canvas
+  class="oen-button-canvas"
+  aria-hidden="true"
+  data-oen-button-offset="0.375"
+  data-oen-button-press="0.42"
+></canvas>
+```
+
+`readButtonCanvasPress` reads it, `nextButtonCanvasPress` advances it and
+writes it back — but **only when the number changed**. A page of buttons
+nobody is touching reads an absent attribute, computes the same zero, and
+writes nothing, so the attribute never appears on a canvas that has not been
+pressed and the frame costs no style invalidation.
+
+The step comes from `toButtonPressElapsed`, which is the frame's own delta:
+`runButtonCanvasFrame` now carries the previous timestamp alongside the
+current one. The delta is clamped to `OEN_BUTTON_PRESS_MAX_ELAPSED`, so a tab
+that was in the background for a minute does not come back to a press that
+jumped past its target, and a backward clock contributes nothing instead of
+running the press in reverse.
+
+Reduced motion is the one case that keeps the old behavior:
+`toButtonPressElapsed` returns the whole of `OEN_BUTTON_PRESS_MAX_ELAPSED`
+when `(prefers-reduced-motion: reduce)` is set, which is enough for one frame
+to finish either direction, so the shading snaps on and off exactly as it did
+before it animated.
 
 ### The color comes from the button, every frame
 
@@ -289,15 +347,20 @@ canvas in the group. Each button pays only for one scaled blit.
 
 A group now costs a shader render as well as the gradients, because each one
 asks the mount for its own instant before it blits. The group count is what
-bounds both, and every part of its key is bounded: the palettes on screen are
-typically under ten, the offsets cannot outnumber
-`OEN_BUTTON_GRADIENT_OFFSET_STEPS`, and press is one of two values. Eighty
-primary buttons are therefore sixteen sources rather than eighty, and that
-sixteen is a constant, not a function of how many buttons the page has.
+bounds both, and the two parts of its key that a whole page shares are
+bounded: the palettes on screen are typically under ten, and the offsets
+cannot outnumber `OEN_BUTTON_GRADIENT_OFFSET_STEPS`. Eighty primary buttons
+are therefore sixteen sources rather than eighty, and that sixteen is a
+constant, not a function of how many buttons the page has.
 
-Press costs nothing to carry in the key, because a pressed button lands in a
-group of its own either way: Bulma gives `:active` its own `background-color`,
-and a different `background-color` is a different palette.
+Press is the third part of the key, and unlike the other two it is a
+continuous number, so a button in the middle of a press is a group of one.
+That costs nothing, because such a button is already a group of one: Bulma
+gives `:active` its own `background-color` and transitions it over
+`--oen-duration`, so the palette a pressing button reports changes every
+frame anyway. What bounds this part is the pointer — one or two buttons are
+mid-press at a time, and a button nobody is touching sits at exactly
+`OEN_BUTTON_PRESS_NO_PROGRESS` and groups with every other button like it.
 
 Raising the step count is close to free on an ordinary page, where there are
 fewer buttons of one color than there are steps and the group count follows
@@ -338,6 +401,9 @@ canvas still adds its own offset to that fixed phase, so the buttons settle at
 sixteen different points in the loop instead of all at the same one; nothing
 moves either way. The frame loop still runs, because that is what keeps hover, the scheme switch and
 every other color change on the canvas; what it draws just stops changing.
+The pressed layer is still painted — a press is a state, not an animation —
+but it stops easing and snaps, which [the press animates](#the-press-animates)
+explains.
 
 ## The layer
 
@@ -457,14 +523,19 @@ functions that compute something take plain data and have specs beside them:
 `toButtonGradientPhase`, `toButtonGradientOffsetPhase`,
 `toButtonGradientDrift`, `toButtonCanvasGroups`, `toButtonMetalUniforms`,
 `toButtonMetalFrame`, `toButtonMetalOffsetFrame`, `toButtonPressLine`,
-`toButtonPressPalette`, `formatButtonCanvasRules` and both patches.
+`toButtonPressPalette`, `toButtonPressElapsed`,
+`nextButtonPressProgress`, `toButtonPressAlpha`, `formatButtonCanvasRules`
+and both patches.
 
 The files that only wire the DOM or issue draw commands have none, because
 there is neither in a spec: everything named `create-*`, `draw-*`, `write-*`,
 `read-*`, `find-*`, `watch-*`, `clear-*`, `get-*`, `run-*` and `start-*` —
 apart from `createButtonCanvasOffset`, which touches no DOM at all, and
-`readButtonCanvasOffset`, which wants one attribute and takes it from a stub.
-`isButtonPressed` wants one `matches` call and takes that from a stub too.
+`readButtonCanvasOffset` and `readButtonCanvasPress`, which want one
+attribute and take it from a stub. `isButtonPressed` wants one `matches`
+call and takes that from a stub too. `nextButtonCanvasPress` has none,
+because the arithmetic it wires together is `nextButtonPressProgress`, which
+has its own.
 The rest are checked in a browser instead, and `verify` asserts that both
 published runtimes still name the class and the host selector they read — see
 [VERIFICATION.md](./VERIFICATION.md#the-seventeen-checks).
@@ -497,6 +568,9 @@ npm run build && npm run verify
 | `OEN_BUTTON_GRADIENT_SOURCE_*`          | the resolution every button is blitted from    |
 | `OEN_BUTTON_PRESS_BANDS`                | the recess: side, depth, shift and alpha       |
 | `OEN_BUTTON_PRESS_RAMP`                 | how fast a band fades away from its edge       |
+| `OEN_BUTTON_PRESS_SINK_DURATION`        | how long the recess takes to appear            |
+| `OEN_BUTTON_PRESS_LIFT_DURATION`        | how long it takes to fade once let go          |
+| `OEN_BUTTON_PRESS_EASE_EXPONENT`        | the shape of both, as an ease-out power        |
 
 The zoom is what decides how much of the gradient a button shows. Between `1`
 and `1.15` a button holds one or two lobes, so the wash reads as a gradient
@@ -509,4 +583,6 @@ so one edit moves both. `OEN_BUTTON_CANVAS_HOST_SELECTOR` is which buttons get
 a canvas, and it mirrors the selector the rim and the shadow use.
 `OEN_BUTTON_CANVAS_Z_INDEX` is where the layer sits.
 `OEN_BUTTON_PRESS_SELECTOR` is which buttons count as pressed, and it mirrors
-the selector Bulma's own `:active` rule uses.
+the selector Bulma's own `:active` rule uses. The two press durations are
+read against `--oen-duration`, which is `294ms`: the lift is half of that,
+and the sink is a third of the lift.

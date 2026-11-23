@@ -10,6 +10,7 @@ const { nullish } = P;
 export const drawButtonPress = (
   canvas: HTMLCanvasElement,
   palette: ButtonPalette,
+  press: number,
 ): HTMLCanvasElement =>
   match(getButtonCanvasContext(canvas))
     .with(nullish, () => canvas)
@@ -19,10 +20,12 @@ export const drawButtonPress = (
         (context) => runEffect(context, () => context.resetTransform()),
         (context) =>
           runEffect(context, () =>
-            drawEveryButtonPressBand(context, palette, {
-              width: canvas.width,
-              height: canvas.height,
-            }),
+            drawEveryButtonPressBand(
+              context,
+              palette,
+              { width: canvas.width, height: canvas.height },
+              press,
+            ),
           ),
         () => canvas,
       ),
