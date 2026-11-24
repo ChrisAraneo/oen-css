@@ -13,9 +13,17 @@ const BUTTON_PADDING_HORIZONTAL_IN_PIXELS = 22;
 
 const BUTTON_RADIUS_IN_PIXELS = 20;
 
+const BUTTON_PRESS_DEPTH_IN_PIXELS = 1;
+
 export const OEN_BUTTON_RADIUS: string = `${BUTTON_RADIUS_IN_PIXELS}px`;
 
 export const OEN_BUTTON_LETTER_SPACING = '0.75px';
+
+export const OEN_BUTTON_PRESS_REST = '0';
+
+export const OEN_BUTTON_PRESS_DEPTH: string = toControlEm(
+  BUTTON_PRESS_DEPTH_IN_PIXELS,
+);
 
 export const OEN_BUTTON_TEXT_TRANSFORM = 'uppercase';
 

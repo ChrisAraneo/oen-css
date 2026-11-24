@@ -1,3 +1,4 @@
+import { OEN_CUSTOM_PROPERTY_PREFIX } from '../namespace/consts.ts';
 import type { ButtonGradientLayer } from './types/button-gradient-layer.ts';
 import type { ButtonGradientRampStop } from './types/button-gradient-ramp-stop.ts';
 import type { ButtonGradientStop } from './types/button-gradient-stop.ts';
@@ -161,6 +162,10 @@ export const OEN_BUTTON_GRADIENT_RAMP: readonly ButtonGradientRampStop[] =
   ]);
 
 export const OEN_BUTTON_PRESS_SELECTOR = ':active, .is-active';
+
+export const OEN_BUTTON_PRESS_PROPERTY: string = `${OEN_CUSTOM_PROPERTY_PREFIX}button-press`;
+
+export const OEN_BUTTON_PRESS_DECIMAL_PLACES = 3;
 
 export const OEN_BUTTON_PRESS_SINK_DURATION = 49;
 

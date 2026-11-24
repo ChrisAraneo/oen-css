@@ -1,20 +1,8 @@
-import { multiply, subtract } from 'lodash-es';
-import {
-  OEN_BUTTON_PRESS_EASE_EXPONENT,
-  OEN_BUTTON_PRESS_FULL_PROGRESS,
-} from '../consts.ts';
+import { multiply } from 'lodash-es';
 import type { ButtonPressBand } from '../types/button-press-band.ts';
-
-const toEasedPress = (press: number): number =>
-  subtract(
-    OEN_BUTTON_PRESS_FULL_PROGRESS,
-    Math.pow(
-      subtract(OEN_BUTTON_PRESS_FULL_PROGRESS, press),
-      OEN_BUTTON_PRESS_EASE_EXPONENT,
-    ),
-  );
+import { toButtonPressStrength } from './to-button-press-strength.ts';
 
 export const toButtonPressAlpha = (
   { alpha }: ButtonPressBand,
   press: number,
-): number => multiply(alpha, toEasedPress(press));
+): number => multiply(alpha, toButtonPressStrength(press));

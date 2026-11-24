@@ -2,6 +2,7 @@ import { concat, map, size } from 'lodash-es';
 import { OEN_CONTROL_DECLARATIONS } from '../../../src/controls/consts.ts';
 import { formatButtonBorderRules } from '../../../src/controls/format-button-border-rules.ts';
 import { formatButtonLabelRule } from '../../../src/controls/format-button-label-rule.ts';
+import { formatButtonPressRule } from '../../../src/controls/format-button-press-rule.ts';
 import { formatButtonRadiusRule } from '../../../src/controls/format-button-radius-rule.ts';
 import { formatButtonShadowRules } from '../../../src/controls/format-button-shadow-rules.ts';
 import { formatThemeControlDeclaration } from '../../../src/controls/format-theme-control-declaration.ts';
@@ -16,7 +17,7 @@ export const validateThemeControls = ({
   stylesheet,
 }: VerifyInputs): CheckResult => ({
   name: CHECK_NAME,
-  detail: `${size(OEN_CONTROL_DECLARATIONS)} declarations and the button radius, border, shadow and label rules compile to their configured metrics`,
+  detail: `${size(OEN_CONTROL_DECLARATIONS)} declarations and the button radius, border, shadow, label and press rules compile to their configured metrics`,
   issue: formatMissingDeclarationsIssue(
     filterMissingDeclarations(
       stylesheet.text,
@@ -26,6 +27,7 @@ export const validateThemeControls = ({
         formatButtonBorderRules(),
         formatButtonShadowRules(),
         formatButtonLabelRule(),
+        formatButtonPressRule(),
       ),
     ),
   ),

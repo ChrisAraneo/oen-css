@@ -266,6 +266,63 @@ a small one from 67px to 74px, a large one from 100px to 109px. Anything
 sizing a button in `ch` or holding a row of them in a fixed width will feel
 that.
 
+## The pressed label
+
+A button that is held moves its label down, so the text sinks with the surface
+the canvas paints under it:
+
+```css
+.button {
+  --oen-button-press: 0;
+  --oen-button-press-depth: 0.0714em;
+  padding-bottom: calc(
+    var(--oen-button-padding-vertical) - var(--oen-button-border-width) -
+      var(--oen-button-press) * var(--oen-button-press-depth)
+  );
+  padding-top: calc(
+    var(--oen-button-padding-vertical) - var(--oen-button-border-width) +
+      var(--oen-button-press) * var(--oen-button-press-depth)
+  );
+}
+```
+
+`--oen-button-press` is a number between 0 and 1 that the canvas runtime
+writes onto the button while it is pressed — see
+[CANVAS.md](./CANVAS.md#the-press-animates) for where it comes from and how it
+eases. `--oen-button-press-depth` is how far a full press moves the label:
+`0.0714em`, one pixel at the control's own text size, so it scales with
+`.is-small` and `.is-large` the way the padding does.
+
+### Why it is padding and not a transform
+
+What must _not_ move decides this. The border is the button's rim and the
+canvas is the recess behind it, and a surface that has sunk means the label
+drops while both of those hold still. A `transform` on the button would take
+the rim, the background and the canvas with it, and there is no element around
+the label to transform instead — a Bulma button's text is usually a bare text
+node, which nothing can target.
+
+Padding moves the content and leaves the border box alone, which is exactly
+the split that is wanted.
+
+### What it changes about the box
+
+Nothing, which is the point. The two paddings move by the same amount in
+opposite directions, so a pressed button is exactly as tall as a resting one
+and nothing on the page reflows around it. Measured in a browser, the label
+moves 1.44px on a 20px button while the height changes by 0.016px, which is
+the layout engine rounding the two halves rather than a real shift.
+
+The expression repeats Bulma's own `padding-vertical` minus
+`border-width`, which is the one cost of overriding it: if Bulma changes how
+it computes button padding, this rule has to follow. The check
+`controls are the configured Oen metrics` asserts the whole rule, so the
+drift would fail the build rather than go unnoticed.
+
+Setting `--oen-button-press-depth` in your own CSS changes how far the label
+sinks without touching the runtime, and setting `--oen-button-press: 1` pins
+a button down.
+
 ## How it is verified
 
 The three variables are inputs to Sass and expectations about the output at
@@ -279,8 +336,8 @@ turns each into the declaration the compiled CSS has to contain:
 ```
 
 The check `controls are the configured Oen metrics` asserts those three, the
-radius rule, both border rules, the shadow rule and the label rule, and fails
-with whichever it could not find.
+radius rule, both border rules, the shadow rule, the label rule and the press
+rule, and fails with whichever it could not find.
 The three properties are part of the allowlist of the equivalence check, which
 would otherwise read them as drift from Bulma.
 
@@ -288,21 +345,23 @@ The Oen-only rules need more than an allowlist entry, because Bulma has no
 lines to compare them against.
 [`patch-bulma-button-radius.ts`](../src/controls/patch-bulma-button-radius.ts),
 [`patch-bulma-button-border.ts`](../src/controls/patch-bulma-button-border.ts),
-[`patch-bulma-button-shadow.ts`](../src/controls/patch-bulma-button-shadow.ts)
-and
+[`patch-bulma-button-shadow.ts`](../src/controls/patch-bulma-button-shadow.ts),
 [`patch-bulma-button-label.ts`](../src/controls/patch-bulma-button-label.ts)
+and
+[`patch-bulma-button-press.ts`](../src/controls/patch-bulma-button-press.ts)
 remove them from the end of our stylesheet before the comparison, the way
 `src/namespace/` maps our custom properties back — see
 [VERIFICATION.md](./VERIFICATION.md#the-equivalence-check). Each direction
 reads the same text from `formatButtonRadiusRule`,
-`formatButtonBorderRules`, `formatButtonShadowRules` and
-`formatButtonLabelRule`, so they cannot drift apart.
+`formatButtonBorderRules`, `formatButtonShadowRules`,
+`formatButtonLabelRule` and `formatButtonPressRule`, so they cannot drift
+apart.
 
-The canvas layer is appended after all four and removed before all four by
+The canvas layer is appended after all five and removed before all five by
 [`patch-bulma-button-canvas.ts`](../src/canvas/patch-bulma-button-canvas.ts) —
 see [CANVAS.md](./CANVAS.md).
 
-They come off in reverse append order — canvas, label, shadow, border,
+They come off in reverse append order — canvas, press, label, shadow, border,
 radius — because each removal is anchored to the end of the file. All of them
 come off before `patchBulmaNamespace` runs, because the border and shadow
 rules both name `--oen-*` properties, and the namespace mapping would rename

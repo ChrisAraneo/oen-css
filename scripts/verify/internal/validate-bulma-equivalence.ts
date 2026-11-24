@@ -4,6 +4,7 @@ import { toStylesheetBody } from '../../../src/banner/to-stylesheet-body.ts';
 import { patchBulmaButtonCanvas } from '../../../src/canvas/patch-bulma-button-canvas.ts';
 import { patchBulmaButtonBorder } from '../../../src/controls/patch-bulma-button-border.ts';
 import { patchBulmaButtonLabel } from '../../../src/controls/patch-bulma-button-label.ts';
+import { patchBulmaButtonPress } from '../../../src/controls/patch-bulma-button-press.ts';
 import { patchBulmaButtonRadius } from '../../../src/controls/patch-bulma-button-radius.ts';
 import { patchBulmaButtonShadow } from '../../../src/controls/patch-bulma-button-shadow.ts';
 import { patchBulmaNamespace } from '../../../src/namespace/patch-bulma-namespace.ts';
@@ -30,7 +31,9 @@ export const validateBulmaEquivalence = ({
           patchBulmaButtonBorder(
             patchBulmaButtonShadow(
               patchBulmaButtonLabel(
-                patchBulmaButtonCanvas(toStylesheetBody(stylesheet.text)),
+                patchBulmaButtonPress(
+                  patchBulmaButtonCanvas(toStylesheetBody(stylesheet.text)),
+                ),
               ),
             ),
           ),

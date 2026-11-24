@@ -223,13 +223,24 @@ has finished returning. That is deliberate — the shading is what says
 is the one place where the canvas and the stylesheet are on purpose out of
 step.
 
-`toButtonPressAlpha` turns that progress into each band's alpha. It is the
-band's own alpha times an ease-out curve — `1 - (1 - press)²`, the exponent
-being `OEN_BUTTON_PRESS_EASE_EXPONENT` — which mirrors the `--oen-easing`
-the stylesheet uses on the color, so most of the shading lands in the first
-third of the sink and the button feels like it answers the pointer. Only the
-alpha moves: the bands keep their geometry, so the recess fades in rather than
+`toButtonPressStrength` turns that progress into how much of the press is
+applied: an ease-out curve — `1 - (1 - press)²`, the exponent being
+`OEN_BUTTON_PRESS_EASE_EXPONENT` — which mirrors the `--oen-easing` the
+stylesheet uses on the color, so most of the effect lands in the first third
+of the sink and the button feels like it answers the pointer.
+`toButtonPressAlpha` multiplies each band's own alpha by it. Only the alpha
+moves: the bands keep their geometry, so the recess fades in rather than
 growing inward.
+
+The same strength moves the label. `writeButtonPressStrength` writes it onto
+the host as `--oen-button-press`, and the stylesheet multiplies that by
+`--oen-button-press-depth` to shift the button's top and bottom padding in
+opposite directions, so the text sinks while the rim and the canvas hold
+still — see [the pressed label](./CONTROLS.md#the-pressed-label). The
+stylesheet owns the distance and the runtime owns the progress, so neither
+repeats the other's number. The write is skipped when the strength has not
+changed, and at rest the property is removed rather than set to zero, so a
+button nobody has pressed carries no inline style at all.
 
 The progress lives on the canvas, in `data-oen-button-press`, the way the
 offset does:
@@ -524,8 +535,8 @@ functions that compute something take plain data and have specs beside them:
 `toButtonGradientDrift`, `toButtonCanvasGroups`, `toButtonMetalUniforms`,
 `toButtonMetalFrame`, `toButtonMetalOffsetFrame`, `toButtonPressLine`,
 `toButtonPressPalette`, `toButtonPressElapsed`,
-`nextButtonPressProgress`, `toButtonPressAlpha`, `formatButtonCanvasRules`
-and both patches.
+`nextButtonPressProgress`, `toButtonPressStrength`, `toButtonPressAlpha`,
+`formatButtonCanvasRules` and both patches.
 
 The files that only wire the DOM or issue draw commands have none, because
 there is neither in a spec: everything named `create-*`, `draw-*`, `write-*`,
@@ -583,6 +594,10 @@ so one edit moves both. `OEN_BUTTON_CANVAS_HOST_SELECTOR` is which buttons get
 a canvas, and it mirrors the selector the rim and the shadow use.
 `OEN_BUTTON_CANVAS_Z_INDEX` is where the layer sits.
 `OEN_BUTTON_PRESS_SELECTOR` is which buttons count as pressed, and it mirrors
-the selector Bulma's own `:active` rule uses. The two press durations are
+the selector Bulma's own `:active` rule uses. `OEN_BUTTON_PRESS_PROPERTY` is
+the custom property the strength is written to, and how far that strength
+moves the label is `--oen-button-press-depth`, which lives in
+[`src/controls/consts.ts`](../src/controls/consts.ts) rather than here,
+because it is a control metric and not a canvas one. The two press durations are
 read against `--oen-duration`, which is `294ms`: the lift is half of that,
 and the sink is a third of the lift.

@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { OEN_CONTROL_DECLARATIONS } from '../../../src/controls/consts.ts';
 import { formatButtonBorderRules } from '../../../src/controls/format-button-border-rules.ts';
 import { formatButtonLabelRule } from '../../../src/controls/format-button-label-rule.ts';
+import { formatButtonPressRule } from '../../../src/controls/format-button-press-rule.ts';
 import { formatButtonRadiusRule } from '../../../src/controls/format-button-radius-rule.ts';
 import { formatButtonShadowRules } from '../../../src/controls/format-button-shadow-rules.ts';
 import { formatThemeControlDeclaration } from '../../../src/controls/format-theme-control-declaration.ts';
@@ -10,6 +11,13 @@ import type { VerifyInputs } from '../types/verify-inputs.ts';
 import { validateThemeControls } from './validate-theme-controls.ts';
 
 const EVERY_DECLARATION = `${map(
+  OEN_CONTROL_DECLARATIONS,
+  formatThemeControlDeclaration,
+).join(
+  '\n',
+)}\n${formatButtonRadiusRule()}\n${formatButtonBorderRules()}\n${formatButtonShadowRules()}\n${formatButtonLabelRule()}\n${formatButtonPressRule()}`;
+
+const EVERY_DECLARATION_BUT_THE_PRESS = `${map(
   OEN_CONTROL_DECLARATIONS,
   formatThemeControlDeclaration,
 ).join(
@@ -41,7 +49,7 @@ describe('validateThemeControls', () => {
 
     expect(result.name).toBe('controls are the configured Oen metrics');
     expect(result.detail).toBe(
-      `${OEN_CONTROL_DECLARATIONS.length} declarations and the button radius, border, shadow and label rules compile to their configured metrics`,
+      `${OEN_CONTROL_DECLARATIONS.length} declarations and the button radius, border, shadow, label and press rules compile to their configured metrics`,
     );
   });
 
@@ -81,7 +89,13 @@ describe('validateThemeControls', () => {
     ).toContain('border-radius');
   });
 
-  it('should return the button border rules as missing when the stylesheet carries every other metric', () => {
+  it('should return the button press rule as missing when the stylesheet carries every other metric', () => {
+    expect(
+      validateThemeControls(inputs(EVERY_DECLARATION_BUT_THE_PRESS)).issue,
+    ).toContain('--oen-button-press-depth');
+  });
+
+  it('should return the button border rules as missing when the stylesheet carries only the radius', () => {
     expect(
       validateThemeControls(
         inputs(
